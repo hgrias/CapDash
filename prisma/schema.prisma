@@ -86,6 +86,7 @@ model Note {
   updatedAt    DateTime   @updatedAt
   legislator   Legislator @relation(fields: [legislatorId], references: [id])
   legislatorId String
+  public       Boolean    @default(true)
 }
 
 enum State {
