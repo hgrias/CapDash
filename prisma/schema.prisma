@@ -64,3 +64,90 @@ model VerificationToken {
 
     @@unique([identifier, token])
 }
+
+model Legislator {
+    id        String   @id @default(cuid())
+    firstName String
+    lastName  String
+    state     State
+    party     Party
+    chamber   Chamber
+    imageUrl  String?
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    notes     Note[]
+    noteId    String
+}
+
+model Note {
+    id           String     @id @default(cuid())
+    content      String?
+    createdAt    DateTime   @default(now())
+    updatedAt    DateTime   @updatedAt
+    legislator   Legislator @relation(fields: [legislatorId], references: [id])
+    legislatorId String
+}
+
+enum State {
+    AL
+    AK
+    AZ
+    AR
+    CA
+    CO
+    CT
+    DE
+    FL
+    GA
+    HI
+    ID
+    IL
+    IN
+    IA
+    KS
+    KY
+    LA
+    ME
+    MD
+    MA
+    MI
+    MN
+    MS
+    MO
+    MT
+    NE
+    NV
+    NH
+    NJ
+    NM
+    NY
+    NC
+    ND
+    OH
+    OK
+    OR
+    PA
+    RI
+    SC
+    SD
+    TN
+    TX
+    UT
+    VT
+    VA
+    WA
+    WV
+    WI
+    WY
+}
+
+enum Party {
+    Democrat
+    Republican
+    Other
+}
+
+enum Chamber {
+    House
+    Senate
+}
