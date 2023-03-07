@@ -77,7 +77,7 @@ model Legislator {
   chamberWebsiteUrl String
   capitolWebsiteUrl String
   createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  updatedAt         DateTime @updatedAt @default(now())
   notes             Note[]
 }
 
