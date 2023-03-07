@@ -9,7 +9,7 @@ import { legislatorRouter } from "./routers/legislator";
  */
 export const appRouter = createTRPCRouter({
   example: exampleRouter,
-  legislator: legislatorRouter
+  legislator: legislatorRouter,
 });
 
 // export type definition of API
