@@ -4,6 +4,7 @@ import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 import { Header } from "~/components/header";
+import Bio from "~/components/legislator/bio"
 
 import { api } from "~/utils/api";
 
@@ -20,9 +21,25 @@ const Home: NextPage = () => {
       </Head>
       <main>
         <Header />
+        <Legislator />
       </main>
     </>
   );
 };
 
 export default Home;
+
+const Legislator: React.FC = () => {
+  const { data: sessionData } = useSession();
+  const { data: legislators } = api.legislator.getAll.useQuery(
+    undefined, // no input
+    {
+      enabled: sessionData?.user === undefined,
+    }
+  );
+  const legislatorBios = legislators?.map((legislator) => (
+    <Bio {...legislator} />
+  ));
+
+  return <div>{legislatorBios}</div>;
+};
