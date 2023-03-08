@@ -1,13 +1,13 @@
-import { type NextPage } from "next";
-import Link from "next/link";
-import { api } from "~/utils/api";
-import { Header } from "~/components/header";
+import { State, Party, Chamber } from "@prisma/client";
 import Avatar from "~/components/legislator/avatar";
 import Bio from "~/components/legislator/bio";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { Header } from "~/components/header";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { State, Party, Chamber } from "@prisma/client";
 import { GetStaticPaths } from "next";
+import { type NextPage } from "next";
+import { api } from "~/utils/api";
+import Link from "next/link";
 
 export default function LegislatorPage(legislator: Legislator) {
   const router = useRouter();
