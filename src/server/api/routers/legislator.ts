@@ -20,6 +20,12 @@ export const legislatorRouter = createTRPCRouter({
     return ctx.prisma.legislator.findMany();
   }),
 
+  // Return all legislator IDs - Used to generate dynamic routes
+  // TODO: Will probably have to pare down the results to legislators the user has access to
+  getAllIds: protectedProcedure.query(({ ctx }) => {
+    return ctx.prisma.legislator.findMany({ select: { id: true } });
+  }),
+
   // Create a legislator
   create: protectedProcedure
     .input(
