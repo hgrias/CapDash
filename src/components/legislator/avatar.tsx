@@ -5,10 +5,13 @@ interface AvatarProps {
 }
 
 const Avatar: FC<AvatarProps> = ({ imageUri }) => {
-  const gcsBasePath = `https://storage.googleapis.com/${process.env.GCP_BUCKET_NAME}/avatars`;
+  // TODO: Do I need to store the bucket name in an env var?
+  const gcsBasePath =
+    "https://storage.googleapis.com/legislator-dashboard/avatars";
   const fullImagePath = `${gcsBasePath}/${imageUri}`;
 
   // Don't render if there is no image URI
+  // TODO: Look into using component composition / compound components for Legislator Profile
   if (!imageUri) {
     return null;
   }
