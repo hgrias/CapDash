@@ -4,7 +4,7 @@ import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 import { Header } from "~/components/header";
-import Bio from "~/components/legislator/bio"
+import Bio from "~/components/legislator/bio";
 
 import { api } from "~/utils/api";
 
@@ -38,7 +38,9 @@ const Legislator: React.FC = () => {
     }
   );
   const legislatorBios = legislators?.map((legislator) => (
-    <Bio key={legislator.id} {...legislator} />
+    <Link href={`/legislator/${legislator.id}`}>
+      <Bio key={legislator.id} {...legislator} />
+    </Link>
   ));
 
   return <div>{legislatorBios}</div>;
