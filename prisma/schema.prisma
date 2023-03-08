@@ -73,11 +73,11 @@ model Legislator {
   party             Party
   chamber           Chamber
   district          Int
-  imageUrl          String?
+  imageUri          String?
   chamberWebsiteUrl String
   capitolWebsiteUrl String
   createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt @default(now())
+  updatedAt         DateTime @default(now()) @updatedAt
   notes             Note[]
 }
 
