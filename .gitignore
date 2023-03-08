@@ -43,3 +43,6 @@ yarn-error.log*
 
 # local history
 .history
+
+# SQL directory
+sql/
