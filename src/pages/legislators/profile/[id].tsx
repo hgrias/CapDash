@@ -7,6 +7,26 @@ import Bio from "~/components/legislator/bio";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { State, Party, Chamber } from "@prisma/client";
+import { GetStaticPaths } from "next";
+
+export default function LegislatorPage(legislator: Legislator) {
+  const router = useRouter();
+  const { legislatorId } = router.query;
+  const title = `${legislator.firstName} ${legislator.lastName} | Profile`;
+
+  // Return a loading div while the page is being rendered
+  if (router.isFallback) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <>
+      <Header />
+      <Avatar imageUri={legislator?.imageUri} />
+      <h1>Legislator Page</h1>
+    </>
+  );
+}
 
 // Use this to fetch an array of legislator IDs for our dynamic routes
 export async function getStaticPaths() {
@@ -69,22 +89,3 @@ type Legislator = {
   createdAt: Date;
   updatedAt: Date;
 };
-
-export default function LegislatorPage(legislator: Legislator) {
-  const router = useRouter();
-  const { legislatorId } = router.query;
-  const title = `${legislator.firstName} ${legislator.lastName} | Profile`;
-
-  // Return a loading div while the page is being rendered
-  if (router.isFallback) {
-    return <div>Loading...</div>;
-  }
-
-  return (
-    <>
-      <Header />
-      <Avatar imageUri={legislator?.imageUri} />
-      <h1>Legislator Page</h1>
-    </>
-  );
-}
