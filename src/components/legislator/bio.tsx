@@ -10,7 +10,7 @@ interface BioProps {
   chamber: string;
 }
 
-// TODO: Do I still need BioProps if we are getting data directly from context?
+// TODO: Do I still need BioProps since all props are being passed by context?
 const Bio: FC = () => {
   const { firstName, lastName, district, party, chamber } =
     useContext(LegislatorContext);

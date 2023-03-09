@@ -16,7 +16,7 @@ const LegislatorProfile: NextPage = () => {
   // TODO: Determine if this API call is called on blur only on dev?
   const { data: legislator } = api.legislator.get.useQuery({ legislatorId });
 
-  // Determine what to do if we don't get any information back from API
+  // TODO: Determine what to do if we don't get any information back from API
   if (!legislator) {
     return null;
   }
