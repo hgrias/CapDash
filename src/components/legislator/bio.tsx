@@ -1,4 +1,5 @@
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
+import LegislatorContext from "./legislatorContext";
 
 interface BioProps {
   firstName: string;
@@ -8,13 +9,10 @@ interface BioProps {
   chamber: string;
 }
 
-const Bio: FC<BioProps> = ({
-  firstName,
-  lastName,
-  district,
-  party,
-  chamber,
-}) => {
+const Bio: FC<BioProps> = () => {
+  const { firstName, lastName, district, party, chamber } =
+    useContext(LegislatorContext);
+
   return (
     <>
       <div className="card w-96 bg-neutral text-neutral-content">
