@@ -39,7 +39,11 @@ const Legislator: React.FC = () => {
   );
   const legislatorBios = legislators?.map((legislator) => (
     <Link href={`/legislators/profile/${legislator.id}`}>
-      <Bio key={legislator.id} {...legislator} />
+      <div className="card w-96 bg-neutral text-neutral-content">
+        <h1 className="title card">
+          {legislator.firstName} {legislator.lastName}
+        </h1>
+      </div>
     </Link>
   ));
 
