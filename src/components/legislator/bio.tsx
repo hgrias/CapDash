@@ -2,15 +2,6 @@ import React, { FC, useContext } from "react";
 import LegislatorContext from "./legislatorContext";
 import Avatar from "./avatar";
 
-interface BioProps {
-  firstName: string;
-  lastName: string;
-  district: number;
-  party: string;
-  chamber: string;
-}
-
-// TODO: Do I still need BioProps since all props are being passed by context?
 const Bio: FC = () => {
   const { firstName, lastName, district, party, chamber } =
     useContext(LegislatorContext);
