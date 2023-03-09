@@ -21,7 +21,7 @@ const Avatar: FC<AvatarProps> = () => {
   return (
     <>
       <div className="avatar">
-        <div className="w-24 rounded">
+        <div className="w-38 rounded">
           <img src={fullImagePath} />
         </div>
       </div>
