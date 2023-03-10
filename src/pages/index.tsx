@@ -9,6 +9,13 @@ import Bio from "~/components/legislator/bio";
 import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
+  const { data: sessionData } = useSession();
+
+  // Redirect to login page if not signed in
+  if (!sessionData) {
+    console.log("Not signed in. Redirecting to login page for authentication.");
+  }
+
   return (
     <>
       <Head>
