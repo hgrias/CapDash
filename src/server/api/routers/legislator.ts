@@ -5,7 +5,7 @@ import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const legislatorRouter = createTRPCRouter({
   // Get a single legislator from Legislator ID
-  get: protectedProcedure
+  getById: protectedProcedure
     .input(z.object({ legislatorId: z.string() }))
     .query(({ ctx, input }) => {
       return ctx.prisma.legislator.findUnique({
