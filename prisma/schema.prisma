@@ -48,13 +48,15 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String        @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?       @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
+  interactions  Interaction[]
+  comments      Comment[]
 }
 
 model VerificationToken {
@@ -66,7 +68,7 @@ model VerificationToken {
 }
 
 model Legislator {
-  id                String   @id @default(cuid())
+  id                String        @id @default(cuid())
   firstName         String
   lastName          String
   state             State
@@ -76,9 +78,44 @@ model Legislator {
   imageUri          String?
   chamberWebsiteUrl String
   capitolWebsiteUrl String
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @default(now()) @updatedAt
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @default(now()) @updatedAt
   notes             Note[]
+  Interaction       Interaction[]
+}
+
+model LegislativeSession {
+  id          String        @id @default(cuid())
+  startDate   DateTime
+  endDate     DateTime?
+  Interaction Interaction[]
+}
+
+model Interaction {
+  id                 String             @id @default(cuid())
+  createdBy          String
+  legislatorId       String
+  content            String
+  sessionId          String
+  references         String
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @default(now()) @updatedAt
+  actionNeeded       Boolean            @default(false)
+  type               InteractionType
+  user               User               @relation(fields: [createdBy], references: [id], onDelete: Cascade)
+  legislator         Legislator         @relation(fields: [legislatorId], references: [id], onDelete: Cascade)
+  legislativeSession LegislativeSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  comments           Comment[]
+}
+
+model Comment {
+  id            String      @id @default(cuid())
+  interactionId String
+  userId        String
+  content       String
+  actionNeeded  Boolean     @default(false)
+  Interaction   Interaction @relation(fields: [interactionId], references: [id])
+  User          User        @relation(fields: [userId], references: [id])
 }
 
 model Note {
@@ -89,6 +126,12 @@ model Note {
   legislator   Legislator @relation(fields: [legislatorId], references: [id])
   legislatorId String
   public       Boolean    @default(true)
+}
+
+enum InteractionType {
+  BILL
+  TESTIMONY
+  GENERAL
 }
 
 enum State {
