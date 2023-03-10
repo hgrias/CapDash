@@ -1,4 +1,5 @@
 import { signIn, signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 
 export const Header = () => {
   const { data: sessionData } = useSession();
@@ -6,7 +7,7 @@ export const Header = () => {
   return (
     <div className="navbar bg-primary text-primary-content">
       <div className="flex-1 pl-5 text-3xl font-bold">
-        Legislator Profile Dashboard
+        <Link href="/">Legislator Profile Dashboard</Link>
       </div>
       <div className="dropdown-end dropdown">
         {sessionData?.user ? (
