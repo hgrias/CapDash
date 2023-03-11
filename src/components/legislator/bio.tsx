@@ -8,7 +8,7 @@ const Bio: FC = () => {
 
   return (
     <>
-      <div className="card w-96 bg-neutral text-neutral-content">
+      <div className="card bg-neutral text-neutral-content">
         <div className="card-body items-center text-center">
           <Avatar />
           <h1 className="card-title">

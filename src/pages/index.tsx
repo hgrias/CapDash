@@ -1,12 +1,8 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
-import { signIn, signOut, useSession } from "next-auth/react";
-
+import { useSession } from "next-auth/react";
+import { LegislatorGrid } from "~/components/legislatorGrid";
 import { Header } from "~/components/header";
-import Bio from "~/components/legislator/bio";
-
-import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
   const { data: sessionData } = useSession();
@@ -28,31 +24,10 @@ const Home: NextPage = () => {
       </Head>
       <main>
         <Header />
-        <Legislator />
+        <LegislatorGrid />
       </main>
     </>
   );
 };
 
 export default Home;
-
-const Legislator: React.FC = () => {
-  const { data: sessionData } = useSession();
-  const { data: legislators } = api.legislator.getAll.useQuery(
-    undefined, // no input
-    {
-      enabled: sessionData?.user === undefined,
-    }
-  );
-  const legislatorBios = legislators?.map((legislator) => (
-    <Link href={`/legislators/profile/${legislator.id}`}>
-      <div className="card w-96 bg-neutral text-neutral-content">
-        <h1 className="title card">
-          {legislator.firstName} {legislator.lastName}
-        </h1>
-      </div>
-    </Link>
-  ));
-
-  return <div>{legislatorBios}</div>;
-};
