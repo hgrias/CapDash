@@ -36,10 +36,10 @@ const LegislatorProfile: NextPage = () => {
       <Header />
       <LegislatorContext.Provider value={legislator}>
         <div className="mb-4 flex">
-          <div className="h-12 w-1/4 pt-2 pl-2">
+          <div className="h-12 w-1/4 px-5 pt-5">
             <ProfileDetails />
           </div>
-          <div className=" h-12 w-3/4 justify-center pt-2 pr-2 pl-2">
+          <div className="mx-10 h-12 w-3/4 justify-center px-2 pt-5">
             {showNewInteractionForm ? (
               <NewInteractionForm />
             ) : (
