@@ -10,9 +10,17 @@ import { GetStaticPaths } from "next";
 import { type NextPage } from "next";
 import { api } from "~/utils/api";
 import Link from "next/link";
+import { useState } from "react";
+import NewInteractionForm from "~/components/interaction/newInteractionForm";
 
 const LegislatorProfile: NextPage = () => {
   const legislatorId = useRouter().query.id as string;
+  const [showNewInteractionForm, setShowNewInteractionForm] = useState(false);
+
+  function handleNewInteractionClick() {
+    setShowNewInteractionForm(true);
+  }
+
   // TODO: Determine if this API call is called on blur only on dev?
   const { data: legislator } = api.legislator.getById.useQuery({
     legislatorId,
@@ -26,11 +34,22 @@ const LegislatorProfile: NextPage = () => {
   return (
     <>
       <Header />
-      <div className="flex items-center justify-center">
-        <LegislatorContext.Provider value={legislator}>
-          <ProfileDetails />
-        </LegislatorContext.Provider>
-      </div>
+      <LegislatorContext.Provider value={legislator}>
+        <div className="mb-4 flex">
+          <div className="h-12 w-1/4 pt-2 pl-2">
+            <ProfileDetails />
+          </div>
+          <div className=" h-12 w-3/4 justify-center pt-2 pr-2 pl-2">
+            {showNewInteractionForm ? (
+              <NewInteractionForm />
+            ) : (
+              <button className="btn" onClick={handleNewInteractionClick}>
+                Create New Interaction
+              </button>
+            )}
+          </div>
+        </div>
+      </LegislatorContext.Provider>
     </>
   );
 };
