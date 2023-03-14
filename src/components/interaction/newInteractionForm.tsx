@@ -1,9 +1,15 @@
-import React, { FC, useContext } from "react";
+import React, { FC } from "react";
 import { InteractionType } from "@prisma/client";
 
 interface NewInteractionFormProps {}
 
 const NewInteractionForm: FC<NewInteractionFormProps> = () => {
+  const interactionTypeOptions = Object.keys(InteractionType).map(
+    (interaction) => {
+      return <option key={interaction}>{interaction}</option>;
+    }
+  );
+
   return (
     <>
       <div className="card bg-primary text-primary-content">
@@ -15,9 +21,7 @@ const NewInteractionForm: FC<NewInteractionFormProps> = () => {
                 <span className="label-text">Interaction Type</span>
               </label>
               <select className="select-bordered select">
-                {Object.keys(InteractionType).map((interaction) => {
-                  return <option key={interaction}>{interaction}</option>;
-                })}
+                {interactionTypeOptions}
               </select>
               <label className="label">
                 <span className="label-text">What is your name?</span>
