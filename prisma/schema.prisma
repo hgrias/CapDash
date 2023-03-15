@@ -85,10 +85,15 @@ model Legislator {
 }
 
 model LegislativeSession {
-  id          String        @id @default(cuid())
-  startDate   DateTime
-  endDate     DateTime?
-  Interaction Interaction[]
+  id            String                 @id @default(uuid())
+  sessionNumber Int
+  startDate     DateTime
+  endDate       DateTime
+  days          Int
+  active        Boolean                @default(false)
+  type          LegislativeSessionType
+  state         State
+  Interaction   Interaction[]
 }
 
 model Interaction {
@@ -97,14 +102,13 @@ model Interaction {
   legislatorId       String
   content            String
   sessionId          String
-  references         String
   createdAt          DateTime           @default(now())
   updatedAt          DateTime           @default(now()) @updatedAt
   actionNeeded       Boolean            @default(false)
   type               InteractionType
   user               User               @relation(fields: [createdBy], references: [id], onDelete: Cascade)
   legislator         Legislator         @relation(fields: [legislatorId], references: [id], onDelete: Cascade)
-  legislativeSession LegislativeSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  legislativeSession LegislativeSession @relation(fields: [sessionId], references: [id])
   comments           Comment[]
 }
 
@@ -126,6 +130,11 @@ model Note {
   legislator   Legislator @relation(fields: [legislatorId], references: [id])
   legislatorId String
   public       Boolean    @default(true)
+}
+
+enum LegislativeSessionType {
+  REGULAR
+  SPECIAL
 }
 
 enum InteractionType {
