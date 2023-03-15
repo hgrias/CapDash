@@ -87,9 +87,9 @@ model Legislator {
 model LegislativeSession {
   id            String                 @id @default(uuid())
   sessionNumber Int
-  startDate     DateTime
-  endDate       DateTime
-  days          Int
+  startDate     DateTime               @db.Date
+  endDate       DateTime               @db.Date
+  days          Int?
   active        Boolean                @default(false)
   type          LegislativeSessionType
   state         State
