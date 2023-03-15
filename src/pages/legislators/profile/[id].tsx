@@ -41,7 +41,12 @@ const LegislatorProfile: NextPage = () => {
           </div>
           <div className="mx-10 h-12 w-3/4 justify-center px-2 pt-5">
             {showNewInteractionForm ? (
-              <NewInteractionForm />
+              <div className="card bg-neutral text-neutral-content ">
+                <div className="card-body">
+                  <h2 className="card-title">Create New Interaction</h2>
+                  <NewInteractionForm />
+                </div>
+              </div>
             ) : (
               <button className="btn" onClick={handleNewInteractionClick}>
                 Create New Interaction
