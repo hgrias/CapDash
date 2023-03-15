@@ -14,9 +14,9 @@ const Bio: FC = () => {
           <h1 className="card-title">
             {firstName} {lastName}
           </h1>
-          <h2>
-            {party} - {chamber} - District {district}
-          </h2>
+          <h2>{party}</h2>
+          <h2>{chamber}</h2>
+          <h2>District {district}</h2>
         </div>
       </div>
     </>
