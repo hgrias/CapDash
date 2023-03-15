@@ -85,7 +85,7 @@ model Legislator {
 }
 
 model LegislativeSession {
-  id            String                 @id @default(uuid())
+  id            BigInt                 @id @default(autoincrement())
   sessionNumber Int
   startDate     DateTime               @db.Date
   endDate       DateTime               @db.Date
@@ -101,7 +101,7 @@ model Interaction {
   createdBy          String
   legislatorId       String
   content            String
-  sessionId          String
+  sessionId          BigInt
   createdAt          DateTime           @default(now())
   updatedAt          DateTime           @default(now()) @updatedAt
   actionNeeded       Boolean            @default(false)
