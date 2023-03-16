@@ -3,6 +3,32 @@ import { InteractionType } from "@prisma/client";
 import { z } from "zod";
 
 export const interactionRouter = createTRPCRouter({
+  // Get all interactions for a legislator
+  getAllForLegislator: protectedProcedure
+    .input(
+      z.object({
+        legislatorId: z.string(),
+      })
+    )
+    .query(({ ctx, input }) => {
+      return ctx.prisma.interaction.findMany({
+        where: {
+          legislatorId: input.legislatorId,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+        // Include the interaction creator's name
+        include: {
+          user: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      });
+    }),
+
   // Create an interaction
   create: protectedProcedure
     .input(

@@ -1,17 +1,12 @@
 import LegislatorContext from "~/components/legislator/legislatorContext";
-import { State, Party, Chamber } from "@prisma/client";
-import Avatar from "~/components/legislator/avatar";
-import Bio from "~/components/legislator/bio";
 import ProfileDetails from "~/components/legislator/profileDetails";
 import { Header } from "~/components/header";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { GetStaticPaths } from "next";
 import { type NextPage } from "next";
 import { api } from "~/utils/api";
-import Link from "next/link";
 import { useState } from "react";
 import NewInteractionForm from "~/components/interaction/newInteractionForm";
+import InteractionTimeline from "~/components/interactionTimeline";
 
 const LegislatorProfile: NextPage = () => {
   const legislatorId = useRouter().query.id as string;
@@ -26,8 +21,18 @@ const LegislatorProfile: NextPage = () => {
     legislatorId,
   });
 
+  // Get all interactions associated with the legislator
+  const { data: interactions } = api.interaction.getAllForLegislator.useQuery({
+    legislatorId,
+  });
+
   // TODO: Determine what to do if we don't get any information back from API
   if (!legislator) {
+    return null;
+  }
+
+  // TODO: Determine what to do if we dont have any interactions
+  if (!interactions) {
     return null;
   }
 
@@ -52,6 +57,7 @@ const LegislatorProfile: NextPage = () => {
                 Create New Interaction
               </button>
             )}
+            <InteractionTimeline interactions={interactions} />
           </div>
         </div>
       </LegislatorContext.Provider>
