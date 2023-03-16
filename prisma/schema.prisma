@@ -68,20 +68,22 @@ model VerificationToken {
 }
 
 model Legislator {
-  id                String        @id @default(cuid())
-  firstName         String
-  lastName          String
-  state             State
-  party             Party
-  chamber           Chamber
-  district          Int
-  imageUri          String?
-  chamberWebsiteUrl String
-  capitolWebsiteUrl String
-  createdAt         DateTime      @default(now())
-  updatedAt         DateTime      @default(now()) @updatedAt
-  notes             Note[]
-  Interaction       Interaction[]
+  id                        String             @id @default(cuid())
+  firstName                 String
+  lastName                  String
+  state                     State
+  party                     Party
+  chamber                   Chamber
+  district                  Int
+  imageUri                  String?
+  chamberWebsiteUrl         String
+  capitolWebsiteUrl         String
+  createdAt                 DateTime           @default(now())
+  updatedAt                 DateTime           @default(now()) @updatedAt
+  notes                     Note[]
+  Interaction               Interaction[]
+  currentLegislativeSession LegislativeSession @relation(fields: [currentSessionId], references: [id])
+  currentSessionId          Int
 }
 
 model LegislativeSession {
@@ -94,6 +96,7 @@ model LegislativeSession {
   type          LegislativeSessionType
   state         State
   Interaction   Interaction[]
+  Legislator    Legislator[]
 }
 
 model Interaction {

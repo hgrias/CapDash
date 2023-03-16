@@ -44,7 +44,7 @@ const LegislatorProfile: NextPage = () => {
               <div className="card bg-neutral text-neutral-content ">
                 <div className="card-body">
                   <h2 className="card-title">Create New Interaction</h2>
-                  <NewInteractionForm />
+                  <NewInteractionForm legislator={legislator} />
                 </div>
               </div>
             ) : (
