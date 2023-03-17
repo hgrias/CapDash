@@ -5,16 +5,24 @@ import { api } from "~/utils/api";
 // TODO: Should we just use Legislator context here instead of props?
 interface NewInteractionFormProps {
   legislator: Legislator;
+  refetchInteractions: () => void;
 }
 
-const NewInteractionForm: FC<NewInteractionFormProps> = ({ legislator }) => {
+const NewInteractionForm: FC<NewInteractionFormProps> = ({
+  legislator,
+  refetchInteractions,
+}) => {
   const interactionTypeOptions = Object.keys(InteractionType).map(
     (interaction) => {
       return <option key={interaction}>{interaction}</option>;
     }
   );
 
-  const createInteraction = api.interaction.create.useMutation({});
+  const createInteraction = api.interaction.create.useMutation({
+    onSuccess: () => {
+      void refetchInteractions();
+    },
+  });
 
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Prevent the default form submission behavior

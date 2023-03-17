@@ -22,9 +22,10 @@ const LegislatorProfile: NextPage = () => {
   });
 
   // Get all interactions associated with the legislator
-  const { data: interactions } = api.interaction.getAllForLegislator.useQuery({
-    legislatorId,
-  });
+  const { data: interactions, refetch: refetchInteractions } =
+    api.interaction.getAllForLegislator.useQuery({
+      legislatorId,
+    });
 
   // TODO: Determine what to do if we don't get any information back from API
   if (!legislator) {
@@ -49,7 +50,10 @@ const LegislatorProfile: NextPage = () => {
               <div className="card bg-neutral text-neutral-content ">
                 <div className="card-body">
                   <h2 className="card-title">Create New Interaction</h2>
-                  <NewInteractionForm legislator={legislator} />
+                  <NewInteractionForm
+                    legislator={legislator}
+                    refetchInteractions={refetchInteractions}
+                  />
                 </div>
               </div>
             ) : (
