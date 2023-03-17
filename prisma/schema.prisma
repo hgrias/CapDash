@@ -80,7 +80,6 @@ model Legislator {
   capitolWebsiteUrl         String
   createdAt                 DateTime           @default(now())
   updatedAt                 DateTime           @default(now()) @updatedAt
-  notes                     Note[]
   Interaction               Interaction[]
   currentLegislativeSession LegislativeSession @relation(fields: [currentSessionId], references: [id])
   currentSessionId          Int
@@ -123,16 +122,6 @@ model Comment {
   actionNeeded  Boolean     @default(false)
   Interaction   Interaction @relation(fields: [interactionId], references: [id])
   User          User        @relation(fields: [userId], references: [id])
-}
-
-model Note {
-  id           String     @id @default(cuid())
-  content      String?
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  legislator   Legislator @relation(fields: [legislatorId], references: [id])
-  legislatorId String
-  public       Boolean    @default(true)
 }
 
 enum LegislativeSessionType {
