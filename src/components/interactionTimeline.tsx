@@ -1,14 +1,21 @@
-import { Interaction } from "@prisma/client";
-import React, { FC } from "react";
 import TimelineElement from "./interaction/interactionTimelineElement";
+import type { inferRouterOutputs } from "@trpc/server";
+import type { AppRouter } from "~/server/api/root";
+import React, { FC } from "react";
+
+type RouterOutput = inferRouterOutputs<AppRouter>;
+type allLegislatorTimelineElements =
+  RouterOutput["interaction"]["getAllForLegislator"];
+
 interface InteractionTimelineProps {
-  interactions: Interaction[];
+  interactionTimelineData: allLegislatorTimelineElements;
 }
 
 const InteractionTimeline: FC<InteractionTimelineProps> = ({
-  interactions,
+  interactionTimelineData,
 }) => {
-  const timelineElements = interactions.map((interaction) => {
+  // Convert all interactions into HTML elements
+  const timelineElements = interactionTimelineData.map((interaction) => {
     return <TimelineElement key={interaction.id} interaction={interaction} />;
   });
 

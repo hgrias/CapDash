@@ -1,8 +1,15 @@
 import { Interaction } from "@prisma/client";
 import React, { FC } from "react";
 
+import type { inferRouterOutputs } from "@trpc/server";
+import type { AppRouter } from "~/server/api/root";
+
+type RouterOutput = inferRouterOutputs<AppRouter>;
+type singleInteractionSchema =
+  RouterOutput["interaction"]["getAllForLegislator"][0];
+
 interface TimelineElementProps {
-  interaction: Interaction;
+  interaction: singleInteractionSchema;
 }
 
 const TimelineElement: FC<TimelineElementProps> = ({ interaction }) => {

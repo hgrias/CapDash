@@ -3,7 +3,7 @@ import { InteractionType } from "@prisma/client";
 import { z } from "zod";
 
 export const interactionRouter = createTRPCRouter({
-  // Get all interactions for a legislator
+  // Get legislator interaction data for timeline elements
   getAllForLegislator: protectedProcedure
     .input(
       z.object({
@@ -15,16 +15,20 @@ export const interactionRouter = createTRPCRouter({
         where: {
           legislatorId: input.legislatorId,
         },
-        orderBy: {
-          createdAt: "desc",
-        },
-        // Include the interaction creator's name
-        include: {
+        select: {
+          id: true,
+          createdAt: true,
+          createdBy: true,
+          content: true,
+          type: true,
           user: {
             select: {
               name: true,
             },
           },
+        },
+        orderBy: {
+          createdAt: "desc",
         },
       });
     }),

@@ -1,12 +1,12 @@
+import NewInteractionForm from "~/components/interaction/newInteractionForm";
 import LegislatorContext from "~/components/legislator/legislatorContext";
 import ProfileDetails from "~/components/legislator/profileDetails";
+import InteractionTimeline from "~/components/interactionTimeline";
 import { Header } from "~/components/header";
 import { useRouter } from "next/router";
 import { type NextPage } from "next";
 import { api } from "~/utils/api";
 import { useState } from "react";
-import NewInteractionForm from "~/components/interaction/newInteractionForm";
-import InteractionTimeline from "~/components/interactionTimeline";
 
 const LegislatorProfile: NextPage = () => {
   const legislatorId = useRouter().query.id as string;
@@ -57,7 +57,7 @@ const LegislatorProfile: NextPage = () => {
                 Create New Interaction
               </button>
             )}
-            <InteractionTimeline interactions={interactions} />
+            <InteractionTimeline interactionTimelineData={interactions} />
           </div>
         </div>
       </LegislatorContext.Provider>
