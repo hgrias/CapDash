@@ -39,6 +39,7 @@ export const legislatorRouter = createTRPCRouter({
         chamberWebsiteUrl: z.string(),
         capitolWebsiteUrl: z.string(),
         imageUri: z.string().optional(),
+        currentSessionId: z.number(),
       })
     )
     .mutation(({ ctx, input }) => {
@@ -53,6 +54,7 @@ export const legislatorRouter = createTRPCRouter({
           chamberWebsiteUrl: input.chamberWebsiteUrl,
           capitolWebsiteUrl: input.capitolWebsiteUrl,
           imageUri: input.imageUri,
+          currentSessionId: input.currentSessionId,
         },
       });
     }),
