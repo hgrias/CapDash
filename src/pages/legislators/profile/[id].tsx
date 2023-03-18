@@ -53,6 +53,7 @@ const LegislatorProfile: NextPage = () => {
                   <NewInteractionForm
                     legislator={legislator}
                     refetchInteractions={refetchInteractions}
+                    setShowNewInteractionForm={setShowNewInteractionForm}
                   />
                 </div>
               </div>

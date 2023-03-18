@@ -1,16 +1,19 @@
 import React, { FC } from "react";
 import { InteractionType, Legislator } from "@prisma/client";
 import { api } from "~/utils/api";
+import { Dispatch, SetStateAction } from "react";
 
 // TODO: Should we just use Legislator context here instead of props?
 interface NewInteractionFormProps {
   legislator: Legislator;
   refetchInteractions: () => void;
+  setShowNewInteractionForm: Dispatch<SetStateAction<boolean>>;
 }
 
 const NewInteractionForm: FC<NewInteractionFormProps> = ({
   legislator,
   refetchInteractions,
+  setShowNewInteractionForm,
 }) => {
   const interactionTypeOptions = Object.keys(InteractionType).map(
     (interaction) => {
@@ -21,6 +24,7 @@ const NewInteractionForm: FC<NewInteractionFormProps> = ({
   const createInteraction = api.interaction.create.useMutation({
     onSuccess: () => {
       void refetchInteractions();
+      setShowNewInteractionForm(false);
     },
   });
 
