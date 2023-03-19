@@ -1,7 +1,7 @@
 import NewInteractionForm from "~/components/interaction/newInteractionForm";
 import LegislatorContext from "~/components/legislator/legislatorContext";
 import ProfileDetails from "~/components/legislator/profileDetails";
-import InteractionTimeline from "~/components/interactionTimeline";
+import InteractionTimeline from "~/components/interaction/interactionTimeline";
 import { Header } from "~/components/header";
 import { useRouter } from "next/router";
 import { type NextPage } from "next";

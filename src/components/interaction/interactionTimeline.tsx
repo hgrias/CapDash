@@ -1,4 +1,4 @@
-import TimelineElement from "./interaction/interactionTimelineElement";
+import TimelineElement from "./interactionTimelineElement";
 import type { inferRouterOutputs } from "@trpc/server";
 import type { AppRouter } from "~/server/api/root";
 import React, { FC } from "react";
