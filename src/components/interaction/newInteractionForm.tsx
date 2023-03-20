@@ -63,11 +63,12 @@ const NewInteractionForm: FC<NewInteractionFormProps> = ({
     event.currentTarget.reset();
   };
 
+  // TODO: Need to make this form responsive. Buttons dont stack.
   return (
     <>
       <form onSubmit={handleFormSubmit}>
-        <div className="form form-control grid grid-cols-2 gap-4">
-          <div className="col-span-2">
+        <div className="form form-control grid grid-cols-3 gap-4">
+          <div className="col-span-3">
             <label className="label">
               <span className="label-text">Content</span>
             </label>
@@ -87,7 +88,15 @@ const NewInteractionForm: FC<NewInteractionFormProps> = ({
           </div>
           <div className="relative">
             <button
-              className="btn-secondary btn absolute bottom-0 right-0"
+              className="btn-error btn absolute bottom-0 right-0"
+              onClick={() => setShowNewInteractionForm(false)}
+            >
+              Cancel
+            </button>
+          </div>
+          <div className="relative">
+            <button
+              className="btn-accent btn absolute bottom-0 right-0"
               type="submit"
             >
               Create
