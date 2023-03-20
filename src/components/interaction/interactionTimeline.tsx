@@ -25,7 +25,7 @@ const InteractionTimeline: FC<InteractionTimelineProps> = ({
 
   return (
     <>
-      <ol className="relative my-10 border-l border-gray-200 dark:border-gray-700">
+      <ol className="relative mb-10 border-l border-gray-200 dark:border-gray-700">
         {timelineElements}
       </ol>
     </>

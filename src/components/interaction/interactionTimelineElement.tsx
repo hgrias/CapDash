@@ -32,7 +32,7 @@ const TimelineElement: FC<TimelineElementProps> = ({ interaction }) => {
           </svg>
         </span>
         <h3 className="mb-1 flex items-center text-lg font-semibold text-gray-900 dark:text-white">
-          {interaction.type} Interaction - Created By: {interaction.user.name}
+          {interaction.type}
         </h3>
         <time className="mb-2 block text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
           {interaction.createdAt.toLocaleDateString("en-us", {
@@ -40,7 +40,8 @@ const TimelineElement: FC<TimelineElementProps> = ({ interaction }) => {
             year: "numeric",
             month: "short",
             day: "numeric",
-          })}
+          })}{" "}
+          - {interaction.user.name}
         </time>
         <p className="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">
           {interaction.content}

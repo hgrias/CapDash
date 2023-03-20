@@ -6,13 +6,13 @@ import { Dispatch, SetStateAction } from "react";
 // TODO: Should we just use Legislator context here instead of props?
 interface NewInteractionFormProps {
   legislator: Legislator;
-  refetchInteractions: () => void;
+  refetchInteractionsHandler: () => void;
   setShowNewInteractionForm: Dispatch<SetStateAction<boolean>>;
 }
 
 const NewInteractionForm: FC<NewInteractionFormProps> = ({
   legislator,
-  refetchInteractions,
+  refetchInteractionsHandler,
   setShowNewInteractionForm,
 }) => {
   const interactionTypeOptions = Object.keys(InteractionType).map(
@@ -23,7 +23,7 @@ const NewInteractionForm: FC<NewInteractionFormProps> = ({
 
   const createInteraction = api.interaction.create.useMutation({
     onSuccess: () => {
-      void refetchInteractions();
+      void refetchInteractionsHandler();
       setShowNewInteractionForm(false);
     },
   });
@@ -37,6 +37,7 @@ const NewInteractionForm: FC<NewInteractionFormProps> = ({
     const interactionType = formData.get("interactionType") as InteractionType;
     const interactionContent = formData.get("interactionContent") as string;
 
+    // TODO: Fix these validations: Make input box red and alert user
     // Perform any necessary validations on the form data
     if (!interactionType) {
       console.log("Please select an interaction type");

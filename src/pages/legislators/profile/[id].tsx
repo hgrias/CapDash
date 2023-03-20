@@ -7,14 +7,10 @@ import { useRouter } from "next/router";
 import { type NextPage } from "next";
 import { api } from "~/utils/api";
 import { useState } from "react";
+import ProfileInteractions from "~/components/interaction/profileInteractions";
 
 const LegislatorProfile: NextPage = () => {
   const legislatorId = useRouter().query.id as string;
-  const [showNewInteractionForm, setShowNewInteractionForm] = useState(false);
-
-  function handleNewInteractionClick() {
-    setShowNewInteractionForm(true);
-  }
 
   // TODO: Determine if this API call is called on blur only on dev?
   const { data: legislator } = api.legislator.getById.useQuery({
@@ -22,18 +18,13 @@ const LegislatorProfile: NextPage = () => {
   });
 
   // Get all interactions associated with the legislator
-  const { data: interactions, refetch: refetchInteractions } =
+  const { data: interactions = [], refetch: refetchInteractions } =
     api.interaction.getAllForLegislator.useQuery({
       legislatorId,
     });
 
   // TODO: Determine what to do if we don't get any information back from API
   if (!legislator) {
-    return null;
-  }
-
-  // TODO: Determine what to do if we dont have any interactions
-  if (!interactions) {
     return null;
   }
 
@@ -46,23 +37,10 @@ const LegislatorProfile: NextPage = () => {
             <ProfileDetails />
           </div>
           <div className="mx-10 h-12 w-3/4 justify-center px-2 pt-5">
-            {showNewInteractionForm ? (
-              <div className="card bg-neutral text-neutral-content ">
-                <div className="card-body">
-                  <h2 className="card-title">Create New Interaction</h2>
-                  <NewInteractionForm
-                    legislator={legislator}
-                    refetchInteractions={refetchInteractions}
-                    setShowNewInteractionForm={setShowNewInteractionForm}
-                  />
-                </div>
-              </div>
-            ) : (
-              <button className="btn" onClick={handleNewInteractionClick}>
-                Create New Interaction
-              </button>
-            )}
-            <InteractionTimeline interactionTimelineData={interactions} />
+            <ProfileInteractions
+              interactions={interactions}
+              refetchInteractionsHandler={refetchInteractions}
+            />
           </div>
         </div>
       </LegislatorContext.Provider>
