@@ -1,4 +1,4 @@
-import React, { FC, useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import NewInteractionForm from "./newInteractionForm";
 import LegislatorContext from "../legislator/legislatorContext";
 import InteractionTimeline from "./interactionTimeline";
@@ -15,10 +15,10 @@ interface ProfileInteractionProps {
   refetchInteractionsHandler: () => void;
 }
 
-const ProfileInteractions: FC<ProfileInteractionProps> = ({
+const ProfileInteractions = ({
   interactions,
   refetchInteractionsHandler,
-}) => {
+}: ProfileInteractionProps) => {
   const [showNewInteractionForm, setShowNewInteractionForm] = useState(false);
 
   const legislator = useContext(LegislatorContext) as Legislator;

@@ -1,4 +1,4 @@
-import React, { FC, useContext } from "react";
+import React, { useContext } from "react";
 import LegislatorContext from "./legislatorContext";
 import Avatar from "./avatar";
 
@@ -10,13 +10,13 @@ interface IBioProps {
   district?: number;
 }
 
-const Bio: FC<IBioProps> = ({
+const Bio = ({
   firstName: propsFirstName,
   lastName: propsLastName,
   party: propsParty,
   chamber: propsChamber,
   district: propsDistrict,
-}) => {
+}: IBioProps) => {
   // Allow us to pass in props if needed, otherwise populate from context
   const {
     firstName = propsFirstName,

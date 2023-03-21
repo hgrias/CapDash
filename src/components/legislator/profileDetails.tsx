@@ -1,7 +1,7 @@
-import React, { FC } from "react";
+import React from "react";
 import Bio from "./bio";
 
-const ProfileDetails: FC = () => {
+const ProfileDetails = () => {
   return (
     <>
       <Bio />

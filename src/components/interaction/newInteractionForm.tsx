@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React from "react";
 import { InteractionType, Legislator } from "@prisma/client";
 import { api } from "~/utils/api";
 import { Dispatch, SetStateAction } from "react";
@@ -10,11 +10,11 @@ interface NewInteractionFormProps {
   setShowNewInteractionForm: Dispatch<SetStateAction<boolean>>;
 }
 
-const NewInteractionForm: FC<NewInteractionFormProps> = ({
+const NewInteractionForm = ({
   legislator,
   refetchInteractionsHandler,
   setShowNewInteractionForm,
-}) => {
+}: NewInteractionFormProps) => {
   const interactionTypeOptions = Object.keys(InteractionType).map(
     (interaction) => {
       return <option key={interaction}>{interaction}</option>;

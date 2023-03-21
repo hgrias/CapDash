@@ -3,7 +3,7 @@ import Bio from "./legislator/bio";
 import { api } from "~/utils/api";
 import Link from "next/link";
 
-export const LegislatorGrid: React.FC = () => {
+export const LegislatorGrid = () => {
   const { data: legislators } = api.legislator.getAll.useQuery();
   const legislatorCards = legislators?.map((legislator) => (
     <div key={legislator.id}>

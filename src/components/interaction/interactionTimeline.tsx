@@ -1,7 +1,7 @@
 import TimelineElement from "./interactionTimelineElement";
 import type { inferRouterOutputs } from "@trpc/server";
 import type { AppRouter } from "~/server/api/root";
-import React, { FC } from "react";
+import React from "react";
 
 type RouterOutput = inferRouterOutputs<AppRouter>;
 type allLegislatorTimelineElements =
@@ -11,9 +11,9 @@ interface InteractionTimelineProps {
   interactionTimelineData: allLegislatorTimelineElements;
 }
 
-const InteractionTimeline: FC<InteractionTimelineProps> = ({
+const InteractionTimeline = ({
   interactionTimelineData,
-}) => {
+}: InteractionTimelineProps) => {
   // Convert all interactions into HTML elements
   const timelineElements = interactionTimelineData.map((interaction) => {
     return <TimelineElement key={interaction.id} interaction={interaction} />;

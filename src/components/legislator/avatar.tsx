@@ -1,11 +1,11 @@
-import React, { FC, useContext } from "react";
+import React, { useContext } from "react";
 import LegislatorContext from "./legislatorContext";
 
 interface AvatarProps {
   imageUri?: string;
 }
 
-const Avatar: FC<AvatarProps> = () => {
+const Avatar = () => {
   const { imageUri } = useContext(LegislatorContext);
   // TODO: Do I need to store the bucket name in an env var?
   const gcsBasePath =

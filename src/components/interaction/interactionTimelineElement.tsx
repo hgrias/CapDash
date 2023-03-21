@@ -1,5 +1,4 @@
-import { Interaction } from "@prisma/client";
-import React, { FC } from "react";
+import React from "react";
 
 import type { inferRouterOutputs } from "@trpc/server";
 import type { AppRouter } from "~/server/api/root";
@@ -12,7 +11,7 @@ interface TimelineElementProps {
   interaction: singleInteractionSchema;
 }
 
-const TimelineElement: FC<TimelineElementProps> = ({ interaction }) => {
+const TimelineElement = ({ interaction }: TimelineElementProps) => {
   return (
     <>
       <li className="mb-10 ml-6">
