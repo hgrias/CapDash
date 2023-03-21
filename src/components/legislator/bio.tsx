@@ -3,16 +3,28 @@ import LegislatorContext from "./legislatorContext";
 import Avatar from "./avatar";
 
 interface IBioProps {
-  firstName: string;
-  lastName: string;
-  party: string;
-  chamber: string;
-  district: number;
+  firstName?: string;
+  lastName?: string;
+  party?: string;
+  chamber?: string;
+  district?: number;
 }
 
-const Bio: FC<IBioProps> = (props: IBioProps) => {
-  const { firstName, lastName, district, party, chamber } =
-    useContext(LegislatorContext);
+const Bio: FC<IBioProps> = ({
+  firstName: propsFirstName,
+  lastName: propsLastName,
+  party: propsParty,
+  chamber: propsChamber,
+  district: propsDistrict,
+}) => {
+  // Allow us to pass in props if needed, otherwise populate from context
+  const {
+    firstName = propsFirstName,
+    lastName = propsLastName,
+    district = propsDistrict,
+    party = propsParty,
+    chamber = propsChamber,
+  } = useContext(LegislatorContext) || {};
 
   return (
     <>
