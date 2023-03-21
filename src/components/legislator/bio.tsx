@@ -2,7 +2,15 @@ import React, { FC, useContext } from "react";
 import LegislatorContext from "./legislatorContext";
 import Avatar from "./avatar";
 
-const Bio: FC = () => {
+interface IBioProps {
+  firstName: string;
+  lastName: string;
+  party: string;
+  chamber: string;
+  district: number;
+}
+
+const Bio: FC<IBioProps> = (props: IBioProps) => {
   const { firstName, lastName, district, party, chamber } =
     useContext(LegislatorContext);
 
