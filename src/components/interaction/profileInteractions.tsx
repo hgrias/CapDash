@@ -47,7 +47,7 @@ const ProfileInteractions: FC<ProfileInteractionProps> = ({
           </button>
         )}
       </div>
-      <div className="card-body items-center">
+      <div className="card-body">
         {interactions ? (
           <InteractionTimeline interactionTimelineData={interactions} />
         ) : (
