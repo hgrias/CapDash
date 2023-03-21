@@ -28,6 +28,7 @@ const NewInteractionForm: FC<NewInteractionFormProps> = ({
     },
   });
 
+  // TODO: Should probably abstract out the submitHandler
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Prevent the default form submission behavior
 
