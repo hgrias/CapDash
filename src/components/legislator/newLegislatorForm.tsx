@@ -72,57 +72,29 @@ const NewLegislatorForm = ({ onSuccess, onError }: Props) => {
           <Form className="grid gap-2 sm:grid-cols-2">
             <div className="col-span-2 sm:col-span-1">
               <label htmlFor="firstName">First Name</label>
-              <Field
-                className="input"
-                id="firstName"
-                name="firstName"
-                placeholder="John"
-              />
+              <Field className="input" id="firstName" name="firstName" />
               <ErrorMessage name="firstName" />
             </div>
             <div className="col-span-2 sm:col-span-1">
               <label htmlFor="lastName">Last Name</label>
-              <Field
-                className="input"
-                id="lastName"
-                name="lastName"
-                placeholder="Doe"
-              />
+              <Field className="input" id="lastName" name="lastName" />
               <ErrorMessage name="lastName" />
             </div>
             <div>
               <label htmlFor="state">State</label>
-              <Field
-                className="select"
-                as="select"
-                id="state"
-                name="state"
-                placeholder=""
-              >
+              <Field className="select" as="select" id="state" name="state">
                 <option>Hello</option>
               </Field>
             </div>
             <div>
               <label htmlFor="party">Party</label>
-              <Field
-                className="select"
-                as="select"
-                id="party"
-                name="party"
-                placeholder=""
-              >
+              <Field className="select" as="select" id="party" name="party">
                 <option>Hello</option>
               </Field>
             </div>
             <div>
               <label htmlFor="chamber">Chamber</label>
-              <Field
-                className="select"
-                as="select"
-                id="chamber"
-                name="chamber"
-                placeholder=""
-              >
+              <Field className="select" as="select" id="chamber" name="chamber">
                 <option>Hello</option>
               </Field>
             </div>
