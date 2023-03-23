@@ -45,9 +45,15 @@ const formSchema = z.object({
     })
     .trim()
     .min(1, { message: "Must be at least 1 character long" }),
-  state: z.nativeEnum(State),
-  party: z.nativeEnum(Party),
-  chamber: z.nativeEnum(Chamber),
+  state: z.nativeEnum(State).refine((val) => val !== "UNKNOWN", {
+    message: "Please select a valid state",
+  }),
+  party: z.nativeEnum(Party).refine((val) => val !== "UNKNOWN", {
+    message: "Please select a valid party",
+  }),
+  chamber: z.nativeEnum(Chamber).refine((val) => val !== "UNKNOWN", {
+    message: "Please select a valid chamber",
+  }),
 });
 
 const NewLegislatorForm = ({ onSuccess, onError }: Props) => {
@@ -63,7 +69,7 @@ const NewLegislatorForm = ({ onSuccess, onError }: Props) => {
   };
 
   return (
-    <div className="m-12 rounded-md bg-gray-800 p-4">
+    <div className="card m-10 bg-neutral p-6">
       <h1 className="pb-4 text-center">Create New Legislator</h1>
       <Formik
         validationSchema={toFormikValidationSchema(formSchema)}
@@ -109,6 +115,10 @@ const NewLegislatorForm = ({ onSuccess, onError }: Props) => {
                 <Field className="select" as="select" id="state" name="state">
                   <option>Hello</option>
                 </Field>
+                <ErrorMessage
+                  name="state"
+                  render={(msg) => errorMessage(msg)}
+                />
               </div>
             </div>
             <div>
@@ -117,6 +127,10 @@ const NewLegislatorForm = ({ onSuccess, onError }: Props) => {
                 <Field className="select" as="select" id="party" name="party">
                   <option>Hello</option>
                 </Field>
+                <ErrorMessage
+                  name="party"
+                  render={(msg) => errorMessage(msg)}
+                />
               </div>
             </div>
             <div>
@@ -130,6 +144,10 @@ const NewLegislatorForm = ({ onSuccess, onError }: Props) => {
                 >
                   <option>Hello</option>
                 </Field>
+                <ErrorMessage
+                  name="chamber"
+                  render={(msg) => errorMessage(msg)}
+                />
               </div>
             </div>
             <div className="">
