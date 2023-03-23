@@ -57,6 +57,11 @@ const NewLegislatorForm = ({ onSuccess, onError }: Props) => {
     console.log(values);
   }
 
+  // Render custom error message with styling
+  const errorMessage = (message: string) => {
+    return <p className="text-error">{message}</p>;
+  };
+
   return (
     <div className="m-12 rounded-md bg-gray-800 p-4">
       <h1 className="pb-4 text-center">Create New Legislator</h1>
@@ -81,12 +86,18 @@ const NewLegislatorForm = ({ onSuccess, onError }: Props) => {
             <div className="col-span-2 sm:col-span-1">
               <label htmlFor="firstName">First Name</label>
               <Field className="input" id="firstName" name="firstName" />
-              <ErrorMessage name="firstName" />
+              <ErrorMessage
+                name="firstName"
+                render={(msg) => errorMessage(msg)}
+              />
             </div>
             <div className="col-span-2 sm:col-span-1">
               <label htmlFor="lastName">Last Name</label>
               <Field className="input" id="lastName" name="lastName" />
-              <ErrorMessage name="lastName" />
+              <ErrorMessage
+                name="lastName"
+                render={(msg) => errorMessage(msg)}
+              />
             </div>
             <div>
               <label htmlFor="state">State</label>
