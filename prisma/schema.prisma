@@ -76,8 +76,8 @@ model Legislator {
   chamber                   Chamber
   district                  Int
   imageUri                  String?
-  chamberWebsiteUrl         String
-  capitolWebsiteUrl         String
+  chamberWebsiteUrl         String?
+  capitolWebsiteUrl         String?
   createdAt                 DateTime           @default(now())
   updatedAt                 DateTime           @default(now()) @updatedAt
   Interaction               Interaction[]
@@ -127,12 +127,14 @@ model Comment {
 enum LegislativeSessionType {
   REGULAR
   SPECIAL
+  UNKNOWN
 }
 
 enum InteractionType {
   BILL
   TESTIMONY
   GENERAL
+  UNKNOWN
 }
 
 enum State {
@@ -186,15 +188,18 @@ enum State {
   WV
   WI
   WY
+  UNKNOWN
 }
 
 enum Party {
   Democrat
   Republican
   Other
+  UNKNOWN
 }
 
 enum Chamber {
   House
   Senate
+  UNKNOWN
 }
