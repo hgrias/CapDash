@@ -3,14 +3,19 @@ import Head from "next/head";
 import { useSession } from "next-auth/react";
 import { LegislatorGrid } from "~/components/legislatorGrid";
 import { Header } from "~/components/header";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 const Home: NextPage = () => {
   const { data: sessionData } = useSession();
+  const router = useRouter();
 
   // Redirect to login page if not signed in
-  if (!sessionData) {
-    console.log("Not signed in. Redirecting to login page for authentication.");
-  }
+  useEffect(() => {
+    if (!sessionData) {
+      router.push("/login");
+    }
+  }, [sessionData]);
 
   return (
     <>
@@ -23,8 +28,12 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Header />
-        <LegislatorGrid />
+        {sessionData ? (
+          <>
+            <Header />
+            <LegislatorGrid />
+          </>
+        ) : null}
       </main>
     </>
   );

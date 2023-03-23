@@ -1,19 +1,28 @@
 import { type NextPage } from "next";
 import { useSession } from "next-auth/react";
-import { redirect } from "next/dist/server/api-utils";
 import { LoginForm } from "~/components/loginForm";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 const Login: NextPage = () => {
   const { data: sessionData } = useSession();
+  const router = useRouter();
 
-  if (!sessionData) {
-    console.log("Already logged in! Redirecting to index page.");
-  }
+  // Redirect to index page if logged in
+  useEffect(() => {
+    if (sessionData) {
+      router.push("/");
+    }
+  }, [sessionData]);
 
   return (
     <div className="auth-container my-20">
       <div className="">
-        <LoginForm />
+        {sessionData ? (
+          <>
+            <LoginForm />
+          </>
+        ) : null}
       </div>
     </div>
   );
