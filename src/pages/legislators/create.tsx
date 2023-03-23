@@ -6,7 +6,7 @@ const CreateLegislatorPage: NextPage = () => {
   return (
     <>
       <Header />
-      <div className="content-center">
+      <div className="flex items-center justify-center">
         <NewLegislatorForm />
       </div>
     </>

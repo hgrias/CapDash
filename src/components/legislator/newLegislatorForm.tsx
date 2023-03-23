@@ -69,7 +69,7 @@ const NewLegislatorForm = ({ onSuccess, onError }: Props) => {
   };
 
   return (
-    <div className="prose-h2 card m-10 bg-neutral p-6">
+    <div className="card prose m-10 bg-neutral p-6">
       <h2 className="text-center">Create New Legislator</h2>
       <Formik
         validationSchema={toFormikValidationSchema(formSchema)}
