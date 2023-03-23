@@ -73,6 +73,7 @@ const NewLegislatorForm = ({ onSuccess, onError }: Props) => {
       <h1 className="pb-4 text-center">Create New Legislator</h1>
       <Formik
         validationSchema={toFormikValidationSchema(formSchema)}
+        validateOnBlur={false}
         initialValues={{
           firstName: "",
           lastName: "",
