@@ -30,12 +30,20 @@ const formSchema = z.object({
       required_error: "First Name is required",
       invalid_type_error: "Name can only contain letters",
     })
+    .regex(new RegExp("^[a-zA-Z]+$"), {
+      message: "Cannot contain numbers or symbols",
+    })
+    .trim()
     .min(1, { message: "Must be at least 1 character long" }),
   lastName: z
     .string({
       required_error: "Last Name is required",
       invalid_type_error: "Name can only contain letters",
     })
+    .regex(new RegExp("^[a-zA-Z]+$"), {
+      message: "Cannot contain numbers or symbols",
+    })
+    .trim()
     .min(1, { message: "Must be at least 1 character long" }),
   state: z.nativeEnum(State),
   party: z.nativeEnum(Party),
