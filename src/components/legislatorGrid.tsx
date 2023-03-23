@@ -15,5 +15,9 @@ export const LegislatorGrid = () => {
     </div>
   ));
 
-  return <div className="grid grid-cols-3 gap-4">{legislatorCards}</div>;
+  return (
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      {legislatorCards}
+    </div>
+  );
 };
