@@ -88,6 +88,7 @@ const NewLegislatorForm = ({ onSuccess, onError }: Props) => {
                 name="lastName"
                 placeholder="Doe"
               />
+              <ErrorMessage name="lastName" />
             </div>
             <div>
               <label htmlFor="state">State</label>
