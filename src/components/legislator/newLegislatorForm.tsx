@@ -82,40 +82,55 @@ const NewLegislatorForm = ({ onSuccess, onError }: Props) => {
         }}
       >
         {(props: FormikProps<FormValues>) => (
-          <Form className="grid gap-2 sm:grid-cols-2">
+          <Form className="grid gap-4 sm:grid-cols-2">
             <div className="col-span-2 sm:col-span-1">
               <label htmlFor="firstName">First Name</label>
-              <Field className="input" id="firstName" name="firstName" />
-              <ErrorMessage
-                name="firstName"
-                render={(msg) => errorMessage(msg)}
-              />
+              <div>
+                <Field className="input" id="firstName" name="firstName" />
+                <ErrorMessage
+                  name="firstName"
+                  render={(msg) => errorMessage(msg)}
+                />
+              </div>
             </div>
             <div className="col-span-2 sm:col-span-1">
               <label htmlFor="lastName">Last Name</label>
-              <Field className="input" id="lastName" name="lastName" />
-              <ErrorMessage
-                name="lastName"
-                render={(msg) => errorMessage(msg)}
-              />
+              <div>
+                <Field className="input" id="lastName" name="lastName" />
+                <ErrorMessage
+                  name="lastName"
+                  render={(msg) => errorMessage(msg)}
+                />
+              </div>
             </div>
             <div>
               <label htmlFor="state">State</label>
-              <Field className="select" as="select" id="state" name="state">
-                <option>Hello</option>
-              </Field>
+              <div>
+                <Field className="select" as="select" id="state" name="state">
+                  <option>Hello</option>
+                </Field>
+              </div>
             </div>
             <div>
               <label htmlFor="party">Party</label>
-              <Field className="select" as="select" id="party" name="party">
-                <option>Hello</option>
-              </Field>
+              <div>
+                <Field className="select" as="select" id="party" name="party">
+                  <option>Hello</option>
+                </Field>
+              </div>
             </div>
             <div>
               <label htmlFor="chamber">Chamber</label>
-              <Field className="select" as="select" id="chamber" name="chamber">
-                <option>Hello</option>
-              </Field>
+              <div>
+                <Field
+                  className="select"
+                  as="select"
+                  id="chamber"
+                  name="chamber"
+                >
+                  <option>Hello</option>
+                </Field>
+              </div>
             </div>
             <div className="">
               <button className="btn-success btn" type="submit">
