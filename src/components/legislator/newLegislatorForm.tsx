@@ -50,6 +50,17 @@ const formSchema = z.object({
 });
 
 const NewLegislatorForm = ({ onSuccess, onError }: Props) => {
+  const stateOptionElements = Object.keys(State).map((state) => {
+    if (state === "UNKNOWN") {
+      return null;
+    }
+    return (
+      <option key={state} value={state}>
+        {state}
+      </option>
+    );
+  });
+
   const createLegislator = api.legislator.create.useMutation();
 
   function handleSubmit(values: FormValues) {
@@ -112,7 +123,7 @@ const NewLegislatorForm = ({ onSuccess, onError }: Props) => {
                 as="select"
                 name="state"
               >
-                <option>Hello</option>
+                {stateOptionElements}
               </Field>
               <ErrorMessage name="state" render={(msg) => errorMessage(msg)} />
             </div>
@@ -125,7 +136,9 @@ const NewLegislatorForm = ({ onSuccess, onError }: Props) => {
                 as="select"
                 name="party"
               >
-                <option>Hello</option>
+                <option value="Democrat">Democrat</option>
+                <option value="Republican">Republican</option>
+                <option value="Other">Other</option>
               </Field>
               <ErrorMessage name="party" render={(msg) => errorMessage(msg)} />
             </div>
@@ -138,7 +151,8 @@ const NewLegislatorForm = ({ onSuccess, onError }: Props) => {
                 as="select"
                 name="chamber"
               >
-                <option>Hello</option>
+                <option value="House">House</option>
+                <option value="Senate">Senate</option>
               </Field>
               <ErrorMessage
                 name="chamber"
