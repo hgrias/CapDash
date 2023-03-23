@@ -93,7 +93,7 @@ const NewLegislatorForm = ({ onSuccess, onError }: Props) => {
             <div className="col-span-2 sm:col-span-1">
               <label htmlFor="firstName">First Name</label>
               <div>
-                <Field className="input" id="firstName" name="firstName" />
+                <Field className="input-bordered input" name="firstName" />
                 <ErrorMessage
                   name="firstName"
                   render={(msg) => errorMessage(msg)}
@@ -103,7 +103,7 @@ const NewLegislatorForm = ({ onSuccess, onError }: Props) => {
             <div className="col-span-2 sm:col-span-1">
               <label htmlFor="lastName">Last Name</label>
               <div>
-                <Field className="input" id="lastName" name="lastName" />
+                <Field className="input-bordered input" name="lastName" />
                 <ErrorMessage
                   name="lastName"
                   render={(msg) => errorMessage(msg)}
@@ -113,7 +113,11 @@ const NewLegislatorForm = ({ onSuccess, onError }: Props) => {
             <div>
               <label htmlFor="state">State</label>
               <div>
-                <Field className="select" as="select" id="state" name="state">
+                <Field
+                  className="select-bordered select"
+                  as="select"
+                  name="state"
+                >
                   <option>Hello</option>
                 </Field>
                 <ErrorMessage
@@ -125,7 +129,11 @@ const NewLegislatorForm = ({ onSuccess, onError }: Props) => {
             <div>
               <label htmlFor="party">Party</label>
               <div>
-                <Field className="select" as="select" id="party" name="party">
+                <Field
+                  className="select-bordered select"
+                  as="select"
+                  name="party"
+                >
                   <option>Hello</option>
                 </Field>
                 <ErrorMessage
@@ -138,9 +146,8 @@ const NewLegislatorForm = ({ onSuccess, onError }: Props) => {
               <label htmlFor="chamber">Chamber</label>
               <div>
                 <Field
-                  className="select"
+                  className="select-bordered select"
                   as="select"
-                  id="chamber"
                   name="chamber"
                 >
                   <option>Hello</option>
