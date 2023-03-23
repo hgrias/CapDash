@@ -69,8 +69,8 @@ const NewLegislatorForm = ({ onSuccess, onError }: Props) => {
   };
 
   return (
-    <div className="card m-10 bg-neutral p-6">
-      <h1 className="pb-4 text-center">Create New Legislator</h1>
+    <div className="card prose m-10 bg-neutral p-6">
+      <h2 className="text-center">Create New Legislator</h2>
       <Formik
         validationSchema={toFormikValidationSchema(formSchema)}
         validateOnBlur={false}
@@ -89,7 +89,7 @@ const NewLegislatorForm = ({ onSuccess, onError }: Props) => {
         }}
       >
         {(props: FormikProps<FormValues>) => (
-          <Form className="grid gap-4 sm:grid-cols-2">
+          <Form className="grid place-items-start gap-4 sm:grid-cols-2">
             <div className="col-span-2 sm:col-span-1">
               <label htmlFor="firstName">First Name</label>
               <div>
