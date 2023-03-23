@@ -1,12 +1,5 @@
 import { Legislator, State, Party, Chamber } from "@prisma/client";
-import {
-  Formik,
-  Field,
-  Form,
-  FormikHelpers,
-  FormikProps,
-  ErrorMessage,
-} from "formik";
+import { Formik, Field, Form, FormikHelpers, ErrorMessage } from "formik";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { api } from "~/utils/api";
 import { z } from "zod";
@@ -69,8 +62,10 @@ const NewLegislatorForm = ({ onSuccess, onError }: Props) => {
   };
 
   return (
-    <div className="card prose m-10 bg-neutral p-6">
-      <h2 className="text-center">Create New Legislator</h2>
+    <div className="card m-10 bg-neutral p-6">
+      <div className="prose pb-4">
+        <h2 className="text-center">Create New Legislator</h2>
+      </div>
       <Formik
         validationSchema={toFormikValidationSchema(formSchema)}
         validateOnBlur={false}
@@ -88,83 +83,75 @@ const NewLegislatorForm = ({ onSuccess, onError }: Props) => {
           handleSubmit(values);
         }}
       >
-        {(props: FormikProps<FormValues>) => (
-          <Form className="grid place-items-start gap-4 sm:grid-cols-2">
-            <div className="col-span-2 sm:col-span-1">
-              <label htmlFor="firstName">First Name</label>
-              <div>
-                <Field className="input-bordered input" name="firstName" />
-                <ErrorMessage
-                  name="firstName"
-                  render={(msg) => errorMessage(msg)}
-                />
-              </div>
-            </div>
-            <div className="col-span-2 sm:col-span-1">
-              <label htmlFor="lastName">Last Name</label>
-              <div>
-                <Field className="input-bordered input" name="lastName" />
-                <ErrorMessage
-                  name="lastName"
-                  render={(msg) => errorMessage(msg)}
-                />
-              </div>
-            </div>
+        <Form className="grid place-items-start gap-x-8 gap-y-6 sm:grid-cols-2">
+          <div className="col-span-2 sm:col-span-1">
+            <label htmlFor="firstName">First Name</label>
             <div>
-              <label htmlFor="state">State</label>
-              <div>
-                <Field
-                  className="select-bordered select"
-                  as="select"
-                  name="state"
-                >
-                  <option>Hello</option>
-                </Field>
-                <ErrorMessage
-                  name="state"
-                  render={(msg) => errorMessage(msg)}
-                />
-              </div>
+              <Field className="input-bordered input" name="firstName" />
+              <ErrorMessage
+                name="firstName"
+                render={(msg) => errorMessage(msg)}
+              />
             </div>
+          </div>
+          <div className="col-span-2 sm:col-span-1">
+            <label htmlFor="lastName">Last Name</label>
             <div>
-              <label htmlFor="party">Party</label>
-              <div>
-                <Field
-                  className="select-bordered select"
-                  as="select"
-                  name="party"
-                >
-                  <option>Hello</option>
-                </Field>
-                <ErrorMessage
-                  name="party"
-                  render={(msg) => errorMessage(msg)}
-                />
-              </div>
+              <Field className="input-bordered input" name="lastName" />
+              <ErrorMessage
+                name="lastName"
+                render={(msg) => errorMessage(msg)}
+              />
             </div>
+          </div>
+          <div>
+            <label htmlFor="state">State</label>
             <div>
-              <label htmlFor="chamber">Chamber</label>
-              <div>
-                <Field
-                  className="select-bordered select"
-                  as="select"
-                  name="chamber"
-                >
-                  <option>Hello</option>
-                </Field>
-                <ErrorMessage
-                  name="chamber"
-                  render={(msg) => errorMessage(msg)}
-                />
-              </div>
+              <Field
+                className="select-bordered select"
+                as="select"
+                name="state"
+              >
+                <option>Hello</option>
+              </Field>
+              <ErrorMessage name="state" render={(msg) => errorMessage(msg)} />
             </div>
-            <div className="">
-              <button className="btn-success btn" type="submit">
-                Create
-              </button>
+          </div>
+          <div>
+            <label htmlFor="party">Party</label>
+            <div>
+              <Field
+                className="select-bordered select"
+                as="select"
+                name="party"
+              >
+                <option>Hello</option>
+              </Field>
+              <ErrorMessage name="party" render={(msg) => errorMessage(msg)} />
             </div>
-          </Form>
-        )}
+          </div>
+          <div>
+            <label htmlFor="chamber">Chamber</label>
+            <div>
+              <Field
+                className="select-bordered select"
+                as="select"
+                name="chamber"
+              >
+                <option>Hello</option>
+              </Field>
+              <ErrorMessage
+                name="chamber"
+                render={(msg) => errorMessage(msg)}
+              />
+            </div>
+          </div>
+          <div className="">
+            <button className="btn-success btn" type="submit">
+              Create
+            </button>
+          </div>
+        </Form>
       </Formik>
     </div>
   );
