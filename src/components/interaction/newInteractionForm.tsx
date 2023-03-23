@@ -64,11 +64,11 @@ const NewInteractionForm = ({
     event.currentTarget.reset();
   };
 
-  // TODO: Need to make this form responsive. Buttons dont stack.
   return (
     <>
       <form onSubmit={handleFormSubmit}>
-        <div className="form form-control grid grid-cols-3 gap-4">
+        <div className="">
+          {/* //Content */}
           <div className="col-span-3">
             <label className="label">
               <span className="label-text">Content</span>
@@ -79,29 +79,26 @@ const NewInteractionForm = ({
               placeholder="Interaction Content"
             />
           </div>
-          <div className="">
-            <label className="label">
-              <span className="label-text">Interaction Type</span>
-            </label>
+          {/* Buttons */}
+          <label className="label">
+            <span className="label-text">Interaction Type</span>
+          </label>
+          <div className="flex justify-between">
             <select name="interactionType" className="select-bordered select">
               {interactionTypeOptions}
             </select>
-          </div>
-          <div className="relative">
-            <button
-              className="btn-error btn absolute bottom-0 right-0"
-              onClick={() => setShowNewInteractionForm(false)}
-            >
-              Cancel
-            </button>
-          </div>
-          <div className="relative">
-            <button
-              className="btn-accent btn absolute bottom-0 right-0"
-              type="submit"
-            >
-              Create
-            </button>
+
+            <div>
+              <button
+                className="btn-error btn mr-4"
+                onClick={() => setShowNewInteractionForm(false)}
+              >
+                Cancel
+              </button>
+              <button className="btn-accent btn" type="submit">
+                Create
+              </button>
+            </div>
           </div>
         </div>
       </form>
