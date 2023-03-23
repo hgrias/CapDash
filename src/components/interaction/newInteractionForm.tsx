@@ -6,13 +6,13 @@ import { Dispatch, SetStateAction } from "react";
 // TODO: Should we just use Legislator context here instead of props?
 interface NewInteractionFormProps {
   legislator: Legislator;
-  refetchInteractionsHandler: () => void;
+  onRefetchInteractions: () => void;
   setShowNewInteractionForm: Dispatch<SetStateAction<boolean>>;
 }
 
 const NewInteractionForm = ({
   legislator,
-  refetchInteractionsHandler,
+  onRefetchInteractions,
   setShowNewInteractionForm,
 }: NewInteractionFormProps) => {
   const interactionTypeOptions = Object.keys(InteractionType).map(
@@ -23,7 +23,7 @@ const NewInteractionForm = ({
 
   const createInteraction = api.interaction.create.useMutation({
     onSuccess: () => {
-      void refetchInteractionsHandler();
+      void onRefetchInteractions();
       setShowNewInteractionForm(false);
     },
   });

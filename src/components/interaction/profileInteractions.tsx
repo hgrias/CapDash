@@ -12,12 +12,12 @@ type interactionsSchema = RouterOutput["interaction"]["getAllForLegislator"];
 
 interface ProfileInteractionProps {
   interactions: interactionsSchema | [];
-  refetchInteractionsHandler: () => void;
+  handleRefetchInteractions: () => void;
 }
 
 const ProfileInteractions = ({
   interactions,
-  refetchInteractionsHandler,
+  handleRefetchInteractions,
 }: ProfileInteractionProps) => {
   const [showNewInteractionForm, setShowNewInteractionForm] = useState(false);
 
@@ -36,7 +36,7 @@ const ProfileInteractions = ({
               <h2 className="card-title">Create New Interaction</h2>
               <NewInteractionForm
                 legislator={legislator}
-                refetchInteractionsHandler={refetchInteractionsHandler}
+                onRefetchInteractions={handleRefetchInteractions}
                 setShowNewInteractionForm={setShowNewInteractionForm}
               />
             </div>
