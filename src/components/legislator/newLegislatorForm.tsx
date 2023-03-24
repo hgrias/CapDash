@@ -139,6 +139,7 @@ const NewLegislatorForm = ({ onSuccess, onError }: NewLegislatorFormProps) => {
                 className="input select-bordered"
                 as="input"
                 name="district"
+                type="number"
               />
               <ErrorMessage
                 name="district"
