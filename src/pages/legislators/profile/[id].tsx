@@ -12,16 +12,21 @@ import ProfileInteractions from "~/components/interaction/profileInteractions";
 const LegislatorProfile: NextPage = () => {
   const legislatorId = useRouter().query.id as string;
 
-  // TODO: Determine if this API call is called on blur only on dev?
-  const { data: legislator } = api.legislator.getById.useQuery({
-    legislatorId,
-  });
+  const { data: legislator } = api.legislator.getById.useQuery(
+    {
+      legislatorId,
+    },
+    { refetchOnWindowFocus: false }
+  );
 
   // Get all interactions associated with the legislator
   const { data: interactions = [], refetch: refetchInteractions } =
-    api.interaction.getAllForLegislator.useQuery({
-      legislatorId,
-    });
+    api.interaction.getAllForLegislator.useQuery(
+      {
+        legislatorId,
+      },
+      { refetchOnWindowFocus: false }
+    );
 
   // TODO: Determine what to do if we don't get any information back from API
   if (!legislator) {
