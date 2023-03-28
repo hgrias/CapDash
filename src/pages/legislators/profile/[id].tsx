@@ -39,7 +39,7 @@ const LegislatorProfile: NextPage = () => {
           <div className="mx-10 h-12 w-3/4 justify-center px-2 pt-5">
             <ProfileInteractions
               interactions={interactions}
-              refetchInteractionsHandler={refetchInteractions}
+              handleRefetchInteractions={refetchInteractions}
             />
           </div>
         </div>
