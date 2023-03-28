@@ -4,7 +4,9 @@ import { api } from "~/utils/api";
 import Link from "next/link";
 
 export const LegislatorGrid = () => {
-  const { data: legislators } = api.legislator.getAll.useQuery();
+  const { data: legislators } = api.legislator.getAll.useQuery(undefined, {
+    refetchOnWindowFocus: false,
+  });
   const legislatorCards = legislators?.map((legislator) => (
     <div key={legislator.id}>
       <LegislatorContext.Provider value={legislator}>
