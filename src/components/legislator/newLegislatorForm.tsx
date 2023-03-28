@@ -11,11 +11,6 @@ import type { AppRouter } from "~/server/api/root";
 type RouterOutput = inferRouterOutputs<AppRouter>;
 type LegislatorCreateOutput = RouterOutput["legislator"]["create"];
 
-interface NewLegislatorFormProps {
-  onSuccess: (newLegislator: Legislator) => void;
-  onError: (error: Error) => void;
-}
-
 interface FormValues {
   firstName: string;
   lastName: string;
@@ -66,7 +61,7 @@ const formSchema = z.object({
   }),
 });
 
-const NewLegislatorForm = ({ onSuccess, onError }: NewLegislatorFormProps) => {
+const NewLegislatorForm = () => {
   const [legislatorExists, setLegislatorExists] = useState<boolean>(false);
 
   const alreadyExistsAlert = (
