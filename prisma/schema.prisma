@@ -83,7 +83,12 @@ model Legislator {
   Interaction               Interaction[]
   currentLegislativeSession LegislativeSession @relation(fields: [currentSessionId], references: [id])
   currentSessionId          Int
+
+  // TODO: Add organization to this unique identifier
+  @@unique([firstName, lastName, state, district])
 }
+
+// TODO: Add organization model
 
 model LegislativeSession {
   id            Int                    @id @default(autoincrement())

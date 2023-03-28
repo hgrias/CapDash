@@ -3,6 +3,13 @@ import { Formik, Field, Form, FormikHelpers, ErrorMessage } from "formik";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { api } from "~/utils/api";
 import { z } from "zod";
+import { useState } from "react";
+import { useRouter } from "next/router";
+import type { inferRouterOutputs } from "@trpc/server";
+import type { AppRouter } from "~/server/api/root";
+
+type RouterOutput = inferRouterOutputs<AppRouter>;
+type LegislatorCreateOutput = RouterOutput["legislator"]["create"];
 
 interface NewLegislatorFormProps {
   onSuccess: (newLegislator: Legislator) => void;
@@ -60,6 +67,62 @@ const formSchema = z.object({
 });
 
 const NewLegislatorForm = ({ onSuccess, onError }: NewLegislatorFormProps) => {
+  const [legislatorExists, setLegislatorExists] = useState<boolean>(false);
+
+  const alreadyExistsAlert = (
+    <div className="alert alert-error mt-6 flex justify-center shadow-lg">
+      <div>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-6 w-6 flex-shrink-0 stroke-current"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <span>This legislator already exists</span>
+      </div>
+    </div>
+  );
+
+  const router = useRouter();
+
+  const createLegislator = api.legislator.create.useMutation({
+    onSuccess: (newLegislatorId: LegislatorCreateOutput) => {
+      // Clear the alert if present
+      setLegislatorExists(false);
+      // Redirect to the new profile page
+      router.push(`/legislators/profile/${newLegislatorId}`);
+    },
+    onError: (error) => {
+      // If a legislator already exists, render the alert to user
+      if (error.data?.code == "CONFLICT") {
+        setLegislatorExists(true);
+      }
+    },
+  });
+
+  // TODO: Get the current session ID for the selected state or organization
+
+  function handleSubmit(data: FormValues) {
+    createLegislator.mutate({
+      firstName: data.firstName,
+      lastName: data.lastName,
+      district: data.district,
+      state: data.state,
+      chamber: data.chamber,
+      party: data.party,
+      // TODO: Replace this with actual current session ID
+      currentSessionId: 1,
+    });
+  }
+
+  // TODO: Only render options set by the user's organization
   const stateOptionElements = Object.keys(State).map((state) => {
     if (state === "UNKNOWN") {
       return null;
@@ -70,17 +133,6 @@ const NewLegislatorForm = ({ onSuccess, onError }: NewLegislatorFormProps) => {
       </option>
     );
   });
-
-  const createLegislator = api.legislator.create.useMutation();
-
-  function handleSubmit(values: FormValues) {
-    // Check to see if the legislator already exists
-    // If they do, notify the user with an alert
-    // If they don't already exist, create them
-    // Will probably have to generate cuid here
-    // Redirect to their newly created profile
-    console.log(values);
-  }
 
   // Render custom error message with styling
   const errorMessage = (message: string) => {
@@ -95,14 +147,14 @@ const NewLegislatorForm = ({ onSuccess, onError }: NewLegislatorFormProps) => {
       <Formik
         validationSchema={toFormikValidationSchema(formSchema)}
         validateOnBlur={false}
-        enableReinitialize
         initialValues={{
           firstName: "",
           lastName: "",
           district: 0,
-          state: "UNKNOWN",
-          party: "UNKNOWN",
-          chamber: "UNKNOWN",
+          // Set the default state as the user's organizations default state
+          state: "AK",
+          party: "Democrat",
+          chamber: "Senate",
         }}
         onSubmit={(
           values: FormValues,
@@ -192,13 +244,14 @@ const NewLegislatorForm = ({ onSuccess, onError }: NewLegislatorFormProps) => {
               />
             </div>
           </div>
+          <div className="">
+            <button className="btn-success btn" type="submit">
+              Create
+            </button>
+          </div>
         </Form>
       </Formik>
-      <div className="mt-4 flex justify-center">
-        <button className="btn-success btn" type="submit">
-          Create
-        </button>
-      </div>
+      {legislatorExists ? alreadyExistsAlert : null}
     </div>
   );
 };
