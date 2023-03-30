@@ -47,16 +47,30 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model Organization {
+  id           String        @id @default(cuid())
+  name         String
+  slug         String        @unique
+  websiteUrl   String?
+  users        User[]
+  legislators  Legislator[]
+  interactions Interaction[]
+}
+
 model User {
-  id            String        @id @default(cuid())
-  name          String?
-  email         String?       @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-  interactions  Interaction[]
-  comments      Comment[]
+  id             String        @id @default(cuid())
+  name           String?
+  email          String?       @unique
+  emailVerified  DateTime?
+  image          String?
+  accounts       Account[]
+  sessions       Session[]
+  interactions   Interaction[]
+  comments       Comment[]
+  organizationId String
+  organization   Organization  @relation(fields: [organizationId], references: [id])
+
+  @@index([organizationId])
 }
 
 model VerificationToken {
@@ -80,15 +94,15 @@ model Legislator {
   capitolWebsiteUrl         String?
   createdAt                 DateTime           @default(now())
   updatedAt                 DateTime           @default(now()) @updatedAt
-  Interaction               Interaction[]
+  organizationId            String
+  organization              Organization       @relation(fields: [organizationId], references: [id])
   currentLegislativeSession LegislativeSession @relation(fields: [currentSessionId], references: [id])
   currentSessionId          Int
+  Interaction               Interaction[]
 
-  // TODO: Add organization to this unique identifier
-  @@unique([firstName, lastName, state, district])
+  @@unique([firstName, lastName, state, district, organizationId])
+  @@index([organizationId])
 }
-
-// TODO: Add organization model
 
 model LegislativeSession {
   id            Int                    @id @default(autoincrement())
@@ -113,10 +127,14 @@ model Interaction {
   updatedAt          DateTime           @default(now()) @updatedAt
   actionNeeded       Boolean            @default(false)
   type               InteractionType
+  organizationId     String
+  organization       Organization       @relation(fields: [organizationId], references: [id])
   user               User               @relation(fields: [createdBy], references: [id], onDelete: Cascade)
   legislator         Legislator         @relation(fields: [legislatorId], references: [id], onDelete: Cascade)
   legislativeSession LegislativeSession @relation(fields: [sessionId], references: [id])
   comments           Comment[]
+
+  @@index([organizationId])
 }
 
 model Comment {
