@@ -14,12 +14,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Example {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
 // Necessary for Next auth
 model Account {
   id                String  @id @default(cuid())
@@ -66,7 +60,6 @@ model User {
   accounts       Account[]
   sessions       Session[]
   interactions   Interaction[]
-  comments       Comment[]
   organizationId String
   organization   Organization  @relation(fields: [organizationId], references: [id])
 
@@ -132,19 +125,8 @@ model Interaction {
   user               User               @relation(fields: [createdBy], references: [id], onDelete: Cascade)
   legislator         Legislator         @relation(fields: [legislatorId], references: [id], onDelete: Cascade)
   legislativeSession LegislativeSession @relation(fields: [sessionId], references: [id])
-  comments           Comment[]
 
   @@index([organizationId])
-}
-
-model Comment {
-  id            String      @id @default(cuid())
-  interactionId String
-  userId        String
-  content       String
-  actionNeeded  Boolean     @default(false)
-  Interaction   Interaction @relation(fields: [interactionId], references: [id])
-  User          User        @relation(fields: [userId], references: [id])
 }
 
 enum LegislativeSessionType {
