@@ -18,7 +18,7 @@ const Login: NextPage = () => {
   return (
     <div className="auth-container my-20">
       <div className="">
-        {sessionData ? (
+        {!sessionData ? (
           <>
             <LoginForm />
           </>
