@@ -1,10 +1,8 @@
-import { z } from "zod";
-import { State, Party, Chamber } from "@prisma/client";
-import { Prisma } from "@prisma/client";
-
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
-import { TRPCClientError } from "@trpc/client";
+import { State, Party, Chamber } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
+import { Prisma } from "@prisma/client";
+import { z } from "zod";
 
 export const legislatorRouter = createTRPCRouter({
   // Check to see if the legislator exists based on their name and state
@@ -22,6 +20,7 @@ export const legislatorRouter = createTRPCRouter({
           firstName: input.firstName,
           lastName: input.lastName,
           state: input.state,
+          organizationId: ctx.session.user.organizationId,
         },
         select: {
           id: true,
@@ -40,14 +39,22 @@ export const legislatorRouter = createTRPCRouter({
     }),
 
   // Get all legislators
-  getAll: protectedProcedure.query(({ ctx }) => {
-    return ctx.prisma.legislator.findMany();
+  getAll: protectedProcedure.query(({ ctx, input }) => {
+    return ctx.prisma.legislator.findMany({
+      where: {
+        // Only get legislators for the user's organization
+        organizationId: ctx.session.user.organizationId,
+      },
+    });
   }),
 
   // Return all legislator IDs - Used to generate dynamic routes
-  // TODO: Will probably have to pare down the results to legislators the user has access to
   getAllIds: protectedProcedure.query(({ ctx }) => {
-    return ctx.prisma.legislator.findMany({ select: { id: true } });
+    return ctx.prisma.legislator.findMany({
+      select: { id: true },
+      // Only get legislators for the user's organization
+      where: { organizationId: ctx.session.user.organizationId },
+    });
   }),
 
   // Create a legislator
@@ -80,6 +87,8 @@ export const legislatorRouter = createTRPCRouter({
             capitolWebsiteUrl: input.capitolWebsiteUrl,
             imageUri: input.imageUri,
             currentSessionId: input.currentSessionId,
+            // Only create for the user's organization
+            organizationId: ctx.session.user.organizationId,
           },
         });
         return createdLegislator.id;

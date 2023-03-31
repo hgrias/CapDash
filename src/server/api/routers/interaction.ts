@@ -14,6 +14,8 @@ export const interactionRouter = createTRPCRouter({
       return ctx.prisma.interaction.findMany({
         where: {
           legislatorId: input.legislatorId,
+          // Only get the relevant interactions for the user's organization
+          organizationId: ctx.session.user.organizationId,
         },
         select: {
           id: true,
@@ -51,6 +53,8 @@ export const interactionRouter = createTRPCRouter({
           content: input.content,
           sessionId: input.sessionId,
           type: input.type,
+          // Create the interaction under the user's organization
+          organizationId: ctx.session.user.organizationId,
         },
       });
     }),
