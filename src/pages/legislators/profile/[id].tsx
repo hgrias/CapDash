@@ -37,16 +37,22 @@ const LegislatorProfile: NextPage = () => {
     <>
       <Header />
       <LegislatorContext.Provider value={legislator}>
-        <div className="mb-4 flex">
-          <div className="h-12 w-1/4 px-5 pt-5">
-            <ProfileDetails />
+        <div className="m-4 flex h-20 bg-gray-500">
+          <div className="flex w-full items-center justify-center">
+            <p className="text-stone-900">
+              Legislator Name, Avatar, and basic info
+            </p>
           </div>
-          <div className="mx-10 h-12 w-3/4 justify-center px-2 pt-5">
-            <ProfileInteractions
-              interactions={interactions}
-              handleRefetchInteractions={refetchInteractions}
-            />
+        </div>
+
+        <div className="grid grid-cols-3 gap-4">
+          <div className="col-span-2">
+            <div className="ml-4 mb-4 h-36 bg-gray-100 text-center">
+              Legislator Information / Contact
+            </div>
+            <div className="ml-4 mb-4 h-36 bg-gray-100 text-center">Notes</div>
           </div>
+          <div className="mr-4 mb-4 bg-gray-200 text-center">Interactions</div>
         </div>
       </LegislatorContext.Provider>
     </>
