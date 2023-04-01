@@ -14,10 +14,11 @@ const Avatar = () => {
     const initials = `${firstName.charAt(0).toUpperCase()}${lastName
       .charAt(0)
       .toUpperCase()}`;
+
     return (
       <>
         <div className="placeholder avatar">
-          <div className="w-24 rounded bg-neutral-focus text-neutral-content">
+          <div className="w-20 rounded-full bg-neutral-focus text-neutral-content">
             <span className="text-3xl">{initials}</span>
           </div>
         </div>
@@ -28,7 +29,7 @@ const Avatar = () => {
     return (
       <>
         <div className="avatar">
-          <div className="rounded">
+          <div className="w-20 rounded-full">
             <img src={fullImagePath} />
           </div>
         </div>
