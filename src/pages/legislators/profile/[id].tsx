@@ -50,11 +50,11 @@ const LegislatorProfile: NextPage = () => {
             <div className="mb-4">
               <LegislatorInfo />
             </div>
-            <div className="col-span-3 mb-4 h-36 bg-gray-100 text-center sm:col-span-2">
+            <div className="col-span-3 h-36 bg-gray-100 text-center sm:col-span-2">
               Notes
             </div>
           </div>
-          <div className="col-span-3 mb-4 bg-gray-200 text-center sm:col-span-1">
+          <div className="col-span-3 bg-gray-200 text-center sm:col-span-1">
             Interactions
           </div>
         </div>
