@@ -9,6 +9,7 @@ import { api } from "~/utils/api";
 import { useState } from "react";
 import ProfileInteractions from "~/components/interaction/profileInteractions";
 import ProfileHeader from "~/components/legislator/profileHeader";
+import LegislatorInfo from "~/components/legislator/legislatorInfo";
 
 const LegislatorProfile: NextPage = () => {
   const legislatorId = useRouter().query.id as string;
@@ -44,14 +45,18 @@ const LegislatorProfile: NextPage = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-4">
-          <div className="col-span-2">
-            <div className="ml-4 mb-4 h-36 bg-gray-100 text-center">
-              Legislator Information / Contact
+        <div className="mx-4 grid gap-4 sm:grid-cols-3">
+          <div className="col-span-3 sm:col-span-2">
+            <div className="mb-4">
+              <LegislatorInfo />
             </div>
-            <div className="ml-4 mb-4 h-36 bg-gray-100 text-center">Notes</div>
+            <div className="col-span-3 mb-4 h-36 bg-gray-100 text-center sm:col-span-2">
+              Notes
+            </div>
           </div>
-          <div className="mr-4 mb-4 bg-gray-200 text-center">Interactions</div>
+          <div className="col-span-3 mb-4 bg-gray-200 text-center sm:col-span-1">
+            Interactions
+          </div>
         </div>
       </LegislatorContext.Provider>
     </>
