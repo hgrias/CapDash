@@ -93,7 +93,7 @@ model Legislator {
   currentSessionId          Int
   Interaction               Interaction[]
 
-  @@unique([firstName, lastName, state, district, organizationId])
+  @@unique([chamber, state, district, organizationId])
   @@index([organizationId])
 }
 
