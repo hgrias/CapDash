@@ -8,6 +8,7 @@ import { type NextPage } from "next";
 import { api } from "~/utils/api";
 import { useState } from "react";
 import ProfileInteractions from "~/components/interaction/profileInteractions";
+import ProfileHeader from "~/components/legislator/profileHeader";
 
 const LegislatorProfile: NextPage = () => {
   const legislatorId = useRouter().query.id as string;
@@ -37,11 +38,9 @@ const LegislatorProfile: NextPage = () => {
     <>
       <Header />
       <LegislatorContext.Provider value={legislator}>
-        <div className="m-4 flex h-20 bg-gray-500">
-          <div className="flex w-full items-center justify-center">
-            <p className="text-stone-900">
-              Legislator Name, Avatar, and basic info
-            </p>
+        <div className="m-4 flex">
+          <div className="flex w-full ">
+            <ProfileHeader />
           </div>
         </div>
 
