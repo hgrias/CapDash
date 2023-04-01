@@ -13,18 +13,10 @@ interface IBioProps {
 const Bio = ({
   firstName: propsFirstName,
   lastName: propsLastName,
-  party: propsParty,
-  chamber: propsChamber,
-  district: propsDistrict,
 }: IBioProps) => {
   // Allow us to pass in props if needed, otherwise populate from context
-  const {
-    firstName = propsFirstName,
-    lastName = propsLastName,
-    district = propsDistrict,
-    party = propsParty,
-    chamber = propsChamber,
-  } = useContext(LegislatorContext) || {};
+  const { firstName = propsFirstName, lastName = propsLastName } =
+    useContext(LegislatorContext) || {};
 
   return (
     <>
@@ -34,9 +26,6 @@ const Bio = ({
           <h1 className="card-title">
             {firstName} {lastName}
           </h1>
-          <h2>{party}</h2>
-          <h2>{chamber}</h2>
-          <h2>District {district}</h2>
         </div>
       </div>
     </>
