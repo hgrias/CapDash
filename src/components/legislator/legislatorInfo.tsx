@@ -4,7 +4,7 @@ import LegislatorContext from "./legislatorContext";
 const LegislatorInfo = () => {
   const legislator = useContext(LegislatorContext);
   return (
-    <div className="rounded-lg bg-white shadow-md">
+    <div className="rounded-lg bg-white shadow-lg">
       <div id="title" className="border-b border-gray-300 px-4 py-2">
         <h2 className="text-lg font-semibold text-gray-600">
           Legislator Information
