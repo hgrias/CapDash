@@ -9,24 +9,20 @@ import { api } from "~/utils/api";
 const LegislatorProfile: NextPage = () => {
   const legislatorId = useRouter().query.id as string;
 
-  const { data: legislator } = api.legislator.getById.useQuery(
+  // Get all relevant legislator data for profile
+  const { data: legislator } = api.legislator.getProfileData.useQuery(
     {
-      legislatorId,
+      legislatorId: legislatorId,
     },
     { refetchOnWindowFocus: false }
   );
 
-  // Get all interactions associated with the legislator
-  const { data: interactions = [], refetch: refetchInteractions } =
-    api.interaction.getAllForLegislator.useQuery(
-      {
-        legislatorId,
-      },
-      { refetchOnWindowFocus: false }
-    );
+  // Extract legislator and staffer info to pass to relevant components
+  const legislatorInfo = legislator?.LegislatorInfo[0];
+  const staffers = legislator?.Staffers;
 
   // TODO: Determine what to do if we don't get any information back from API
-  if (!legislator) {
+  if (!legislator || !legislatorInfo) {
     return null;
   }
 
@@ -43,7 +39,7 @@ const LegislatorProfile: NextPage = () => {
           <div className="mx-4 grid gap-4 sm:grid-cols-3">
             <div className="col-span-3 sm:col-span-2">
               <div className="mb-4">
-                <LegislatorInfo />
+                <LegislatorInfo info={legislatorInfo} staffers={staffers} />
               </div>
               <div className="col-span-3 h-36 bg-gray-300 text-center sm:col-span-2">
                 Notes
