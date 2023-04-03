@@ -49,8 +49,6 @@ async function main() {
         chamber: "House",
         district: 1,
         imageUri: "image1.jpg",
-        chamberWebsiteUrl: "https://www.example.com/chamber",
-        capitolWebsiteUrl: "https://www.example.com/capitol",
         organizationId: organization.id,
         currentSessionId: legislativeSession.id,
       },
@@ -62,8 +60,6 @@ async function main() {
         chamber: "Senate",
         district: 1,
         imageUri: "image1.jpg",
-        chamberWebsiteUrl: "https://www.example.com/chamber",
-        capitolWebsiteUrl: "https://www.example.com/capitol",
         organizationId: organization.id,
         currentSessionId: legislativeSession.id,
       },
@@ -75,8 +71,6 @@ async function main() {
         chamber: "House",
         district: 2,
         imageUri: "image1.jpg",
-        chamberWebsiteUrl: "https://www.example.com/chamber",
-        capitolWebsiteUrl: "https://www.example.com/capitol",
         organizationId: organization.id,
         currentSessionId: legislativeSession.id,
       },
@@ -88,8 +82,6 @@ async function main() {
         chamber: "Senate",
         district: 2,
         imageUri: "",
-        chamberWebsiteUrl: "https://www.example.com/chamber",
-        capitolWebsiteUrl: "https://www.example.com/capitol",
         organizationId: organization.id,
         currentSessionId: legislativeSession.id,
       },
@@ -101,8 +93,6 @@ async function main() {
         chamber: "House",
         district: 3,
         imageUri: "",
-        chamberWebsiteUrl: "https://www.example.com/chamber",
-        capitolWebsiteUrl: "https://www.example.com/capitol",
         organizationId: organization.id,
         currentSessionId: legislativeSession.id,
       },
@@ -114,8 +104,6 @@ async function main() {
         chamber: "Senate",
         district: 3,
         imageUri: "",
-        chamberWebsiteUrl: "https://www.example.com/chamber",
-        capitolWebsiteUrl: "https://www.example.com/capitol",
         organizationId: organization.id,
         currentSessionId: legislativeSession.id,
       },
@@ -125,20 +113,59 @@ async function main() {
   // Get created legislators
   const legislators = await prisma.legislator.findMany();
 
-  // Create 1 interaction per legislator
-  legislators.map(
-    async (legislator: Legislator) =>
-      await prisma.interaction.create({
+  legislators.map(async (legislator: Legislator) => {
+    // Create 1 interaction per legislator
+    await prisma.interaction.create({
+      data: {
+        createdBy: user.id,
+        legislatorId: legislator.id,
+        content: "Sample interaction content",
+        sessionId: legislativeSession.id,
+        organizationId: organization.id,
+        type: "BILL",
+      },
+    }),
+      // Create 1 legislatorInfo record per legislator
+      await prisma.legislatorInfo.create({
         data: {
-          createdBy: user.id,
-          legislatorId: legislator.id,
-          content: "Sample interaction content",
-          sessionId: legislativeSession.id,
-          organizationId: organization.id,
-          type: "BILL",
+          phone: "123-154-1257",
+          email: "heytherethistest@test.com",
+          capitolRoomNumber: "1205",
+          chamberWebsiteUrl: "https://www.example.com/chamber",
+          capitolWebsiteUrl: "https://www.example.com/capitol",
+          capitolAddress: "P.O. Box 12068 Capitol Station Austin, TX 78711",
+          districtAddress: "3000 Briarcrest Drive Suite 202 Bryan, TX 77802",
+          organization: {
+            connect: {
+              id: organization.id,
+            },
+          },
+          legislator: {
+            connect: {
+              id: legislator.id,
+            },
+          },
         },
-      })
-  );
+      }),
+      // Create 1 staffer contact per legislator
+      await prisma.stafferContact.create({
+        data: {
+          email: "stafferemail@example.com",
+          phone: "123-456-7890",
+          name: "Harrison Grias",
+          legislator: {
+            connect: {
+              id: legislator.id,
+            },
+          },
+          organization: {
+            connect: {
+              id: organization.id,
+            },
+          },
+        },
+      });
+  });
 
   console.log("Seeding finished.");
 }
