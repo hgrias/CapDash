@@ -83,25 +83,24 @@ model VerificationToken {
 }
 
 model Legislator {
-  id                        String             @id @default(cuid())
-  firstName                 String
-  lastName                  String
-  state                     State
-  party                     Party
-  role                      Role
-  district                  String
-  legiscanId                Int? // ID associated with legiscan
-  personHash                String? // Used to determine if there is a difference in data (if coming from legiscan API)
-  imageUri                  String? // TODO: Move this into LegislatorInfo?
-  createdAt                 DateTime           @default(now())
-  updatedAt                 DateTime           @default(now()) @updatedAt
-  organizationId            String
-  organization              Organization       @relation(fields: [organizationId], references: [id])
-  currentLegislativeSession LegislativeSession @relation(fields: [currentSessionId], references: [id])
-  currentSessionId          Int
-  Interactions              Interaction[]
-  LegislatorInfo            LegislatorInfo[]
-  Staffers                  StafferContact[]
+  id               String           @id @default(cuid())
+  firstName        String
+  lastName         String
+  state            State
+  party            Party
+  role             Role
+  district         String
+  legiscanId       Int? // ID associated with legiscan
+  personHash       String? // Used to determine if there is a difference in data (if coming from legiscan API)
+  imageUri         String? // TODO: Move this into LegislatorInfo?
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @default(now()) @updatedAt
+  organizationId   String
+  organization     Organization     @relation(fields: [organizationId], references: [id])
+  currentSessionId Int
+  Interactions     Interaction[]
+  LegislatorInfo   LegislatorInfo[]
+  Staffers         StafferContact[]
 
   @@unique([role, state, district, organizationId])
   @@index([organizationId])
@@ -146,33 +145,32 @@ model StafferContact {
 }
 
 model LegislativeSession {
-  id          Int           @id
-  yearStart   Int
-  yearEnd     Int
-  active      Boolean       @default(false)
-  archived    Boolean       @default(false)
-  special     Boolean       @default(false)
-  sineDie     Boolean       @default(false)
-  state       State
-  Interaction Interaction[]
-  Legislator  Legislator[]
+  id        Int     @id
+  yearStart Int
+  yearEnd   Int
+  active    Boolean @default(false)
+  archived  Boolean @default(false)
+  special   Boolean @default(false)
+  sineDie   Boolean @default(false)
+  state     State
+
+  @@unique([id, state])
 }
 
 model Interaction {
-  id                 String             @id @default(cuid())
-  createdBy          String
-  legislatorId       String
-  content            String
-  sessionId          Int
-  createdAt          DateTime           @default(now())
-  updatedAt          DateTime           @default(now()) @updatedAt
-  actionNeeded       Boolean            @default(false)
-  type               InteractionType
-  organizationId     String
-  organization       Organization       @relation(fields: [organizationId], references: [id])
-  user               User               @relation(fields: [createdBy], references: [id], onDelete: Cascade)
-  legislator         Legislator         @relation(fields: [legislatorId], references: [id], onDelete: Cascade)
-  legislativeSession LegislativeSession @relation(fields: [sessionId], references: [id])
+  id             String          @id @default(cuid())
+  createdBy      String
+  legislatorId   String
+  content        String
+  sessionId      Int
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @default(now()) @updatedAt
+  actionNeeded   Boolean         @default(false)
+  type           InteractionType
+  organizationId String
+  organization   Organization    @relation(fields: [organizationId], references: [id])
+  user           User            @relation(fields: [createdBy], references: [id], onDelete: Cascade)
+  legislator     Legislator      @relation(fields: [legislatorId], references: [id], onDelete: Cascade)
 
   @@index([organizationId])
 }
