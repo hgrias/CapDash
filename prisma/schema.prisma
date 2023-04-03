@@ -122,11 +122,12 @@ model LegislatorInfo {
 
 model StafferContact {
   id             String       @id @default(cuid())
-  name           String?
-  email          String?
-  phone          String?
-  legislator     Legislator?  @relation(fields: [legislatorId], references: [id])
-  legislatorId   String?
+  name           String
+  email          String
+  phone          String
+  position       String?
+  legislator     Legislator  @relation(fields: [legislatorId], references: [id])
+  legislatorId   String
   organizationId String
   organization   Organization @relation(fields: [organizationId], references: [id])
   createdAt      DateTime     @default(now())
