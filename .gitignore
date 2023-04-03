@@ -52,3 +52,7 @@ credentials/
 
 # Data
 data/
+
+# Ignore pyenv/python stuffs
+.python-version
+.vscode/
