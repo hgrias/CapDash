@@ -102,4 +102,24 @@ export const legislatorRouter = createTRPCRouter({
         throw error;
       }
     }),
+
+  getProfileData: protectedProcedure
+    .input(
+      z.object({
+        legislatorId: z.string(),
+      })
+    )
+    .query(({ ctx, input }) => {
+      return ctx.prisma.legislator.findFirst({
+        where: {
+          id: input.legislatorId,
+          organizationId: ctx.session.user.organizationId,
+        },
+        include: {
+          LegislatorInfo: true,
+          Staffers: true,
+          Interactions: true,
+        },
+      });
+    }),
 });
