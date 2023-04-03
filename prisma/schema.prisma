@@ -84,7 +84,8 @@ model Legislator {
   party                     Party
   role                      Role
   district                  String
-  imageUri                  String?
+  personHash                String? // Used to determine if there is a difference in data (if coming from legiscan API)
+  imageUri                  String? // TODO: Move this into LegislatorInfo?
   createdAt                 DateTime           @default(now())
   updatedAt                 DateTime           @default(now()) @updatedAt
   organizationId            String
@@ -109,6 +110,7 @@ model LegislatorInfo {
   websiteUrl          String?
   chamberWebsiteUrl   String?
   capitolWebsiteUrl   String?
+  nickName            String?
   legislatorId        String
   legislator          Legislator   @relation(fields: [legislatorId], references: [id])
   organizationId      String

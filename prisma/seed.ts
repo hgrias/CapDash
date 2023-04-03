@@ -151,6 +151,7 @@ async function main() {
           email: "stafferemail@example.com",
           phone: "123-456-7890",
           name: "Harrison Grias",
+          position: "Chief of Staff",
           legislator: {
             connect: {
               id: legislator.id,
