@@ -67,8 +67,6 @@ export const legislatorRouter = createTRPCRouter({
         party: z.nativeEnum(Party),
         chamber: z.nativeEnum(Chamber),
         district: z.number().int(),
-        chamberWebsiteUrl: z.string().optional(),
-        capitolWebsiteUrl: z.string().optional(),
         imageUri: z.string().optional(),
         currentSessionId: z.number(),
       })
@@ -83,8 +81,6 @@ export const legislatorRouter = createTRPCRouter({
             party: input.party,
             chamber: input.chamber,
             district: input.district,
-            chamberWebsiteUrl: input.chamberWebsiteUrl,
-            capitolWebsiteUrl: input.capitolWebsiteUrl,
             imageUri: input.imageUri,
             currentSessionId: input.currentSessionId,
             // Only create for the user's organization
