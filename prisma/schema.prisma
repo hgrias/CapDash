@@ -82,8 +82,8 @@ model Legislator {
   lastName                  String
   state                     State
   party                     Party
-  chamber                   Chamber
-  district                  Int
+  role                      Role
+  district                  String
   imageUri                  String?
   createdAt                 DateTime           @default(now())
   updatedAt                 DateTime           @default(now()) @updatedAt
@@ -95,7 +95,7 @@ model Legislator {
   LegislatorInfo            LegislatorInfo[]
   Staffers                  StafferContact[]
 
-  @@unique([chamber, state, district, organizationId])
+  @@unique([role, state, district, organizationId])
   @@index([organizationId])
 }
 
@@ -137,16 +137,16 @@ model StafferContact {
 }
 
 model LegislativeSession {
-  id            Int                    @id @default(autoincrement())
-  sessionNumber Int
-  startDate     DateTime               @db.Date
-  endDate       DateTime               @db.Date
-  days          Int?
-  active        Boolean                @default(false)
-  type          LegislativeSessionType
-  state         State
-  Interaction   Interaction[]
-  Legislator    Legislator[]
+  id          Int           @id
+  yearStart   Int
+  yearEnd     Int
+  active      Boolean       @default(false)
+  archived    Boolean       @default(false)
+  special     Boolean       @default(false)
+  sineDie     Boolean       @default(false)
+  state       State
+  Interaction Interaction[]
+  Legislator  Legislator[]
 }
 
 model Interaction {
@@ -166,12 +166,6 @@ model Interaction {
   legislativeSession LegislativeSession @relation(fields: [sessionId], references: [id])
 
   @@index([organizationId])
-}
-
-enum LegislativeSessionType {
-  REGULAR
-  SPECIAL
-  UNKNOWN
 }
 
 enum InteractionType {
@@ -236,14 +230,13 @@ enum State {
 }
 
 enum Party {
-  Democrat
-  Republican
-  Other
-  UNKNOWN
+  D
+  R
+  O
+  I
 }
 
-enum Chamber {
-  House
-  Senate
-  UNKNOWN
+enum Role {
+  Sen
+  Rep
 }

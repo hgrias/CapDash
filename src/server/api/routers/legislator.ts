@@ -1,5 +1,5 @@
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
-import { State, Party, Chamber } from "@prisma/client";
+import { State, Party, Role } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import { Prisma } from "@prisma/client";
 import { z } from "zod";
@@ -65,8 +65,8 @@ export const legislatorRouter = createTRPCRouter({
         lastName: z.string(),
         state: z.nativeEnum(State),
         party: z.nativeEnum(Party),
-        chamber: z.nativeEnum(Chamber),
-        district: z.number().int(),
+        role: z.nativeEnum(Role),
+        district: z.string(),
         imageUri: z.string().optional(),
         currentSessionId: z.number(),
       })
@@ -79,7 +79,7 @@ export const legislatorRouter = createTRPCRouter({
             lastName: input.lastName,
             state: input.state,
             party: input.party,
-            chamber: input.chamber,
+            role: input.role,
             district: input.district,
             imageUri: input.imageUri,
             currentSessionId: input.currentSessionId,

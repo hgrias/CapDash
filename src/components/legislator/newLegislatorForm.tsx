@@ -1,4 +1,4 @@
-import { Legislator, State, Party, Chamber } from "@prisma/client";
+import { Legislator, State, Party } from "@prisma/client";
 import { Formik, Field, Form, FormikHelpers, ErrorMessage } from "formik";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { api } from "~/utils/api";
@@ -14,10 +14,9 @@ type LegislatorCreateOutput = RouterOutput["legislator"]["create"];
 interface FormValues {
   firstName: string;
   lastName: string;
-  district: number;
+  district: string;
   state: State;
   party: Party;
-  chamber: Chamber;
 }
 
 const formSchema = z.object({
@@ -41,23 +40,12 @@ const formSchema = z.object({
     })
     .trim()
     .min(1, { message: "Must be at least 1 character long" }),
-  district: z
-    .number({
-      required_error: "District is required",
-      invalid_type_error: "District must be a positive integer",
-    })
-    .int({ message: "Must be an integer" })
-    .positive({ message: "Must be a positive number" })
-    .finite({ message: "Number is too large" })
-    .safe({ message: "Number is too large" }),
+  district: z.string(),
   state: z.nativeEnum(State).refine((val) => val !== "UNKNOWN", {
     message: "Please select a valid state",
   }),
-  party: z.nativeEnum(Party).refine((val) => val !== "UNKNOWN", {
+  party: z.nativeEnum(Party).refine((val) => val !== "D", {
     message: "Please select a valid party",
-  }),
-  chamber: z.nativeEnum(Chamber).refine((val) => val !== "UNKNOWN", {
-    message: "Please select a valid chamber",
   }),
 });
 
@@ -110,10 +98,11 @@ const NewLegislatorForm = () => {
       lastName: data.lastName,
       district: data.district,
       state: data.state,
-      chamber: data.chamber,
       party: data.party,
       // TODO: Replace this with actual current session ID
       currentSessionId: 1,
+      // TODO: Will need to change this
+      role: "Sen",
     });
   }
 
@@ -145,11 +134,12 @@ const NewLegislatorForm = () => {
         initialValues={{
           firstName: "",
           lastName: "",
-          district: 0,
+          district: "",
           // Set the default state as the user's organizations default state
           state: "AK",
-          party: "Democrat",
+          party: "D",
           chamber: "Senate",
+          role: "",
         }}
         onSubmit={(
           values: FormValues,
@@ -220,23 +210,6 @@ const NewLegislatorForm = () => {
                 <option value="Other">Other</option>
               </Field>
               <ErrorMessage name="party" render={(msg) => errorMessage(msg)} />
-            </div>
-          </div>
-          <div>
-            <label htmlFor="chamber">Chamber</label>
-            <div>
-              <Field
-                className="select-bordered select"
-                as="select"
-                name="chamber"
-              >
-                <option value="House">House</option>
-                <option value="Senate">Senate</option>
-              </Field>
-              <ErrorMessage
-                name="chamber"
-                render={(msg) => errorMessage(msg)}
-              />
             </div>
           </div>
           <div className="">
