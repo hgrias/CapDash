@@ -55,7 +55,6 @@ model Organization {
   users          User[]
   legislators    Legislator[]
   interactions   Interaction[]
-  LegislatorInfo LegislatorInfo[]
   StafferContact StafferContact[]
 }
 
@@ -107,7 +106,7 @@ model Legislator {
 }
 
 model LegislatorInfo {
-  id                  String       @id @default(cuid())
+  id                  String     @id @default(cuid())
   phone               String?
   email               String?
   capitolOfficeNumber String?
@@ -117,15 +116,10 @@ model LegislatorInfo {
   chamberWebsiteUrl   String?
   capitolWebsiteUrl   String?
   nickName            String?
-  legislatorId        String
-  legislator          Legislator   @relation(fields: [legislatorId], references: [id])
-  organizationId      String
-  organization        Organization @relation(fields: [organizationId], references: [id])
-  createdAt           DateTime     @default(now())
-  updatedAt           DateTime     @default(now()) @updatedAt
-
-  @@unique([legislatorId, organizationId])
-  @@index([organizationId])
+  legislatorId        String     @unique
+  legislator          Legislator @relation(fields: [legislatorId], references: [id])
+  createdAt           DateTime   @default(now())
+  updatedAt           DateTime   @default(now()) @updatedAt
 }
 
 model StafferContact {

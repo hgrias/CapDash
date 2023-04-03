@@ -136,11 +136,6 @@ async function main() {
           capitolWebsiteUrl: "https://www.example.com/capitol",
           capitolAddress: "P.O. Box 12068 Capitol Station Austin, TX 78711",
           districtAddress: "3000 Briarcrest Drive Suite 202 Bryan, TX 77802",
-          organization: {
-            connect: {
-              id: organization.id,
-            },
-          },
           legislator: {
             connect: {
               id: legislator.id,
