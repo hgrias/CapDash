@@ -49,3 +49,6 @@ sql/
 
 # Credentials
 credentials/
+
+# Data
+data/
