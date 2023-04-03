@@ -14,6 +14,7 @@ const defaultLegislator = {
   imageUri: "defaultValue",
   chamberWebsiteUrl: "defaultValue",
   capitolWebsiteUrl: "defaultValue",
+  organizationId: "",
   currentSessionId: -1,
   createdAt: defaultDate,
   updatedAt: defaultDate,
