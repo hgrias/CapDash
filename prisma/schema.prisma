@@ -42,13 +42,15 @@ model Session {
 }
 
 model Organization {
-  id           String        @id @default(cuid())
-  name         String
-  slug         String        @unique
-  websiteUrl   String?
-  users        User[]
-  legislators  Legislator[]
-  interactions Interaction[]
+  id             String           @id @default(cuid())
+  name           String
+  slug           String           @unique
+  websiteUrl     String?
+  users          User[]
+  legislators    Legislator[]
+  interactions   Interaction[]
+  LegislatorInfo LegislatorInfo[]
+  StafferContact StafferContact[]
 }
 
 model User {
@@ -83,17 +85,53 @@ model Legislator {
   chamber                   Chamber
   district                  Int
   imageUri                  String?
-  chamberWebsiteUrl         String?
-  capitolWebsiteUrl         String?
   createdAt                 DateTime           @default(now())
   updatedAt                 DateTime           @default(now()) @updatedAt
   organizationId            String
   organization              Organization       @relation(fields: [organizationId], references: [id])
   currentLegislativeSession LegislativeSession @relation(fields: [currentSessionId], references: [id])
   currentSessionId          Int
-  Interaction               Interaction[]
+  Interactions              Interaction[]
+  LegislatorInfo            LegislatorInfo[]
+  Staffers                  StafferContact[]
 
   @@unique([chamber, state, district, organizationId])
+  @@index([organizationId])
+}
+
+model LegislatorInfo {
+  id                String       @id @default(cuid())
+  phone             String?
+  email             String?
+  capitolRoomNumber String?
+  districtAddress   String?
+  capitolAddress    String?
+  websiteUrl        String?
+  chamberWebsiteUrl String?
+  capitolWebsiteUrl String?
+  legislatorId      String
+  legislator        Legislator   @relation(fields: [legislatorId], references: [id])
+  organizationId    String
+  organization      Organization @relation(fields: [organizationId], references: [id])
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @default(now()) @updatedAt
+
+  @@unique([legislatorId, organizationId])
+  @@index([organizationId])
+}
+
+model StafferContact {
+  id             String       @id @default(cuid())
+  name           String?
+  email          String?
+  phone          String?
+  legislator     Legislator?  @relation(fields: [legislatorId], references: [id])
+  legislatorId   String?
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @default(now()) @updatedAt
+
   @@index([organizationId])
 }
 
