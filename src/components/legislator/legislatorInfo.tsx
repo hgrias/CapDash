@@ -67,8 +67,8 @@ const LegislatorInfo = ({ info, staffers }: LegislatorInfoProps) => {
         ) : null}
 
         <div id="location" className="flex flex-col">
-          <h3 className="text-md font-semibold text-gray-600">Location</h3>
-          <p className="">Capitol Room #</p>
+          <h3 className="text-md font-semibold text-gray-600">Office Number</h3>
+          <p className="">{info.capitolOfficeNumber}</p>
         </div>
 
         <div id="committees" className="flex flex-col">
