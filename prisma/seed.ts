@@ -130,7 +130,7 @@ async function main() {
         data: {
           phone: "123-154-1257",
           email: "heytherethistest@test.com",
-          capitolRoomNumber: "1205",
+          capitolOfficeNumber: "E2.407",
           chamberWebsiteUrl: "https://www.example.com/chamber",
           capitolWebsiteUrl: "https://www.example.com/capitol",
           capitolAddress: "P.O. Box 12068 Capitol Station Austin, TX 78711",
