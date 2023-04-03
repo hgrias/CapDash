@@ -10,7 +10,7 @@ const LegislatorInfo = ({ info, staffers }: LegislatorInfoProps) => {
   // Make elements for all staffers
   const stafferElements = staffers?.map((staffer) => {
     return (
-      <div id={staffer.id} className="flex flex-col">
+      <div key={staffer.id} className="flex flex-col">
         <p className="text font-">{staffer.name}</p>
         <p>{staffer.phone}</p>
         <p>{staffer.email}</p>
@@ -29,9 +29,11 @@ const LegislatorInfo = ({ info, staffers }: LegislatorInfoProps) => {
         linkTitle = "Capitol Website";
       }
       return (
-        <a className="max-w-max" href={value?.toString()}>
-          {linkTitle}
-        </a>
+        <li key={key}>
+          <a className="max-w-max" href={value?.toString()}>
+            {linkTitle}
+          </a>
+        </li>
       );
     });
 
@@ -82,7 +84,7 @@ const LegislatorInfo = ({ info, staffers }: LegislatorInfoProps) => {
             <h3 className="text-md font-semibold text-gray-600">
               Relevant Links
             </h3>
-            {relevantLinks}
+            <ul>{relevantLinks}</ul>
           </div>
         ) : null}
       </div>
