@@ -145,14 +145,17 @@ model StafferContact {
 }
 
 model LegislativeSession {
-  id        Int     @id
-  yearStart Int
-  yearEnd   Int
-  active    Boolean @default(false)
-  archived  Boolean @default(false)
-  special   Boolean @default(false)
-  sineDie   Boolean @default(false)
-  state     State
+  id           Int     @id
+  yearStart    Int
+  yearEnd      Int
+  sessionTag   String?
+  sessionTitle String?
+  sessionName  String?
+  active       Boolean @default(false)
+  archived     Boolean @default(false)
+  special      Boolean @default(false)
+  sineDie      Boolean @default(false)
+  state        State
 
   @@unique([id, state])
 }

@@ -33,6 +33,9 @@ async function main() {
       yearEnd: 2024,
       active: true,
       state: "TX",
+      sessionTag: "Regular Session",
+      sessionTitle: "2023 Regular Session",
+      sessionName: "88th Legislature Regular Session",
     },
   });
 
