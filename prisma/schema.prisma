@@ -14,6 +14,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+generator db {
+  provider             = "prisma-client-py"
+  interface            = "asyncio"
+  recursive_type_depth = 5
+}
+
 // Necessary for Next auth
 model Account {
   id                String  @id @default(cuid())
@@ -84,6 +90,7 @@ model Legislator {
   party                     Party
   role                      Role
   district                  String
+  legiscanId                Int? // ID associated with legiscan
   personHash                String? // Used to determine if there is a difference in data (if coming from legiscan API)
   imageUri                  String? // TODO: Move this into LegislatorInfo?
   createdAt                 DateTime           @default(now())
