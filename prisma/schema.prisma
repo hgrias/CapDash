@@ -100,21 +100,21 @@ model Legislator {
 }
 
 model LegislatorInfo {
-  id                String       @id @default(cuid())
-  phone             String?
-  email             String?
-  capitolRoomNumber String?
-  districtAddress   String?
-  capitolAddress    String?
-  websiteUrl        String?
-  chamberWebsiteUrl String?
-  capitolWebsiteUrl String?
-  legislatorId      String
-  legislator        Legislator   @relation(fields: [legislatorId], references: [id])
-  organizationId    String
-  organization      Organization @relation(fields: [organizationId], references: [id])
-  createdAt         DateTime     @default(now())
-  updatedAt         DateTime     @default(now()) @updatedAt
+  id                  String       @id @default(cuid())
+  phone               String?
+  email               String?
+  capitolOfficeNumber String?
+  districtAddress     String?
+  capitolAddress      String?
+  websiteUrl          String?
+  chamberWebsiteUrl   String?
+  capitolWebsiteUrl   String?
+  legislatorId        String
+  legislator          Legislator   @relation(fields: [legislatorId], references: [id])
+  organizationId      String
+  organization        Organization @relation(fields: [organizationId], references: [id])
+  createdAt           DateTime     @default(now())
+  updatedAt           DateTime     @default(now()) @updatedAt
 
   @@unique([legislatorId, organizationId])
   @@index([organizationId])
@@ -126,7 +126,7 @@ model StafferContact {
   email          String
   phone          String
   position       String?
-  legislator     Legislator  @relation(fields: [legislatorId], references: [id])
+  legislator     Legislator   @relation(fields: [legislatorId], references: [id])
   legislatorId   String
   organizationId String
   organization   Organization @relation(fields: [organizationId], references: [id])
