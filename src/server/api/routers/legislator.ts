@@ -27,6 +27,7 @@ export const legislatorRouter = createTRPCRouter({
         },
       });
     }),
+
   // Get a single legislator from Legislator ID
   getById: protectedProcedure
     .input(z.object({ legislatorId: z.string() }))
