@@ -226,7 +226,6 @@ enum State {
   WV
   WI
   WY
-  UNKNOWN
 }
 
 enum Party {

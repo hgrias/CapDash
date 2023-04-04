@@ -1,4 +1,4 @@
-import { Legislator, Party, State, Role } from "@prisma/client";
+import { Legislator, Party, State, LegislatorRole } from "@prisma/client";
 import { createContext } from "react";
 
 const defaultDate: Date = new Date(2023, 2, 28);
@@ -18,6 +18,8 @@ const defaultLegislator = {
   currentSessionId: -1,
   createdAt: defaultDate,
   updatedAt: defaultDate,
+  legiscanId: 123,
+  personHash: "",
 };
 
 export const LegislatorContext = createContext<Legislator>(defaultLegislator);
