@@ -69,6 +69,7 @@ model User {
   interactions   Interaction[]
   organizationId String?
   organization   Organization? @relation(fields: [organizationId], references: [id])
+  Note           Note[]
 
   @@index([organizationId])
 }
@@ -100,6 +101,7 @@ model Legislator {
   Interactions     Interaction[]
   LegislatorInfo   LegislatorInfo[]
   Staffers         StafferInfo[]
+  Note             Note[]
 
   @@unique([role, state, district, organizationId])
   @@index([organizationId])
@@ -166,6 +168,20 @@ model Interaction {
   legislator     Legislator      @relation(fields: [legislatorId], references: [id], onDelete: Cascade)
 
   @@index([organizationId])
+}
+
+model Note {
+  id           Int        @id @default(autoincrement())
+  content      String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @default(now()) @updatedAt
+  createdBy    String
+  legislatorId String
+  parentNoteId Int?
+  user         User       @relation(fields: [createdBy], references: [id], onDelete: Cascade)
+  legislator   Legislator @relation(fields: [legislatorId], references: [id], onDelete: Cascade)
+  parentNote   Note?      @relation("ChildNotes", fields: [parentNoteId], references: [id])
+  childNotes   Note[]     @relation("ChildNotes")
 }
 
 enum InteractionType {
