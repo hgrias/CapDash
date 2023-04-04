@@ -1,9 +1,9 @@
-import { LegislatorInfo, StafferContact } from "@prisma/client";
+import { LegislatorInfo, StafferInfo } from "@prisma/client";
 import React from "react";
 
 interface LegislatorInfoProps {
   info: LegislatorInfo;
-  staffers?: StafferContact[];
+  staffers?: StafferInfo[];
 }
 
 const LegislatorInfo = ({ info, staffers }: LegislatorInfoProps) => {
