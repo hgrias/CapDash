@@ -1,5 +1,5 @@
+import ProfileDetailsTabs from "~/components/legislator/profileDetailsTabs";
 import LegislatorContext from "~/components/legislator/legislatorContext";
-import LegislatorInfo from "~/components/legislator/legislatorInfo";
 import ProfileHeader from "~/components/legislator/profileHeader";
 import { Header } from "~/components/header";
 import { useRouter } from "next/router";
@@ -39,7 +39,10 @@ const LegislatorProfile: NextPage = () => {
           <div className="mx-4 grid gap-4 sm:grid-cols-3">
             <div className="col-span-3 sm:col-span-2">
               <div className="mb-4">
-                <LegislatorInfo info={legislatorInfo} staffers={staffers} />
+                <ProfileDetailsTabs
+                  legislatorInfo={legislatorInfo}
+                  staffers={staffers}
+                />
               </div>
               <div className="col-span-3 h-36 bg-gray-300 text-center sm:col-span-2">
                 Notes
