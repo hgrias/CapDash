@@ -16,7 +16,9 @@ const StafferInformation = ({ staffers }: StafferInformationProps) => {
     .map((staffer: StafferInfo) => {
       return (
         <div key={staffer.id} className="flex flex-col">
-          <h3 className="font-medium text-gray-600">{staffer.position}</h3>
+          <h3 className="text-md font-semibold text-gray-600">
+            {staffer.position}
+          </h3>
           <ul>
             <li>{staffer.name}</li>
             <li>{staffer.phone}</li>
