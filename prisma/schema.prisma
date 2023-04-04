@@ -87,7 +87,7 @@ model Legislator {
   lastName         String
   state            State
   party            Party
-  role             Role
+  role             LegislatorRole
   district         String
   legiscanId       Int? // ID associated with legiscan
   personHash       String? // Used to determine if there is a difference in data (if coming from legiscan API)
@@ -238,7 +238,7 @@ enum Party {
   N // Nonpartisan
 }
 
-enum Role {
+enum LegislatorRole {
   Sen
   Rep
 }

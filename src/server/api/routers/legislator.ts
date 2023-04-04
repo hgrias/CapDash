@@ -66,7 +66,7 @@ export const legislatorRouter = createTRPCRouter({
         lastName: z.string(),
         state: z.nativeEnum(State),
         party: z.nativeEnum(Party),
-        role: z.nativeEnum(Role),
+        role: z.nativeEnum(LegislatorRole),
         district: z.string(),
         imageUri: z.string().optional(),
         currentSessionId: z.number(),
