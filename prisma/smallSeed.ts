@@ -155,11 +155,6 @@ async function main() {
               id: legislator.id,
             },
           },
-          organization: {
-            connect: {
-              id: organization.id,
-            },
-          },
         },
       });
   });
