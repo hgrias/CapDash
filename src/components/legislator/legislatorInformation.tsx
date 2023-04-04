@@ -18,7 +18,7 @@ const LegislatorInformation = ({ info }: LegislatorInfoProps) => {
       }
       return (
         <li key={key}>
-          <a className="max-w-max" href={value?.toString()}>
+          <a className="max-w-max text-blue-600" href={value?.toString()}>
             {linkTitle}
           </a>
         </li>
