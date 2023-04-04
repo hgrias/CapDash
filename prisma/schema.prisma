@@ -48,14 +48,14 @@ model Session {
 }
 
 model Organization {
-  id             String           @id @default(cuid())
-  name           String
-  slug           String           @unique
-  websiteUrl     String?
-  users          User[]
-  legislators    Legislator[]
-  interactions   Interaction[]
-  StafferContact StafferContact[]
+  id           String        @id @default(cuid())
+  name         String
+  slug         String        @unique
+  websiteUrl   String?
+  imageUri     String?
+  users        User[]
+  legislators  Legislator[]
+  interactions Interaction[]
 }
 
 model User {
@@ -99,7 +99,7 @@ model Legislator {
   currentSessionId Int
   Interactions     Interaction[]
   LegislatorInfo   LegislatorInfo[]
-  Staffers         StafferContact[]
+  Staffers         StafferInfo[]
 
   @@unique([role, state, district, organizationId])
   @@index([organizationId])
@@ -122,20 +122,16 @@ model LegislatorInfo {
   updatedAt           DateTime   @default(now()) @updatedAt
 }
 
-model StafferContact {
-  id             String       @id @default(cuid())
-  name           String
-  email          String
-  phone          String
-  position       String?
-  legislator     Legislator   @relation(fields: [legislatorId], references: [id])
-  legislatorId   String
-  organizationId String
-  organization   Organization @relation(fields: [organizationId], references: [id])
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @default(now()) @updatedAt
-
-  @@index([organizationId])
+model StafferInfo {
+  id           String     @id @default(cuid())
+  name         String
+  email        String
+  phone        String
+  position     String?
+  legislator   Legislator @relation(fields: [legislatorId], references: [id])
+  legislatorId String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @default(now()) @updatedAt
 }
 
 model LegislativeSession {
@@ -234,10 +230,12 @@ enum State {
 }
 
 enum Party {
-  D
-  R
-  O
-  I
+  D // Democrat
+  R // Republican
+  I // Independent
+  G // Green
+  L // Libertarian
+  N // Nonpartisan
 }
 
 enum Role {

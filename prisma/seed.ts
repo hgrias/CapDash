@@ -144,7 +144,7 @@ async function main() {
         },
       }),
       // Create 1 staffer contact per legislator
-      await prisma.stafferContact.create({
+      await prisma.stafferInfo.create({
         data: {
           email: "stafferemail@example.com",
           phone: "123-456-7890",
