@@ -36,7 +36,7 @@ const ProfileDetailsTabs = ({
         }
       case "committees":
         return (
-          <div className="h-32 w-full rounded-lg bg-white shadow-lg">
+          <div className="h-32 w-full rounded-lg bg-white p-4 shadow-lg">
             No committees found. Add them here!
           </div>
         );
