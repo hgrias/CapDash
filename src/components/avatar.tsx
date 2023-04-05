@@ -27,7 +27,7 @@ const Avatar = ({ imageUri, name, type, size }: AvatarProps) => {
           <div
             className={`h-${size ?? defaultSize} w-${
               size ?? defaultSize
-            } rounded-full bg-neutral-focus text-neutral-content`}
+            } flex-shrink-0 rounded-full bg-neutral-focus text-neutral-content`}
           >
             <span className="text-3xl">{initials}</span>
           </div>
