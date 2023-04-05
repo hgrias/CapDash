@@ -12,9 +12,9 @@ const CreateNoteFooter = ({ imageUri }: CreateNoteFooterProps) => {
   const image = session.data?.user.image?.toString();
 
   return (
-    <div className="flex flex-1 flex-col rounded-bl-lg rounded-br-lg bg-slate-50 py-5 px-4">
+    <div className="flex flex-1 flex-col rounded-bl-lg rounded-br-lg bg-gray-50 py-5 px-4">
       <div className="flex">
-        <div id="userAvatar" className="avatar h-12 w-12">
+        <div id="userAvatar" className="avatar hidden h-12 w-12 sm:block">
           <div className="flex h-full w-full items-center justify-center rounded-full bg-neutral-focus text-neutral-content">
             <img
               src={image}
@@ -24,7 +24,7 @@ const CreateNoteFooter = ({ imageUri }: CreateNoteFooterProps) => {
           </div>
         </div>
 
-        <div className="flex w-full pl-4">
+        <div className="flex w-full sm:pl-4">
           <textarea
             id="noteContent"
             className="textarea-bordered textarea h-28 w-full resize-y"
