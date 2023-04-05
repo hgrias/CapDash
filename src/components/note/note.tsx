@@ -33,7 +33,7 @@ const Note = ({ content, creatorName, createdAt, creatorImage }: NoteProps) => {
       <div className="hidden h-12 w-12 sm:block">
         <Avatar name={creatorName} type="USER" imageUri={creatorImage} />
       </div>
-      <div className="flex flex-col pl-4">
+      <div className="flex flex-col sm:pl-4">
         <h3 className="font-semibold">{creatorName}</h3>
         <div className="font-normal">{content}</div>
         <div className="flex pt-2">
