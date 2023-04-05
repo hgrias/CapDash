@@ -11,22 +11,20 @@ const StafferInformation = ({ staffers }: StafferInformationProps) => {
   }
 
   // Make elements for all staffers - Sorting to get Chief of Staff first
-  const stafferElements = staffers
-    .sort((a, b) => a.position.localeCompare(b.position))
-    .map((staffer: StafferInfo) => {
-      return (
-        <div key={staffer.id} className="flex flex-col">
-          <h3 className="text-md font-semibold text-gray-600">
-            {staffer.position}
-          </h3>
-          <ul>
-            <li>{staffer.name}</li>
-            <li>{staffer.phone}</li>
-            <li>{staffer.email}</li>
-          </ul>
-        </div>
-      );
-    });
+  const stafferElements = staffers.map((staffer: StafferInfo) => {
+    return (
+      <div key={staffer.id} className="flex flex-col">
+        <h3 className="text-md font-semibold text-gray-600">
+          {staffer.position}
+        </h3>
+        <ul>
+          <li>{staffer.name}</li>
+          <li>{staffer.phone}</li>
+          <li>{staffer.email}</li>
+        </ul>
+      </div>
+    );
+  });
 
   return (
     <div className="w-full rounded-lg bg-white shadow-lg">

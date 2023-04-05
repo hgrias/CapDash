@@ -118,7 +118,11 @@ export const legislatorRouter = createTRPCRouter({
         },
         include: {
           LegislatorInfo: true,
-          Staffers: true,
+          Staffers: {
+            orderBy: {
+              position: "asc",
+            },
+          },
           Interactions: true,
           Note: {
             include: {
