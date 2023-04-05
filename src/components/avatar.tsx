@@ -3,7 +3,7 @@ import React from "react";
 interface AvatarProps {
   type: "USER" | "LEGISLATOR";
   name: string;
-  imageUri?: string;
+  imageUri?: string | null;
   size?: number;
 }
 

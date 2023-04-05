@@ -23,6 +23,7 @@
     "@trpc/react-query": "^10.9.0",
     "@trpc/server": "^10.9.0",
     "daisyui": "^2.51.3",
+    "date-fns": "^2.29.3",
     "formik": "^2.2.9",
     "next": "^13.2.1",
     "next-auth": "^4.19.0",

@@ -107,7 +107,7 @@ export const legislatorRouter = createTRPCRouter({
   getProfileData: protectedProcedure
     .input(
       z.object({
-        legislatorId: z.string(),
+        legislatorId: z.string().cuid(),
       })
     )
     .query(({ ctx, input }) => {
@@ -120,6 +120,19 @@ export const legislatorRouter = createTRPCRouter({
           LegislatorInfo: true,
           Staffers: true,
           Interactions: true,
+          Note: {
+            include: {
+              user: {
+                select: {
+                  name: true,
+                  image: true,
+                },
+              },
+            },
+            orderBy: {
+              createdAt: "desc",
+            },
+          },
         },
       });
     }),

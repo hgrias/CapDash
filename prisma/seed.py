@@ -1,4 +1,5 @@
 from prisma import Prisma
+from datetime import datetime, timedelta
 import asyncio
 import pprint
 import json
@@ -6,6 +7,15 @@ import json
 pp = pprint.PrettyPrinter(indent=1)
 
 STATE = "TX"
+
+# For creating notes
+now = datetime.now()
+# Create a timedelta object representing 13 hours
+delta = timedelta(hours=13)
+delta2 = timedelta(days=53)
+# Subtract the timedelta from the current datetime to get the datetime 13 hours ago
+datetime_13_hours_ago = now - delta
+datetime_53_days_ago = now - delta2
 
 
 async def main() -> None:
@@ -52,7 +62,7 @@ async def main() -> None:
     errors = []
     for legislator in session_people:
         try:
-            await db.legislator.create(
+            new_legislator = await db.legislator.create(
                 data={
                     "firstName": legislator["first_name"],
                     "lastName": legislator["last_name"],
@@ -108,6 +118,20 @@ async def main() -> None:
                                 "sessionId": session.id,
                                 "organizationId": organization.id,
                                 "type": "BILL",
+                            },
+                        ]
+                    },
+                    "Note": {
+                        "create": [
+                            {
+                                "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                                "createdBy": user.id,
+                                "createdAt": datetime_53_days_ago,
+                            },
+                            {
+                                "content": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                                "createdBy": user.id,
+                                "createdAt": datetime_13_hours_ago,
                             },
                         ]
                     },
