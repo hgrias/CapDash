@@ -30,16 +30,16 @@ const LegislatorProfile: NextPage = () => {
   return (
     <>
       <Header />
-      <div className="bg-slate-100">
+      <div className="bg-slate-100 px-2 pb-36">
         <LegislatorContext.Provider value={legislator}>
           <div className="flex py-2">
             <div className="flex w-full ">
               <ProfileHeader />
             </div>
           </div>
-          <div className="mx-4 grid gap-4 sm:grid-cols-3">
+          <div className="mx-4 grid gap-6 sm:grid-cols-3">
             <div className="col-span-3 sm:col-span-2">
-              <div className="mb-4">
+              <div className="mb-6">
                 <ProfileDetailsTabs
                   legislatorInfo={legislatorInfo}
                   staffers={staffers}
