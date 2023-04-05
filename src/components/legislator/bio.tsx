@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import LegislatorContext from "./legislatorContext";
-import Avatar from "./avatar";
-
+import Avatar from "../avatar";
 interface IBioProps {
   firstName?: string;
   lastName?: string;
@@ -22,7 +21,11 @@ const Bio = ({
     <>
       <div className="card bg-neutral text-neutral-content">
         <div className="card-body items-center text-center">
-          <Avatar />
+          <Avatar
+            type="LEGISLATOR"
+            name={firstName + " " + lastName}
+            size={20}
+          />
           <h1 className="card-title">
             {firstName} {lastName}
           </h1>

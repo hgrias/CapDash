@@ -1,4 +1,5 @@
 import { useSession } from "next-auth/react";
+import Avatar from "../avatar";
 import React from "react";
 
 interface CreateNoteFooterProps {
@@ -10,20 +11,18 @@ const CreateNoteFooter = ({ imageUri }: CreateNoteFooterProps) => {
   // Maybe create own avatar component which determines whether or not to use Initials or Image
   const session = useSession();
   const image = session.data?.user.image?.toString();
+  // TODO: See if there is anything i can do to make this cleaner
+  let name = "A Z";
+  if (session.data?.user.name) {
+    name = session.data.user.name.toString();
+  }
 
   return (
     <div className="flex flex-1 flex-col rounded-bl-lg rounded-br-lg bg-gray-50 py-5 px-4">
       <div className="flex">
-        <div id="userAvatar" className="avatar hidden h-12 w-12 sm:block">
-          <div className="flex h-full w-full items-center justify-center rounded-full bg-neutral-focus text-neutral-content">
-            <img
-              src={image}
-              alt="User Avatar"
-              className="h-full w-full rounded-full object-cover"
-            />
-          </div>
+        <div className="hidden h-12 w-12 sm:block">
+          <Avatar name={name} type="USER" imageUri={image} />
         </div>
-
         <div className="flex w-full sm:pl-4">
           <textarea
             id="noteContent"

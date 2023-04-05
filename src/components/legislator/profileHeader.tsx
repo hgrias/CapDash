@@ -1,6 +1,6 @@
 import LegislatorContext from "./legislatorContext";
 import React, { useContext } from "react";
-import Avatar from "./avatar";
+import Avatar from "../avatar";
 import {
   stateAbbreviationToName,
   partyAbbreviationToName,
@@ -18,7 +18,7 @@ const ProfileHeader = () => {
 
   return (
     <div className="flex p-4">
-      <Avatar />
+      <Avatar type="LEGISLATOR" name={firstName + " " + lastName} size={20} />
       <div className="ml-6 flex flex-col justify-center">
         <h1 className="text-2xl font-bold">
           {role} {firstName} {lastName}
