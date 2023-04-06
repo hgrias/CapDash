@@ -7,6 +7,8 @@ interface AvatarProps {
   size?: number;
 }
 
+// TODO: Fix this component. Need placeholder initials to get smaller when size is below 12.
+// Currently its very inconsistent for all avatars
 const Avatar = ({ imageUri, name, type, size }: AvatarProps) => {
   const defaultSize = 12;
 
