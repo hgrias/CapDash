@@ -110,34 +110,44 @@ export const legislatorRouter = createTRPCRouter({
         legislatorId: z.string().cuid(),
       })
     )
-    .query(({ ctx, input }) => {
-      return ctx.prisma.legislator.findFirst({
-        where: {
-          id: input.legislatorId,
-          organizationId: ctx.session.user.organizationId,
-        },
-        include: {
-          LegislatorInfo: true,
-          Staffers: {
-            orderBy: {
-              position: "asc",
-            },
+    .query(async ({ ctx, input }) => {
+      try {
+        const profileData = ctx.prisma.legislator.findFirst({
+          where: {
+            id: input.legislatorId,
+            organizationId: ctx.session.user.organizationId,
           },
-          Interactions: true,
-          Note: {
-            include: {
-              user: {
-                select: {
-                  name: true,
-                  image: true,
-                },
+          include: {
+            LegislatorInfo: true,
+            Staffers: {
+              orderBy: {
+                position: "asc",
               },
             },
-            orderBy: {
-              createdAt: "desc",
+            Interactions: {
+              orderBy: {
+                createdAt: "desc",
+              },
+            },
+            Note: {
+              include: {
+                user: {
+                  select: {
+                    name: true,
+                    image: true,
+                  },
+                },
+              },
+              orderBy: {
+                createdAt: "desc",
+              },
             },
           },
-        },
-      });
+        });
+        return profileData;
+      } catch (error) {
+        console.error("Error in getProfileData: ", error);
+        throw Error("Error in getProfileData");
+      }
     }),
 });
