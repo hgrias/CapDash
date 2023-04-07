@@ -150,4 +150,44 @@ export const legislatorRouter = createTRPCRouter({
         throw Error("Error in getProfileData");
       }
     }),
+
+  getNotes: protectedProcedure
+    .input(
+      z.object({
+        legislatorId: z.string().cuid(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      try {
+        const legislatorNotes = await ctx.prisma.legislator.findFirst({
+          where: {
+            id: input.legislatorId,
+            organizationId: ctx.session.user.organizationId,
+          },
+          select: {
+            notes: {
+              include: {
+                user: {
+                  select: {
+                    name: true,
+                    image: true,
+                  },
+                },
+              },
+              orderBy: {
+                createdAt: "desc",
+              },
+            },
+          },
+        });
+        // If there are no notes, return an empty array
+        if (!legislatorNotes) {
+          return [];
+        }
+        // Otherwise, return the objects
+        return legislatorNotes;
+      } catch (error) {
+        console.error(error);
+      }
+    }),
 });
