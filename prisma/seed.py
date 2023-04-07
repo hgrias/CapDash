@@ -74,17 +74,13 @@ async def main() -> None:
                     "personHash": legislator["person_hash"],
                     "organizationId": organization.id,
                     "currentSessionId": session.id,
-                    "LegislatorInfo": {
-                        "create": {
-                            "email": f"{legislator['first_name']}.{legislator['last_name']}@{STATE}.gov",
-                            "phone": "123-154-1257",
-                            "capitolOfficeNumber": "E2.407",
-                            "chamberWebsiteUrl": "https://www.example.com/chamber",
-                            "capitolWebsiteUrl": "https://www.example.com/capitol",
-                            "capitolAddress": "P.O. Box 12068 Capitol Station Austin, TX 78711",
-                            "districtAddress": "3000 Briarcrest Drive Suite 202 Bryan, TX 77802",
-                        }
-                    },
+                    "email": f"{legislator['first_name']}.{legislator['last_name']}@{STATE}.gov",
+                    "phone": "123-154-1257",
+                    "capitolOfficeNumber": "E2.407",
+                    "chamberWebsiteUrl": "https://www.example.com/chamber",
+                    "capitolWebsiteUrl": "https://www.example.com/capitol",
+                    "capitolAddress": "P.O. Box 12068 Capitol Station Austin, TX 78711",
+                    "districtAddress": "3000 Briarcrest Drive Suite 202 Bryan, TX 77802",
                     "staffers": {
                         "create": [
                             {

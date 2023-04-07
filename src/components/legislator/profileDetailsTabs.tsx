@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import LegislatorInformation from "./legislatorInformation";
-import { StafferInfo, LegislatorInfo } from "@prisma/client";
+import { Staffer, Legislator } from "@prisma/client";
 import StafferInformation from "./stafferInformation";
 
 interface profileDetailsTabsProps {
-  legislatorInfo: LegislatorInfo;
-  staffers?: StafferInfo[];
+  legislatorInfo: Legislator;
+  staffers?: Staffer[];
   committees?: []; // TODO: Add committees model
 }
 

@@ -19,12 +19,12 @@ const LegislatorProfile: NextPage = () => {
   );
 
   // Extract legislator and staffer info to pass to relevant components
-  const legislatorInfo = legislator?.LegislatorInfo[0];
+  // const legislatorInfo = legislator?.LegislatorInfo[0];
   const staffers = legislator?.staffers;
   const notes = legislator?.notes;
 
   // TODO: Determine what to do if we don't get any information back from API
-  if (!legislator || !legislatorInfo) {
+  if (!legislator) {
     return null;
   }
 
@@ -42,7 +42,7 @@ const LegislatorProfile: NextPage = () => {
             <div className="col-span-3 sm:col-span-2">
               <div className="mb-6">
                 <ProfileDetailsTabs
-                  legislatorInfo={legislatorInfo}
+                  legislatorInfo={legislator}
                   staffers={staffers}
                 />
               </div>

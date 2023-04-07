@@ -118,7 +118,6 @@ export const legislatorRouter = createTRPCRouter({
             organizationId: ctx.session.user.organizationId,
           },
           include: {
-            LegislatorInfo: true,
             staffers: {
               orderBy: {
                 position: "asc",
@@ -144,6 +143,11 @@ export const legislatorRouter = createTRPCRouter({
             },
           },
         });
+
+        if (!profileData) {
+          return {};
+        }
+
         return profileData;
       } catch (error) {
         console.error("Error in getProfileData: ", error);

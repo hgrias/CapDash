@@ -83,32 +83,14 @@ model VerificationToken {
 }
 
 model Legislator {
-  id               String           @id @default(cuid())
-  firstName        String
-  lastName         String
-  state            State
-  party            Party
-  role             LegislatorRole
-  district         String
-  legiscanId       Int? // ID associated with legiscan
-  personHash       String? // Used to determine if there is a difference in data (if coming from legiscan API)
-  imageUri         String? // TODO: Move this into LegislatorInfo?
-  createdAt        DateTime         @default(now())
-  updatedAt        DateTime         @default(now()) @updatedAt
-  organizationId   String
-  organization     Organization     @relation(fields: [organizationId], references: [id])
-  currentSessionId Int
-  LegislatorInfo   LegislatorInfo[]
-  interactions     Interaction[]
-  staffers         Staffer[]
-  notes            Note[]
-
-  @@unique([role, state, district, organizationId])
-  @@index([organizationId])
-}
-
-model LegislatorInfo {
-  id                  String     @id @default(cuid())
+  id                  String         @id @default(cuid())
+  legiscanId          Int?
+  currentSessionId    Int
+  firstName           String
+  lastName            String
+  district            String
+  personHash          String?
+  imageUri            String?
   phone               String?
   email               String?
   capitolOfficeNumber String?
@@ -118,10 +100,19 @@ model LegislatorInfo {
   chamberWebsiteUrl   String?
   capitolWebsiteUrl   String?
   nickName            String?
-  legislatorId        String     @unique
-  legislator          Legislator @relation(fields: [legislatorId], references: [id])
-  createdAt           DateTime   @default(now())
-  updatedAt           DateTime   @default(now()) @updatedAt
+  organizationId      String
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @default(now()) @updatedAt
+  state               State
+  party               Party
+  role                LegislatorRole
+  organization        Organization   @relation(fields: [organizationId], references: [id])
+  interactions        Interaction[]
+  staffers            Staffer[]
+  notes               Note[]
+
+  @@unique([role, state, district, organizationId])
+  @@index([organizationId])
 }
 
 model Staffer {
