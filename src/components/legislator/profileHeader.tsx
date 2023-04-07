@@ -1,6 +1,6 @@
-import LegislatorContext from "./legislatorContext";
-import React, { useContext } from "react";
+import { useProfileContext } from "../profileContext";
 import Avatar from "../avatar";
+import React from "react";
 import {
   stateAbbreviationToName,
   partyAbbreviationToName,
@@ -8,20 +8,26 @@ import {
 } from "~/utils/componentUtils";
 
 const ProfileHeader = () => {
-  const { firstName, lastName, state, party, role } =
-    useContext(LegislatorContext);
+  const { profile, isLoading, error } = useProfileContext();
+  if (!profile) {
+    return null;
+  }
 
   // Get full state, party, and chamber
-  const stateName = stateAbbreviationToName[state];
-  const partyName = partyAbbreviationToName[party];
-  const chamber = legislatorRoleToChamber[role];
+  const stateName = stateAbbreviationToName[profile.state];
+  const partyName = partyAbbreviationToName[profile.party];
+  const chamber = legislatorRoleToChamber[profile.role];
 
   return (
     <div className="flex p-4">
-      <Avatar type="LEGISLATOR" name={firstName + " " + lastName} size={20} />
+      <Avatar
+        type="LEGISLATOR"
+        name={profile.firstName + " " + profile.lastName}
+        size={20}
+      />
       <div className="ml-6 flex flex-col justify-center">
         <h1 className="text-2xl font-bold">
-          {role} {firstName} {lastName}
+          {profile.role} {profile.firstName} {profile.lastName}
         </h1>
         <p className="">
           {stateName} - {partyName} - {chamber}
