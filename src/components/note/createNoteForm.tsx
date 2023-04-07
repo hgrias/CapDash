@@ -6,28 +6,30 @@ import { useProfileContext } from "../profileContext";
 import { api } from "~/utils/api";
 
 type RouterOutput = inferRouterOutputs<AppRouter>;
-type noteCreateOutput = RouterOutput["note"]["create"];
 
 const CreateNoteForm = () => {
   const [content, setContent] = useState("");
-  const { profile, isLoading, error } = useProfileContext();
-  if (!profile) {
-    return null;
-  }
-
-  // TODO: How can I assert that a user ID will be here since there needs to be a session?
-  const userId = useSession().data?.user.id;
 
   const createNewNote = api.note.create.useMutation({
-    onSuccess: (noteId: noteCreateOutput) => {
+    onSuccess: () => {
       setContent("");
-      // TODO: refetch notes for profile -> probably best to add this to legislator context
-      console.log("Successfully created note: ", noteId);
+      refetchProfileNotes();
     },
     onError: (error) => {
       console.error("Error creating note:", error);
     },
   });
+
+  const { profile, refetchProfileNotes, isLoading, error } =
+    useProfileContext();
+
+  const { data: session } = useSession();
+
+  if (!profile || !session) {
+    return null;
+  }
+
+  const userId = session.user.id;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

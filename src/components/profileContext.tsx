@@ -1,15 +1,24 @@
+import React, { createContext, useContext, useState } from "react";
+import { Interaction, Staffer, Legislator } from "@prisma/client";
 import type { inferRouterOutputs } from "@trpc/server";
 import type { AppRouter } from "~/server/api/root";
-import React, { createContext, useContext } from "react";
 import { api } from "~/utils/api";
 
+// Define some types from our router/procedure outputs
 type RouterOutput = inferRouterOutputs<AppRouter>;
 type profileDataOutputType = RouterOutput["legislator"]["getProfileData"];
+type profileNotesOutputType = RouterOutput["note"]["getAllForLegislator"];
 
 interface ProfileContextValue {
+  // profile contains all data - I don't want it to but I don't know how to extract only the top level data efficiently
   profile: profileDataOutputType;
+  // These initially come from profile, but then keep their own state for updates
+  notes: profileNotesOutputType;
+  interactions: Interaction[];
+  staffers: Staffer[];
   isLoading: boolean;
   error?: Error;
+  refetchProfileNotes: () => void;
 }
 
 const ProfileContext = createContext<ProfileContextValue | null>(null);
@@ -23,26 +32,62 @@ export function ProfileProvider({
   legislatorId,
   children,
 }: ProfileProviderProps) {
+  const [shouldRefetchNotes, setShouldRefetchNotes] = useState<boolean>(false);
+  const [notes, setNotes] = useState<profileNotesOutputType>([]);
+  const [interactions, setInteractions] = useState<Interaction[]>([]);
+  const [staffers, setStaffers] = useState<Staffer[]>([]);
+
   // Use getProfileData procedure to populate profile context
-  const {
-    data: profileData,
-    isLoading,
-    error,
-  } = api.legislator.getProfileData.useQuery(
+  const { data: profileData, isLoading } =
+    api.legislator.getProfileData.useQuery(
+      {
+        legislatorId: legislatorId,
+      },
+      {
+        onSuccess: (data) => {
+          if (data) {
+            setNotes(data.notes);
+            setInteractions(data.interactions);
+            setStaffers(data.staffers);
+          }
+        },
+        refetchOnWindowFocus: false,
+        enabled: !!legislatorId,
+      }
+    );
+
+  // Set when we should refetch notes for profile
+  const refetchProfileNotes = () => {
+    setShouldRefetchNotes(true);
+  };
+
+  // Get profile notes for refetch
+  api.note.getAllForLegislator.useQuery(
     {
       legislatorId: legislatorId,
     },
     {
-      onSuccess: (data) => {},
       refetchOnWindowFocus: false,
-      enabled: !!legislatorId,
+      onSuccess: (data) => {
+        console.log("Successfully refetched notes");
+        setNotes(data);
+        setShouldRefetchNotes(false);
+      },
+      onError: (error) => {
+        console.error(error);
+        setShouldRefetchNotes(false);
+      },
+      enabled: shouldRefetchNotes,
     }
   );
 
   const value: ProfileContextValue = {
     profile: profileData ?? null,
+    notes: notes,
+    interactions: interactions,
+    staffers: staffers,
+    refetchProfileNotes,
     isLoading,
-    // error,
   };
 
   return (

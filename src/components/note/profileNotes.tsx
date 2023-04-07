@@ -4,12 +4,11 @@ import Note from "./note";
 import React from "react";
 
 const ProfileNotes = () => {
-  const { profile, isLoading, error } = useProfileContext();
-  if (!profile) {
+  const { notes, isLoading, error } = useProfileContext();
+
+  if (!notes) {
     return null;
   }
-
-  const notes = profile.notes;
 
   return (
     <div id="profileNotes" className="w-full rounded-lg bg-white shadow-lg">
