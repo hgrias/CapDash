@@ -33,10 +33,7 @@ export function ProfileProvider({
       legislatorId: legislatorId,
     },
     {
-      onSuccess: (data) => {
-        console.log("Successfully got profileData for context");
-        console.log(data);
-      },
+      onSuccess: (data) => {},
       refetchOnWindowFocus: false,
       enabled: !!legislatorId,
     }
