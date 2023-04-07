@@ -69,7 +69,6 @@ export function ProfileProvider({
     {
       refetchOnWindowFocus: false,
       onSuccess: (data) => {
-        console.log("Successfully refetched notes");
         setNotes(data);
         setShouldRefetchNotes(false);
       },
