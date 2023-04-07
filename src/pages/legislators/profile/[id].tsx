@@ -20,8 +20,8 @@ const LegislatorProfile: NextPage = () => {
 
   // Extract legislator and staffer info to pass to relevant components
   const legislatorInfo = legislator?.LegislatorInfo[0];
-  const staffers = legislator?.Staffers;
-  const notes = legislator?.Note;
+  const staffers = legislator?.staffers;
+  const notes = legislator?.notes;
 
   // TODO: Determine what to do if we don't get any information back from API
   if (!legislator || !legislatorInfo) {

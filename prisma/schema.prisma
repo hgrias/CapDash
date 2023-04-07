@@ -98,10 +98,10 @@ model Legislator {
   organizationId   String
   organization     Organization     @relation(fields: [organizationId], references: [id])
   currentSessionId Int
-  Interactions     Interaction[]
   LegislatorInfo   LegislatorInfo[]
-  Staffers         StafferInfo[]
-  Note             Note[]
+  interactions     Interaction[]
+  staffers         Staffer[]
+  notes            Note[]
 
   @@unique([role, state, district, organizationId])
   @@index([organizationId])
@@ -124,7 +124,7 @@ model LegislatorInfo {
   updatedAt           DateTime   @default(now()) @updatedAt
 }
 
-model StafferInfo {
+model Staffer {
   id           String     @id @default(cuid())
   name         String
   email        String

@@ -85,7 +85,7 @@ async def main() -> None:
                             "districtAddress": "3000 Briarcrest Drive Suite 202 Bryan, TX 77802",
                         }
                     },
-                    "Staffers": {
+                    "staffers": {
                         "create": [
                             {
                                 "email": "harrisongrias@staffer.com",
@@ -101,7 +101,7 @@ async def main() -> None:
                             },
                         ]
                     },
-                    "Interactions": {
+                    "interactions": {
                         "create": [
                             {
                                 "createdBy": user.id,
@@ -121,7 +121,7 @@ async def main() -> None:
                             },
                         ]
                     },
-                    "Note": {
+                    "notes": {
                         "create": [
                             {
                                 "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
