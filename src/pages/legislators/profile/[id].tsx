@@ -5,7 +5,6 @@ import { ProfileProvider } from "~/components/profileContext";
 import { Header } from "~/components/header";
 import { useRouter } from "next/router";
 import { type NextPage } from "next";
-import { api } from "~/utils/api";
 
 const LegislatorProfile: NextPage = () => {
   const legislatorId = useRouter().query.id as string;
@@ -17,8 +16,8 @@ const LegislatorProfile: NextPage = () => {
   return (
     <>
       <Header />
-      <div className="bg-slate-100 px-2 pb-36">
-        <ProfileProvider legislatorId={legislatorId}>
+      <ProfileProvider legislatorId={legislatorId}>
+        <div className="bg-slate-100 px-2 pb-36">
           <div className="flex py-2">
             <div className="flex w-full ">
               <ProfileHeader />
@@ -37,8 +36,8 @@ const LegislatorProfile: NextPage = () => {
               Interactions
             </div>
           </div>
-        </ProfileProvider>
-      </div>
+        </div>
+      </ProfileProvider>
     </>
   );
 };
