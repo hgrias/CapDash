@@ -1,35 +1,23 @@
-import { Note as NoteModel } from "@prisma/client";
+import { useProfileContext } from "../profileContext";
 import CreateNoteFooter from "./createNoteFooter";
 import Note from "./note";
 import React from "react";
 
-// The portion of data returned from the legislator getProfileData procedure relating to Notes
-interface ProfileNotesData {
-  Note: (NoteModel & {
-    user: {
-      name: string;
-      image: string | null;
-    };
-  })[];
-}
+const ProfileNotes = () => {
+  const { profile, isLoading, error } = useProfileContext();
+  if (!profile) {
+    return null;
+  }
 
-// Picking out the Note type and creating a new type for the array
-type NoteType = Pick<ProfileNotesData, "Note">;
-type NoteArrayType = Exclude<NoteType["Note"], undefined>;
+  const notes = profile.notes;
 
-// Using this new type as our note props
-interface ProfileNotesProps {
-  notes?: NoteArrayType;
-}
-
-const ProfileNotes = ({ notes }: ProfileNotesProps) => {
   return (
     <div id="profileNotes" className="w-full rounded-lg bg-white shadow-lg">
       <div id="header" className="border-b-1 border-b p-4 text-xl">
         <h1>Notes</h1>
       </div>
 
-      {notes?.length ? (
+      {notes.length ? (
         notes.map((note) => {
           return (
             <Note

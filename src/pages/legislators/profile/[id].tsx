@@ -1,5 +1,4 @@
 import ProfileDetailsTabs from "~/components/legislator/profileDetailsTabs";
-import LegislatorContext from "~/components/legislator/legislatorContext";
 import ProfileHeader from "~/components/legislator/profileHeader";
 import ProfileNotes from "~/components/note/profileNotes";
 import { ProfileProvider } from "~/components/profileContext";
@@ -11,21 +10,7 @@ import { api } from "~/utils/api";
 const LegislatorProfile: NextPage = () => {
   const legislatorId = useRouter().query.id as string;
 
-  // Get all relevant legislator data for profile
-  const { data: legislator } = api.legislator.getProfileData.useQuery(
-    {
-      legislatorId: legislatorId,
-    },
-    { refetchOnWindowFocus: false, enabled: !!legislatorId }
-  );
-
-  // Extract legislator and staffer info to pass to relevant components
-  // const legislatorInfo = legislator?.LegislatorInfo[0];
-  const staffers = legislator?.staffers;
-  const notes = legislator?.notes;
-
-  // TODO: Determine what to do if we don't get any information back from API
-  if (!legislator) {
+  if (!legislatorId) {
     return null;
   }
 
@@ -34,26 +19,24 @@ const LegislatorProfile: NextPage = () => {
       <Header />
       <div className="bg-slate-100 px-2 pb-36">
         <ProfileProvider legislatorId={legislatorId}>
-          <LegislatorContext.Provider value={legislator}>
-            <div className="flex py-2">
-              <div className="flex w-full ">
-                <ProfileHeader />
-              </div>
+          <div className="flex py-2">
+            <div className="flex w-full ">
+              <ProfileHeader />
             </div>
-            <div className="grid gap-6 sm:mx-4 sm:grid-cols-3">
+          </div>
+          <div className="grid gap-6 sm:mx-4 sm:grid-cols-3">
+            <div className="col-span-3 sm:col-span-2">
+              <div className="mb-6">
+                <ProfileDetailsTabs />
+              </div>
               <div className="col-span-3 sm:col-span-2">
-                <div className="mb-6">
-                  <ProfileDetailsTabs />
-                </div>
-                <div className="col-span-3 sm:col-span-2">
-                  <ProfileNotes notes={notes} />
-                </div>
-              </div>
-              <div className="col-span-3 bg-gray-300 text-center sm:col-span-1">
-                Interactions
+                <ProfileNotes />
               </div>
             </div>
-          </LegislatorContext.Provider>
+            <div className="col-span-3 bg-gray-300 text-center sm:col-span-1">
+              Interactions
+            </div>
+          </div>
         </ProfileProvider>
       </div>
     </>

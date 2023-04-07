@@ -1,16 +1,20 @@
 import type { inferRouterOutputs } from "@trpc/server";
 import type { AppRouter } from "~/server/api/root";
-import React, { useContext, useState } from "react";
-import { api } from "~/utils/api";
-import LegislatorContext from "../legislator/legislatorContext";
+import React, { useState } from "react";
 import { useSession } from "next-auth/react";
+import { useProfileContext } from "../profileContext";
+import { api } from "~/utils/api";
 
 type RouterOutput = inferRouterOutputs<AppRouter>;
 type noteCreateOutput = RouterOutput["note"]["create"];
 
 const NoteForm = () => {
   const [content, setContent] = useState("");
-  const { id: legislatorId } = useContext(LegislatorContext);
+  const { profile, isLoading, error } = useProfileContext();
+  if (!profile) {
+    return null;
+  }
+
   // TODO: How can I assert that a user ID will be here since there needs to be a session?
   const userId = useSession().data?.user.id;
 
@@ -29,7 +33,7 @@ const NoteForm = () => {
     e.preventDefault();
     const newNote = {
       content,
-      legislatorId: legislatorId,
+      legislatorId: profile.id,
       userId: userId,
     };
     createNewNote.mutate(newNote);
