@@ -1,20 +1,21 @@
 import React, { useState } from "react";
 import LegislatorInformation from "./legislatorInformation";
-import { Staffer, Legislator } from "@prisma/client";
+import { useProfileContext } from "../profileContext";
 import StafferInformation from "./stafferInformation";
 
 interface profileDetailsTabsProps {
-  legislatorInfo: Legislator;
-  staffers?: Staffer[];
   committees?: []; // TODO: Add committees model
 }
 
-const ProfileDetailsTabs = ({
-  legislatorInfo,
-  staffers,
-  committees,
-}: profileDetailsTabsProps) => {
+const ProfileDetailsTabs = ({ committees }: profileDetailsTabsProps) => {
   const [activeTab, setActiveTab] = useState<String>("legislatorInfo");
+
+  const { profile, isLoading, error } = useProfileContext();
+  if (!profile) {
+    return null;
+  }
+  // Set the staffers from context
+  const staffers = profile.staffers;
 
   const handleTabClick = (tab: String) => {
     setActiveTab(tab);
@@ -23,9 +24,9 @@ const ProfileDetailsTabs = ({
   const renderTabContent = () => {
     switch (activeTab) {
       case "legislatorInfo":
-        return <LegislatorInformation info={legislatorInfo} />;
+        return <LegislatorInformation />;
       case "stafferInfo":
-        if (staffers?.length) {
+        if (staffers.length) {
           return <StafferInformation staffers={staffers} />;
         } else {
           return (

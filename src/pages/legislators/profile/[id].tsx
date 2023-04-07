@@ -43,10 +43,7 @@ const LegislatorProfile: NextPage = () => {
             <div className="grid gap-6 sm:mx-4 sm:grid-cols-3">
               <div className="col-span-3 sm:col-span-2">
                 <div className="mb-6">
-                  <ProfileDetailsTabs
-                    legislatorInfo={legislator}
-                    staffers={staffers}
-                  />
+                  <ProfileDetailsTabs />
                 </div>
                 <div className="col-span-3 sm:col-span-2">
                   <ProfileNotes notes={notes} />

@@ -1,13 +1,14 @@
-import { LegislatorInfo, StafferInfo } from "@prisma/client";
+import { useProfileContext } from "../profileContext";
 import React from "react";
 
-interface LegislatorInfoProps {
-  info: LegislatorInfo;
-}
+const LegislatorInformation = () => {
+  const { profile, isLoading, error } = useProfileContext();
+  if (!profile) {
+    return null;
+  }
 
-const LegislatorInformation = ({ info }: LegislatorInfoProps) => {
   // Make elements for all relevant links
-  const relevantLinks = Object.entries(info)
+  const relevantLinks = Object.entries(profile)
     .filter(([key, value]) => key.includes("Url") && value !== null)
     .map(([key, value]) => {
       let linkTitle = "";
@@ -33,17 +34,17 @@ const LegislatorInformation = ({ info }: LegislatorInfoProps) => {
       >
         <div id="email" className="flex flex-col">
           <h3 className="text-md font-semibold text-gray-600">Email</h3>
-          <p className="">{info?.email}</p>
+          <p className="">{profile.email}</p>
         </div>
 
         <div id="phone" className="flex flex-col">
           <h3 className="text-md font-semibold text-gray-600">Phone Number</h3>
-          <p className="">{info?.phone}</p>
+          <p className="">{profile.phone}</p>
         </div>
 
         <div id="location" className="flex flex-col">
           <h3 className="text-md font-semibold text-gray-600">Office Number</h3>
-          <p className="">{info.capitolOfficeNumber}</p>
+          <p className="">{profile.capitolOfficeNumber}</p>
         </div>
 
         {relevantLinks ? (

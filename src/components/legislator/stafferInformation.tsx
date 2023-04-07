@@ -1,8 +1,8 @@
-import { StafferInfo } from "@prisma/client";
+import { Staffer } from "@prisma/client";
 import React from "react";
 
 interface StafferInformationProps {
-  staffers: StafferInfo[] | undefined;
+  staffers: Staffer[];
 }
 
 const StafferInformation = ({ staffers }: StafferInformationProps) => {
@@ -11,7 +11,7 @@ const StafferInformation = ({ staffers }: StafferInformationProps) => {
   }
 
   // Make elements for all staffers - Sorting to get Chief of Staff first
-  const stafferElements = staffers.map((staffer: StafferInfo) => {
+  const stafferElements = staffers.map((staffer: Staffer) => {
     return (
       <div key={staffer.id} className="flex flex-col">
         <h3 className="text-md font-semibold text-gray-600">
