@@ -3,6 +3,7 @@ import { State, Party, LegislatorRole } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import { Prisma } from "@prisma/client";
 import { z } from "zod";
+import { profile } from "console";
 
 export const legislatorRouter = createTRPCRouter({
   // Check to see if the legislator exists based on their name and state
@@ -112,7 +113,7 @@ export const legislatorRouter = createTRPCRouter({
     )
     .query(async ({ ctx, input }) => {
       try {
-        const profileData = ctx.prisma.legislator.findFirst({
+        const profileData = await ctx.prisma.legislator.findFirst({
           where: {
             id: input.legislatorId,
             organizationId: ctx.session.user.organizationId,
@@ -145,7 +146,7 @@ export const legislatorRouter = createTRPCRouter({
         });
 
         if (!profileData) {
-          return {};
+          return null;
         }
 
         return profileData;

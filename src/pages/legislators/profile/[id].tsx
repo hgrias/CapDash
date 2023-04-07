@@ -2,6 +2,7 @@ import ProfileDetailsTabs from "~/components/legislator/profileDetailsTabs";
 import LegislatorContext from "~/components/legislator/legislatorContext";
 import ProfileHeader from "~/components/legislator/profileHeader";
 import ProfileNotes from "~/components/note/profileNotes";
+import { ProfileProvider } from "~/components/profileContext";
 import { Header } from "~/components/header";
 import { useRouter } from "next/router";
 import { type NextPage } from "next";
@@ -32,29 +33,31 @@ const LegislatorProfile: NextPage = () => {
     <>
       <Header />
       <div className="bg-slate-100 px-2 pb-36">
-        <LegislatorContext.Provider value={legislator}>
-          <div className="flex py-2">
-            <div className="flex w-full ">
-              <ProfileHeader />
-            </div>
-          </div>
-          <div className="grid gap-6 sm:mx-4 sm:grid-cols-3">
-            <div className="col-span-3 sm:col-span-2">
-              <div className="mb-6">
-                <ProfileDetailsTabs
-                  legislatorInfo={legislator}
-                  staffers={staffers}
-                />
+        <ProfileProvider legislatorId={legislatorId}>
+          <LegislatorContext.Provider value={legislator}>
+            <div className="flex py-2">
+              <div className="flex w-full ">
+                <ProfileHeader />
               </div>
+            </div>
+            <div className="grid gap-6 sm:mx-4 sm:grid-cols-3">
               <div className="col-span-3 sm:col-span-2">
-                <ProfileNotes notes={notes} />
+                <div className="mb-6">
+                  <ProfileDetailsTabs
+                    legislatorInfo={legislator}
+                    staffers={staffers}
+                  />
+                </div>
+                <div className="col-span-3 sm:col-span-2">
+                  <ProfileNotes notes={notes} />
+                </div>
+              </div>
+              <div className="col-span-3 bg-gray-300 text-center sm:col-span-1">
+                Interactions
               </div>
             </div>
-            <div className="col-span-3 bg-gray-300 text-center sm:col-span-1">
-              Interactions
-            </div>
-          </div>
-        </LegislatorContext.Provider>
+          </LegislatorContext.Provider>
+        </ProfileProvider>
       </div>
     </>
   );
