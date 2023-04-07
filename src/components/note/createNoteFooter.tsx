@@ -1,5 +1,5 @@
 import { useSession } from "next-auth/react";
-import NoteForm from "./noteForm";
+import CreateNoteForm from "./createNoteForm";
 import Avatar from "../avatar";
 import React from "react";
 
@@ -23,7 +23,7 @@ const CreateNoteFooter = ({ imageUri }: CreateNoteFooterProps) => {
       <div className="hidden h-12 w-12 sm:block">
         <Avatar name={name} type="USER" imageUri={image} />
       </div>
-      <NoteForm />
+      <CreateNoteForm />
     </div>
   );
 };

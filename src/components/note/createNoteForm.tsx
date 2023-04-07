@@ -8,7 +8,7 @@ import { api } from "~/utils/api";
 type RouterOutput = inferRouterOutputs<AppRouter>;
 type noteCreateOutput = RouterOutput["note"]["create"];
 
-const NoteForm = () => {
+const CreateNoteForm = () => {
   const [content, setContent] = useState("");
   const { profile, isLoading, error } = useProfileContext();
   if (!profile) {
@@ -57,4 +57,4 @@ const NoteForm = () => {
   );
 };
 
-export default NoteForm;
+export default CreateNoteForm;
