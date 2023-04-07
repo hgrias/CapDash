@@ -1,6 +1,6 @@
 import type { inferRouterOutputs } from "@trpc/server";
 import type { AppRouter } from "~/server/api/root";
-import React, { createContext } from "react";
+import React, { createContext, useContext } from "react";
 import { api } from "~/utils/api";
 
 type RouterOutput = inferRouterOutputs<AppRouter>;
@@ -51,4 +51,15 @@ export function ProfileProvider({
   return (
     <ProfileContext.Provider value={value}>{children}</ProfileContext.Provider>
   );
+}
+
+// Create a hook for use to use this new context
+export function useProfileContext(): ProfileContextValue {
+  const context = useContext(ProfileContext);
+  if (!context) {
+    throw new Error(
+      "useProfileContext must be used within a ProfileProvider component"
+    );
+  }
+  return context;
 }
