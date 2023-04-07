@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import NewInteractionForm from "./newInteractionForm";
-import LegislatorContext from "../legislator/legislatorContext";
 import InteractionTimeline from "./interactionTimeline";
 import { Legislator } from "@prisma/client";
 import { useRouter } from "next/router";

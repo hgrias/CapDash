@@ -1,22 +1,12 @@
-import React, { useContext } from "react";
-import LegislatorContext from "./legislatorContext";
+import React from "react";
 import Avatar from "../avatar";
-interface IBioProps {
-  firstName?: string;
-  lastName?: string;
-  party?: string;
-  chamber?: string;
-  district?: number;
+
+interface BioProps {
+  firstName: string;
+  lastName: string;
 }
 
-const Bio = ({
-  firstName: propsFirstName,
-  lastName: propsLastName,
-}: IBioProps) => {
-  // Allow us to pass in props if needed, otherwise populate from context
-  const { firstName = propsFirstName, lastName = propsLastName } =
-    useContext(LegislatorContext) || {};
-
+const Bio = ({ firstName, lastName }: BioProps) => {
   return (
     <>
       <div className="card bg-neutral text-neutral-content">
