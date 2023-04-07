@@ -15,7 +15,7 @@ const LegislatorProfile: NextPage = () => {
     {
       legislatorId: legislatorId,
     },
-    { refetchOnWindowFocus: false }
+    { refetchOnWindowFocus: false, enabled: !!legislatorId }
   );
 
   // Extract legislator and staffer info to pass to relevant components
