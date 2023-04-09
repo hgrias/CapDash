@@ -5,14 +5,13 @@ import { api } from "~/utils/api";
 
 // Define some types from our router/procedure outputs
 type profileDataOutputType = RouterOutputs["legislator"]["getProfileData"];
-
+type notesQueryType = RouterOutputs["note"]["listForLegislator"];
 type NoteWithUser = Note & {
   user: {
     name: string;
     image: string | null;
   };
 };
-
 type NotesArray = NoteWithUser[];
 
 interface ProfileContextValue {
@@ -24,7 +23,7 @@ interface ProfileContextValue {
   staffers: Staffer[];
   isLoading: boolean;
   error?: Error;
-  refetchProfileNotes: () => void;
+  notesQuery: any; // Can't find type of useInfiniteQuery output??
 }
 
 const ProfileContext = createContext<ProfileContextValue | null>(null);
@@ -38,7 +37,6 @@ export function ProfileProvider({
   legislatorId,
   children,
 }: ProfileProviderProps) {
-  const [shouldRefetchNotes, setShouldRefetchNotes] = useState<boolean>(false);
   const [notes, setNotes] = useState<NotesArray>([]);
   const [interactions, setInteractions] = useState<Interaction[]>([]);
   const [staffers, setStaffers] = useState<Staffer[]>([]);
@@ -62,12 +60,6 @@ export function ProfileProvider({
       }
     );
 
-  // Set when we should refetch notes for profile
-  const refetchProfileNotes = () => {
-    setShouldRefetchNotes(true);
-  };
-
-  // Get profile notes for refetch
   const notesQuery = api.note.listForLegislator.useInfiniteQuery(
     {
       legislatorId: legislatorId,
@@ -76,14 +68,13 @@ export function ProfileProvider({
     {
       refetchOnWindowFocus: false,
       onSuccess: (data) => {
-        setNotes(data);
-        setShouldRefetchNotes(false);
+        if (data.pages) {
+          setNotes(data.pages.flatMap((page) => page!.notes));
+        }
       },
-      onError: (error) => {
-        console.error(error);
-        setShouldRefetchNotes(false);
+      getNextPageParam: (nextPage) => {
+        return nextPage?.nextCursor;
       },
-      enabled: shouldRefetchNotes,
     }
   );
 
@@ -92,7 +83,7 @@ export function ProfileProvider({
     notes: notes,
     interactions: interactions,
     staffers: staffers,
-    refetchProfileNotes,
+    notesQuery: notesQuery,
     isLoading,
   };
 

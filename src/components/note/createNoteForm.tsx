@@ -5,19 +5,20 @@ import { api } from "~/utils/api";
 
 const CreateNoteForm = () => {
   const [content, setContent] = useState("");
+  const utils = api.useContext();
 
-  const createNewNote = api.note.create.useMutation({
+  const createNote = api.note.create.useMutation({
     onSuccess: () => {
       setContent("");
-      refetchProfileNotes();
+      // Refetch notes after a note is created
+      utils.note.listForLegislator.invalidate();
     },
     onError: (error) => {
       console.error("Error creating note:", error);
     },
   });
 
-  const { profile, refetchProfileNotes, isLoading, error } =
-    useProfileContext();
+  const { profile, isLoading, error } = useProfileContext();
 
   const { data: session } = useSession();
 
@@ -34,7 +35,7 @@ const CreateNoteForm = () => {
       legislatorId: profile.id,
       userId: userId,
     };
-    createNewNote.mutate(newNote);
+    createNote.mutate(newNote);
   };
 
   return (

@@ -4,7 +4,7 @@ import Note from "./note";
 import React from "react";
 
 const ProfileNotes = () => {
-  const { notes, isLoading, error } = useProfileContext();
+  const { notes, notesQuery, isLoading, error } = useProfileContext();
 
   if (!notes) {
     return null;
@@ -31,7 +31,13 @@ const ProfileNotes = () => {
       ) : (
         <h2 className="p-4 font-normal">There are no notes! Create one!</h2>
       )}
-
+      {notesQuery.hasNextPage || notesQuery.isFetchingNextPage ? (
+        <div className="h-10 bg-slate-200 bg-gradient-to-t from-transparent to-white text-center">
+          <button onClick={() => notesQuery.fetchNextPage()}>
+            Load More Notes
+          </button>
+        </div>
+      ) : null}
       <CreateNoteFooter />
     </div>
   );
