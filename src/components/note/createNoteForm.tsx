@@ -18,11 +18,11 @@ const CreateNoteForm = () => {
     },
   });
 
-  const { profile, isLoading, error } = useProfileContext();
+  const { legislator, error } = useProfileContext();
 
   const { data: session } = useSession();
 
-  if (!profile || !session) {
+  if (!legislator || !session) {
     return null;
   }
 
@@ -32,7 +32,7 @@ const CreateNoteForm = () => {
     e.preventDefault();
     const newNote = {
       content,
-      legislatorId: profile.id,
+      legislatorId: legislator.id,
       userId: userId,
     };
     createNote.mutate(newNote);

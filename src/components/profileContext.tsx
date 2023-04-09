@@ -4,8 +4,8 @@ import { RouterOutputs } from "~/utils/api";
 import { api } from "~/utils/api";
 
 // Define some types from our router/procedure outputs
-type profileDataOutputType = RouterOutputs["legislator"]["getProfileData"];
 type notesQueryType = RouterOutputs["note"]["listForLegislator"];
+type legislatorQueryType = RouterOutputs["legislator"]["byId"];
 type NoteWithUser = Note & {
   user: {
     name: string;
@@ -15,13 +15,10 @@ type NoteWithUser = Note & {
 type NotesArray = NoteWithUser[];
 
 interface ProfileContextValue {
-  // profile contains all data - I don't want it to but I don't know how to extract only the top level data efficiently
-  profile: profileDataOutputType;
-  // These initially come from profile, but then keep their own state for updates
+  legislator: legislatorQueryType;
   notes: NotesArray;
   interactions: Interaction[];
   staffers: Staffer[];
-  isLoading: boolean;
   error?: Error;
   notesQuery: any; // Can't find type of useInfiniteQuery output??
 }
@@ -37,28 +34,23 @@ export function ProfileProvider({
   legislatorId,
   children,
 }: ProfileProviderProps) {
-  const [notes, setNotes] = useState<NotesArray>([]);
+  const [legislator, setLegislator] = useState<legislatorQueryType>();
   const [interactions, setInteractions] = useState<Interaction[]>([]);
   const [staffers, setStaffers] = useState<Staffer[]>([]);
+  const [notes, setNotes] = useState<NotesArray>([]);
 
-  // Use getProfileData procedure to populate profile context
-  const { data: profileData, isLoading } =
-    api.legislator.getProfileData.useQuery(
-      {
-        legislatorId: legislatorId,
+  const legislatorQuery = api.legislator.byId.useQuery(
+    {
+      legislatorId: legislatorId,
+    },
+    {
+      enabled: !!legislatorId,
+      onSuccess: (legislator) => {
+        setLegislator(legislator);
       },
-      {
-        onSuccess: (data) => {
-          if (data) {
-            setNotes(data.notes);
-            setInteractions(data.interactions);
-            setStaffers(data.staffers);
-          }
-        },
-        refetchOnWindowFocus: false,
-        enabled: !!legislatorId,
-      }
-    );
+      refetchOnWindowFocus: false,
+    }
+  );
 
   const notesQuery = api.note.listForLegislator.useInfiniteQuery(
     {
@@ -79,12 +71,11 @@ export function ProfileProvider({
   );
 
   const value: ProfileContextValue = {
-    profile: profileData ?? null,
+    legislator: legislator,
     notes: notes,
     interactions: interactions,
     staffers: staffers,
     notesQuery: notesQuery,
-    isLoading,
   };
 
   return (

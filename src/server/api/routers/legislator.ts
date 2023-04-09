@@ -3,41 +3,41 @@ import { State, Party, LegislatorRole } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import { Prisma } from "@prisma/client";
 import { z } from "zod";
-import { profile } from "console";
+
+// Default selector for legislator
+const defaultLegislatorSelect = Prisma.validator<Prisma.LegislatorSelect>()({
+  id: true,
+  firstName: true,
+  lastName: true,
+  state: true,
+  party: true,
+  role: true,
+  imageUri: true,
+  phone: true,
+  email: true,
+  capitolOfficeNumber: true,
+  websiteUrl: true,
+  chamberWebsiteUrl: true,
+  capitolWebsiteUrl: true,
+  currentSessionId: true,
+});
 
 export const legislatorRouter = createTRPCRouter({
-  // Check to see if the legislator exists based on their name and state
-  exists: protectedProcedure
-    .input(
-      z.object({
-        firstName: z.string(),
-        lastName: z.string(),
-        state: z.nativeEnum(State),
-      })
-    )
-    .query(({ ctx, input }) => {
-      return ctx.prisma.legislator.findFirst({
-        where: {
-          firstName: input.firstName,
-          lastName: input.lastName,
-          state: input.state,
-          organizationId: ctx.session.user.organizationId,
-        },
-        select: {
-          id: true,
-        },
-      });
-    }),
-
   // Get a single legislator from Legislator ID
-  getById: protectedProcedure
+  byId: protectedProcedure
     .input(z.object({ legislatorId: z.string() }))
     .query(({ ctx, input }) => {
-      return ctx.prisma.legislator.findUnique({
-        where: {
-          id: input.legislatorId,
-        },
-      });
+      try {
+        const legislator = ctx.prisma.legislator.findUnique({
+          select: defaultLegislatorSelect,
+          where: {
+            id: input.legislatorId,
+          },
+        });
+        return legislator;
+      } catch (error) {
+        console.log(error);
+      }
     }),
 
   // Get all legislators
@@ -107,57 +107,6 @@ export const legislatorRouter = createTRPCRouter({
           }
         }
         throw error;
-      }
-    }),
-
-  getProfileData: protectedProcedure
-    .input(
-      z.object({
-        legislatorId: z.string().cuid(),
-      })
-    )
-    .query(async ({ ctx, input }) => {
-      try {
-        const profileData = await ctx.prisma.legislator.findFirst({
-          where: {
-            id: input.legislatorId,
-            organizationId: ctx.session.user.organizationId,
-          },
-          include: {
-            staffers: {
-              orderBy: {
-                position: "asc",
-              },
-            },
-            interactions: {
-              orderBy: {
-                createdAt: "desc",
-              },
-            },
-            notes: {
-              include: {
-                user: {
-                  select: {
-                    name: true,
-                    image: true,
-                  },
-                },
-              },
-              orderBy: {
-                createdAt: "desc",
-              },
-            },
-          },
-        });
-
-        if (!profileData) {
-          return null;
-        }
-
-        return profileData;
-      } catch (error) {
-        console.error("Error in getProfileData: ", error);
-        throw Error("Error in getProfileData");
       }
     }),
 });

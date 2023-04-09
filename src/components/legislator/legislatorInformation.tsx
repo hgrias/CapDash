@@ -2,13 +2,13 @@ import { useProfileContext } from "../profileContext";
 import React from "react";
 
 const LegislatorInformation = () => {
-  const { profile, isLoading, error } = useProfileContext();
-  if (!profile) {
+  const { legislator, error } = useProfileContext();
+  if (!legislator) {
     return null;
   }
 
   // Make elements for all relevant links
-  const relevantLinks = Object.entries(profile)
+  const relevantLinks = Object.entries(legislator)
     .filter(([key, value]) => key.includes("Url") && value !== null)
     .map(([key, value]) => {
       let linkTitle = "";
@@ -34,17 +34,17 @@ const LegislatorInformation = () => {
       >
         <div id="email" className="flex flex-col">
           <h3 className="text-md font-semibold text-gray-600">Email</h3>
-          <p className="">{profile.email}</p>
+          <p className="">{legislator.email}</p>
         </div>
 
         <div id="phone" className="flex flex-col">
           <h3 className="text-md font-semibold text-gray-600">Phone Number</h3>
-          <p className="">{profile.phone}</p>
+          <p className="">{legislator.phone}</p>
         </div>
 
         <div id="location" className="flex flex-col">
           <h3 className="text-md font-semibold text-gray-600">Office Number</h3>
-          <p className="">{profile.capitolOfficeNumber}</p>
+          <p className="">{legislator.capitolOfficeNumber}</p>
         </div>
 
         {relevantLinks ? (
