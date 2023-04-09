@@ -1,11 +1,7 @@
-import type { inferRouterOutputs } from "@trpc/server";
-import type { AppRouter } from "~/server/api/root";
-import React, { useState } from "react";
-import { useSession } from "next-auth/react";
 import { useProfileContext } from "../profileContext";
+import { useSession } from "next-auth/react";
+import React, { useState } from "react";
 import { api } from "~/utils/api";
-
-type RouterOutput = inferRouterOutputs<AppRouter>;
 
 const CreateNoteForm = () => {
   const [content, setContent] = useState("");
