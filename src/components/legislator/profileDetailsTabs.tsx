@@ -10,12 +10,10 @@ interface profileDetailsTabsProps {
 const ProfileDetailsTabs = ({ committees }: profileDetailsTabsProps) => {
   const [activeTab, setActiveTab] = useState<String>("legislatorInfo");
 
-  const { legislator, error } = useProfileContext();
+  const { legislator, staffers, error } = useProfileContext();
   if (!legislator) {
     return null;
   }
-  // Set the staffers from context
-  const staffers = legislator.staffers;
 
   const handleTabClick = (tab: String) => {
     setActiveTab(tab);

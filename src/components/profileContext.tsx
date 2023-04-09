@@ -58,6 +58,7 @@ export function ProfileProvider({
       limit: 5,
     },
     {
+      enabled: !!legislatorId,
       refetchOnWindowFocus: false,
       onSuccess: (data) => {
         if (data.pages) {
@@ -66,6 +67,21 @@ export function ProfileProvider({
       },
       getNextPageParam: (nextPage) => {
         return nextPage?.nextCursor;
+      },
+    }
+  );
+
+  const stafferQuery = api.staffer.list.useQuery(
+    {
+      legislatorId: legislatorId,
+    },
+    {
+      enabled: !!legislatorId,
+      refetchOnWindowFocus: false,
+      onSuccess: (staffers) => {
+        if (staffers) {
+          setStaffers(staffers);
+        }
       },
     }
   );
