@@ -1,13 +1,11 @@
 import React, { createContext, useContext, useState } from "react";
-import { Interaction, Staffer, Legislator } from "@prisma/client";
-import type { inferRouterOutputs } from "@trpc/server";
-import type { AppRouter } from "~/server/api/root";
+import { Interaction, Staffer } from "@prisma/client";
+import { RouterOutputs } from "~/utils/api";
 import { api } from "~/utils/api";
 
 // Define some types from our router/procedure outputs
-type RouterOutput = inferRouterOutputs<AppRouter>;
-type profileDataOutputType = RouterOutput["legislator"]["getProfileData"];
-type profileNotesOutputType = RouterOutput["note"]["getAllForLegislator"];
+type profileDataOutputType = RouterOutputs["legislator"]["getProfileData"];
+type profileNotesOutputType = RouterOutputs["note"]["getAllForLegislator"];
 
 interface ProfileContextValue {
   // profile contains all data - I don't want it to but I don't know how to extract only the top level data efficiently
