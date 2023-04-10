@@ -110,7 +110,10 @@ export function ProfileProvider({
       refetchOnWindowFocus: false,
       onSuccess: (data) => {
         if (data.pages) {
-          setInteractions(data.pages.flatMap((page) => page!.interactions));
+          const newInteractions = data.pages.flatMap(
+            (page) => page?.interactions ?? []
+          );
+          setInteractions(newInteractions);
         }
       },
       getNextPageParam: (nextPage) => {
