@@ -26,6 +26,7 @@ export const noteRouter = createTRPCRouter({
           include: {
             user: {
               select: {
+                id: true,
                 name: true,
                 image: true,
               },
@@ -73,6 +74,25 @@ export const noteRouter = createTRPCRouter({
           },
         });
         return newNote.id;
+      } catch (error) {
+        console.log(error);
+      }
+    }),
+
+  // Delete a note
+  delete: protectedProcedure
+    .input(
+      z.object({
+        noteId: z.number().int(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      try {
+        await ctx.prisma.note.delete({
+          where: {
+            id: input.noteId,
+          },
+        });
       } catch (error) {
         console.log(error);
       }

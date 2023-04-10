@@ -8,6 +8,7 @@ type notesQueryType = RouterOutputs["note"]["listForLegislator"];
 type legislatorQueryType = RouterOutputs["legislator"]["byId"];
 type NoteWithUser = Note & {
   user: {
+    id: string;
     name: string;
     image: string | null;
   };

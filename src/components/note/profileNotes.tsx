@@ -4,7 +4,7 @@ import Note from "./note";
 import React from "react";
 
 const ProfileNotes = () => {
-  const { notes, notesQuery, isLoading, error } = useProfileContext();
+  const { notes, notesQuery, error } = useProfileContext();
 
   if (!notes) {
     return null;
@@ -21,10 +21,12 @@ const ProfileNotes = () => {
           return (
             <Note
               key={note.id}
+              noteId={note.id}
               content={note.content}
               creatorName={note.user.name}
               creatorImage={note.user.image}
               createdAt={note.createdAt}
+              creatorId={note.user.id}
             />
           );
         })
