@@ -48,7 +48,9 @@ export const noteRouter = createTRPCRouter({
           notes: notes,
           nextCursor,
         };
-      } catch (error) {}
+      } catch (error) {
+        console.error(error);
+      }
     }),
 
   // Create a note
