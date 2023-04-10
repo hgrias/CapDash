@@ -6,6 +6,7 @@ const defaultInteractionSelect = Prisma.validator<Prisma.InteractionSelect>()({
   id: true,
   sessionId: true,
   noteId: true,
+  content: true,
   type: true,
   createdAt: true,
   tags: true,

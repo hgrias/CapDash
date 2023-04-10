@@ -19,12 +19,14 @@ export const ProfileInteractions = () => {
           interactions.map((interaction) => {
             return (
               <Interaction
+                key={interaction.id}
                 createdAt={interaction.createdAt}
                 creatorName={interaction.user.name}
+                content={interaction.content}
                 type={interaction.type}
                 tags={interaction.tags}
                 method={interaction.method}
-                noteId={interaction.noteId}
+                noteId={interaction.noteId ?? undefined}
               />
             );
           })

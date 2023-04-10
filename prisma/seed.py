@@ -30,19 +30,24 @@ async def main() -> None:
     session_data = data["sessionpeople"]["session"]
     session_people = data["sessionpeople"]["people"]
 
+    # Create the organization
     organization = await db.organization.create(
         data={
             "name": "Texas Appleseed",
             "slug": "texas-appleseed",
             "websiteUrl": "https://www.texasappleseed.org/",
-            "tags": {
-                "create": [
-                    {"name": "Criminal Justice"},
-                    {"name": "Cite and Release"},
-                    {"name": "General"},
-                ]
-            },
         },
+    )
+
+    # Create some tags for the organization
+    tag1 = await db.tag.create(
+        data={"name": "Criminal Justice", "organizationId": organization.id},
+    )
+    tag2 = await db.tag.create(
+        data={"name": "Cite and Release", "organizationId": organization.id},
+    )
+    tag3 = await db.tag.create(
+        data={"name": "General", "organizationId": organization.id},
     )
 
     user = await db.user.create(
@@ -104,52 +109,70 @@ async def main() -> None:
                             },
                         ]
                     },
-                    "notes": {
-                        "create": [
-                            {
-                                "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                                "createdBy": user.id,
-                                "createdAt": datetime_53_days_ago,
-                            },
-                            {
-                                "content": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                                "createdBy": user.id,
-                                "createdAt": datetime_13_hours_ago,
-                            },
-                        ]
-                    },
-                    "interactions": {
-                        "create": [
-                            {
-                                "createdBy": user.id,
-                                "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                                "sessionId": session.id,
-                                "organizationId": organization.id,
-                                "type": "general",
-                                "method": "meeting",
-                            },
-                            {
-                                "createdBy": user.id,
-                                "createdAt": datetime_13_hours_ago,
-                                "content": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-                                "sessionId": session.id,
-                                "organizationId": organization.id,
-                                "type": "issue",
-                                "method": "email",
-                            },
-                            {
-                                "createdBy": user.id,
-                                "createdAt": datetime_53_days_ago,
-                                "content": "This is a test interaction.",
-                                "sessionId": session.id,
-                                "organizationId": organization.id,
-                                "type": "bill",
-                                "method": "hearing",
-                            },
-                        ]
-                    },
                 }
             )
+
+            # Create notes for the new legislator
+            note1 = await db.note.create(
+                data={
+                    "legislatorId": new_legislator.id,
+                    "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                    "createdBy": user.id,
+                    "createdAt": datetime_53_days_ago,
+                    "tags": {"connect": {"id": tag1.id}},
+                }
+            )
+            note2 = await db.note.create(
+                data={
+                    "legislatorId": new_legislator.id,
+                    "content": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                    "createdBy": user.id,
+                    "createdAt": datetime_13_hours_ago,
+                    "tags": {"connect": {"id": tag2.id}},
+                }
+            )
+
+            # Create some interactions, some connecting to notes, some are tagged
+            connected_interaction_1 = await db.interaction.create(
+                data={
+                    "legislatorId": new_legislator.id,
+                    "noteId": note1.id,
+                    "createdBy": user.id,
+                    "createdAt": datetime_53_days_ago,
+                    "content": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                    "sessionId": session.id,
+                    "organizationId": organization.id,
+                    "type": "issue",
+                    "method": "email",
+                    "tags": {"connect": {"id": tag1.id}},
+                }
+            )
+            connected_interaction_2 = await db.interaction.create(
+                data={
+                    "legislatorId": new_legislator.id,
+                    "noteId": note2.id,
+                    "createdBy": user.id,
+                    "createdAt": datetime_13_hours_ago,
+                    "content": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                    "sessionId": session.id,
+                    "organizationId": organization.id,
+                    "type": "issue",
+                    "method": "email",
+                    "tags": {"connect": {"id": tag2.id}},
+                }
+            )
+            lone_interaction = await db.interaction.create(
+                data={
+                    "legislatorId": new_legislator.id,
+                    "createdBy": user.id,
+                    "content": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                    "sessionId": session.id,
+                    "organizationId": organization.id,
+                    "type": "issue",
+                    "method": "email",
+                }
+            )
+
         except Exception as err:
             errors.append({"Error": err, "Record": legislator})
 

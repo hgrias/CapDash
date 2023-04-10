@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
-import { Staffer, Note, InteractionType } from "@prisma/client";
+import { Staffer, Note, InteractionType, Tag } from "@prisma/client";
 import { RouterOutputs } from "~/utils/api";
 import { api } from "~/utils/api";
 
@@ -10,10 +10,12 @@ type legislatorQueryType = RouterOutputs["legislator"]["byId"];
 type InteractionsWithUser = {
   id: number;
   type: InteractionType;
+  content: string;
   createdAt: Date;
   noteId: number | null;
   sessionId: number;
   method: string;
+  tags: Tag[];
   user: {
     id: string;
     name: string;
