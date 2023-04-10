@@ -44,6 +44,12 @@ export const Interaction = ({
       <p className="mb-1 text-base font-normal text-gray-500">
         {content ?? null}
       </p>
+      {/* TODO: Figure out how to move to note when clicked */}
+      {noteId ? (
+        <a href="/" className="">
+          View Note
+        </a>
+      ) : null}
       {tags?.length ? (
         <div className="flex">
           <p className="text-base font-medium text-gray-900">{`Tags: ${formatTags(
