@@ -20,6 +20,36 @@ export function formatNoteCreatedDate(dateTime: Date) {
   }
 }
 
+const confirmDeleteModal = (deleteHandler: () => void) => {
+  return (
+    <div>
+      <input type="checkbox" id="confirmDeleteModal" className="modal-toggle" />
+      <div className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box text-center">
+          <h3 className="text-lg font-bold">
+            Are you sure you want to delete this note?
+          </h3>
+          <div className="modal-action flex justify-center gap-5">
+            <label
+              htmlFor="confirmDeleteModal"
+              className="btn-info btn text-white"
+            >
+              Cancel
+            </label>
+            <label
+              htmlFor="confirmDeleteModal"
+              className="btn-error btn text-white"
+              onClick={deleteHandler}
+            >
+              Delete
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 interface NoteProps {
   noteId: number;
   content: string;
@@ -63,12 +93,7 @@ const Note = ({
   };
 
   const handleDeleteNote = () => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this note?"
-    );
-    if (confirmDelete) {
-      deleteNote.mutate({ noteId: noteId });
-    }
+    deleteNote.mutate({ noteId: noteId });
   };
 
   return (
@@ -93,12 +118,13 @@ const Note = ({
       </div>
       {creatorId === currentUserId && isHovered && (
         <div className="absolute top-4 right-4 flex transition duration-300 ease-in-out">
-          <button
-            onClick={handleDeleteNote}
+          {confirmDeleteModal(handleDeleteNote)}
+          <label
+            htmlFor="confirmDeleteModal"
             className="btn-outline btn-square btn-xs btn border-red-600 text-sm text-red-600 hover:border-red-600 hover:bg-red-600"
           >
             X
-          </button>
+          </label>
         </div>
       )}
     </div>
