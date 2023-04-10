@@ -35,6 +35,13 @@ async def main() -> None:
             "name": "Texas Appleseed",
             "slug": "texas-appleseed",
             "websiteUrl": "https://www.texasappleseed.org/",
+            "tags": {
+                "create": [
+                    {"name": "Criminal Justice"},
+                    {"name": "Cite and Release"},
+                    {"name": "General"},
+                ]
+            },
         },
     )
 
@@ -97,6 +104,20 @@ async def main() -> None:
                             },
                         ]
                     },
+                    "notes": {
+                        "create": [
+                            {
+                                "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                                "createdBy": user.id,
+                                "createdAt": datetime_53_days_ago,
+                            },
+                            {
+                                "content": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                                "createdBy": user.id,
+                                "createdAt": datetime_13_hours_ago,
+                            },
+                        ]
+                    },
                     "interactions": {
                         "create": [
                             {
@@ -119,25 +140,11 @@ async def main() -> None:
                             {
                                 "createdBy": user.id,
                                 "createdAt": datetime_53_days_ago,
-                                "content": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                                "content": "This is a test interaction.",
                                 "sessionId": session.id,
                                 "organizationId": organization.id,
                                 "type": "bill",
-                                "method": "testify",
-                            },
-                        ]
-                    },
-                    "notes": {
-                        "create": [
-                            {
-                                "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                                "createdBy": user.id,
-                                "createdAt": datetime_53_days_ago,
-                            },
-                            {
-                                "content": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                                "createdBy": user.id,
-                                "createdAt": datetime_13_hours_ago,
+                                "method": "hearing",
                             },
                         ]
                     },

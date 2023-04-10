@@ -56,6 +56,7 @@ model Organization {
   users        User[]
   legislators  Legislator[]
   interactions Interaction[]
+  tags         Tag[]
 }
 
 model User {
@@ -151,12 +152,13 @@ model Interaction {
   organizationId String
   noteId         Int?
   sessionId      Int
+  tagId          Int?
   actionNeeded   Boolean           @default(false)
   createdAt      DateTime          @default(now())
   updatedAt      DateTime          @default(now()) @updatedAt
   type           InteractionType
   method         InteractionMethod
-  tags           Tag[]
+  tag            Tag?              @relation(fields: [tagId], references: [id])
   note           Note?             @relation(fields: [noteId], references: [id])
   organization   Organization      @relation(fields: [organizationId], references: [id])
   user           User              @relation(fields: [createdBy], references: [id], onDelete: Cascade)
@@ -182,11 +184,12 @@ model Note {
 }
 
 model Tag {
-  id            Int          @id @default(autoincrement())
-  name          String       @unique
-  interactionId Int?
-  notes         Note[]       @relation("NoteTags")
-  Interaction   Interaction? @relation(fields: [interactionId], references: [id])
+  id             Int           @id @default(autoincrement())
+  name           String        @unique
+  organizationId String
+  notes          Note[]        @relation("NoteTags")
+  organization   Organization  @relation(fields: [organizationId], references: [id])
+  Interaction    Interaction[]
 }
 
 enum InteractionType {
