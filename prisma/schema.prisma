@@ -148,12 +148,15 @@ model Interaction {
   createdBy      String
   legislatorId   String
   content        String
+  organizationId String
+  noteId         Int?
   sessionId      Int
+  actionNeeded   Boolean         @default(false)
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @default(now()) @updatedAt
-  actionNeeded   Boolean         @default(false)
   type           InteractionType
-  organizationId String
+  tags           Tag[]
+  note           Note?           @relation(fields: [noteId], references: [id])
   organization   Organization    @relation(fields: [organizationId], references: [id])
   user           User            @relation(fields: [createdBy], references: [id], onDelete: Cascade)
   legislator     Legislator      @relation(fields: [legislatorId], references: [id], onDelete: Cascade)
@@ -162,24 +165,27 @@ model Interaction {
 }
 
 model Note {
-  id           Int        @id @default(autoincrement())
+  id           Int           @id @default(autoincrement())
   content      String
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @default(now()) @updatedAt
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @default(now()) @updatedAt
   createdBy    String
   legislatorId String
   parentNoteId Int?
-  user         User       @relation(fields: [createdBy], references: [id], onDelete: Cascade)
-  legislator   Legislator @relation(fields: [legislatorId], references: [id], onDelete: Cascade)
-  parentNote   Note?      @relation("ChildNotes", fields: [parentNoteId], references: [id])
-  childNotes   Note[]     @relation("ChildNotes")
-  tags         Tag[]      @relation("NoteTags")
+  user         User          @relation(fields: [createdBy], references: [id], onDelete: Cascade)
+  legislator   Legislator    @relation(fields: [legislatorId], references: [id], onDelete: Cascade)
+  parentNote   Note?         @relation("ChildNotes", fields: [parentNoteId], references: [id])
+  childNotes   Note[]        @relation("ChildNotes")
+  tags         Tag[]         @relation("NoteTags")
+  interaction  Interaction[]
 }
 
 model Tag {
-  id    Int    @id @default(autoincrement())
-  name  String @unique
-  notes Note[] @relation("NoteTags")
+  id            Int          @id @default(autoincrement())
+  name          String       @unique
+  notes         Note[]       @relation("NoteTags")
+  Interaction   Interaction? @relation(fields: [interactionId], references: [id])
+  interactionId String?
 }
 
 enum InteractionType {
