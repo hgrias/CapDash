@@ -173,6 +173,13 @@ model Note {
   legislator   Legislator @relation(fields: [legislatorId], references: [id], onDelete: Cascade)
   parentNote   Note?      @relation("ChildNotes", fields: [parentNoteId], references: [id])
   childNotes   Note[]     @relation("ChildNotes")
+  tags         Tag[]      @relation("NoteTags")
+}
+
+model Tag {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  notes Note[] @relation("NoteTags")
 }
 
 enum InteractionType {
