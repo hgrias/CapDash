@@ -76,7 +76,8 @@ export function ProfileProvider({
       refetchOnWindowFocus: false,
       onSuccess: (data) => {
         if (data.pages) {
-          setNotes(data.pages.flatMap((page) => page!.notes));
+          const newNotes = data.pages.flatMap((page) => page?.notes ?? []);
+          setNotes(newNotes);
         }
       },
       getNextPageParam: (nextPage) => {
