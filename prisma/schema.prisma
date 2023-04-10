@@ -144,7 +144,7 @@ model LegislativeSession {
 }
 
 model Interaction {
-  id             String          @id @default(cuid())
+  id             Int             @id @default(autoincrement())
   createdBy      String
   legislatorId   String
   content        String
@@ -183,9 +183,9 @@ model Note {
 model Tag {
   id            Int          @id @default(autoincrement())
   name          String       @unique
+  interactionId Int?
   notes         Note[]       @relation("NoteTags")
   Interaction   Interaction? @relation(fields: [interactionId], references: [id])
-  interactionId String?
 }
 
 enum InteractionType {
