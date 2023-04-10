@@ -1,3 +1,4 @@
+import { ProfileInteractions } from "~/components/interaction/profileInteractions";
 import ProfileDetailsTabs from "~/components/legislator/profileDetailsTabs";
 import ProfileHeader from "~/components/legislator/profileHeader";
 import ProfileNotes from "~/components/note/profileNotes";
@@ -32,8 +33,8 @@ const LegislatorProfile: NextPage = () => {
                 <ProfileNotes />
               </div>
             </div>
-            <div className="col-span-3 bg-gray-300 text-center sm:col-span-1">
-              Interactions
+            <div className="col-span-3 sm:col-span-1">
+              <ProfileInteractions />
             </div>
           </div>
         </div>

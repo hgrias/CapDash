@@ -101,19 +101,29 @@ async def main() -> None:
                         "create": [
                             {
                                 "createdBy": user.id,
-                                # "legislatorId": legislator.id,
                                 "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                                 "sessionId": session.id,
                                 "organizationId": organization.id,
-                                "type": "BILL",
+                                "type": "general",
+                                "method": "meeting",
                             },
                             {
                                 "createdBy": user.id,
-                                # "legislatorId": legislator.id,
+                                "createdAt": datetime_13_hours_ago,
                                 "content": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
                                 "sessionId": session.id,
                                 "organizationId": organization.id,
-                                "type": "BILL",
+                                "type": "issue",
+                                "method": "email",
+                            },
+                            {
+                                "createdBy": user.id,
+                                "createdAt": datetime_53_days_ago,
+                                "content": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                                "sessionId": session.id,
+                                "organizationId": organization.id,
+                                "type": "bill",
+                                "method": "testify",
                             },
                         ]
                     },

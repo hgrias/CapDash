@@ -1,24 +1,37 @@
 import React, { createContext, useContext, useState } from "react";
-import { Interaction, Staffer, Note } from "@prisma/client";
+import { Staffer, Note, InteractionType } from "@prisma/client";
 import { RouterOutputs } from "~/utils/api";
 import { api } from "~/utils/api";
 
 // Define some types from our router/procedure outputs
-type notesQueryType = RouterOutputs["note"]["listForLegislator"];
 type legislatorQueryType = RouterOutputs["legislator"]["byId"];
-type NoteWithUser = Note & {
+
+// Manually define these types
+type InteractionsWithUser = {
+  id: number;
+  type: InteractionType;
+  createdAt: Date;
+  noteId: number | null;
+  sessionId: number;
+  method: string;
+  user: {
+    id: string;
+    name: string;
+  };
+}[];
+
+type NotesWithUser = (Note & {
   user: {
     id: string;
     name: string;
     image: string | null;
   };
-};
-type NotesArray = NoteWithUser[];
+})[];
 
 interface ProfileContextValue {
   legislator: legislatorQueryType;
-  notes: NotesArray;
-  interactions: Interaction[];
+  notes: NotesWithUser;
+  interactions: InteractionsWithUser;
   staffers: Staffer[];
   error?: Error;
   notesQuery: any; // Can't find type of useInfiniteQuery output??
@@ -36,9 +49,9 @@ export function ProfileProvider({
   children,
 }: ProfileProviderProps) {
   const [legislator, setLegislator] = useState<legislatorQueryType>();
-  const [interactions, setInteractions] = useState<Interaction[]>([]);
+  const [interactions, setInteractions] = useState<InteractionsWithUser>([]);
   const [staffers, setStaffers] = useState<Staffer[]>([]);
-  const [notes, setNotes] = useState<NotesArray>([]);
+  const [notes, setNotes] = useState<NotesWithUser>([]);
 
   const legislatorQuery = api.legislator.byId.useQuery(
     {
@@ -83,6 +96,25 @@ export function ProfileProvider({
         if (staffers) {
           setStaffers(staffers);
         }
+      },
+    }
+  );
+
+  const interactionQuery = api.interaction.getForLegislator.useInfiniteQuery(
+    {
+      legislatorId: legislatorId,
+      limit: 10,
+    },
+    {
+      enabled: !!legislatorId,
+      refetchOnWindowFocus: false,
+      onSuccess: (data) => {
+        if (data.pages) {
+          setInteractions(data.pages.flatMap((page) => page!.interactions));
+        }
+      },
+      getNextPageParam: (nextPage) => {
+        return nextPage?.nextCursor;
       },
     }
   );
