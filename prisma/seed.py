@@ -172,6 +172,48 @@ async def main() -> None:
                     "method": "email",
                 }
             )
+            connected_interaction_3 = await db.interaction.create(
+                data={
+                    "legislatorId": new_legislator.id,
+                    "noteId": note2.id,
+                    "createdBy": user.id,
+                    "createdAt": datetime_13_hours_ago,
+                    "content": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                    "sessionId": session.id,
+                    "organizationId": organization.id,
+                    "type": "issue",
+                    "method": "email",
+                    "tags": {"connect": {"id": tag2.id}},
+                }
+            )
+            connected_interaction_4 = await db.interaction.create(
+                data={
+                    "legislatorId": new_legislator.id,
+                    "noteId": note2.id,
+                    "createdBy": user.id,
+                    "createdAt": datetime_13_hours_ago,
+                    "content": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                    "sessionId": session.id,
+                    "organizationId": organization.id,
+                    "type": "issue",
+                    "method": "email",
+                    "tags": {"connect": [{"id": tag2.id}, {"id": tag1.id}]},
+                }
+            )
+            connected_interaction_2 = await db.interaction.create(
+                data={
+                    "legislatorId": new_legislator.id,
+                    "noteId": note1.id,
+                    "createdBy": user.id,
+                    "createdAt": datetime_13_hours_ago,
+                    "content": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                    "sessionId": session.id,
+                    "organizationId": organization.id,
+                    "type": "issue",
+                    "method": "email",
+                    "tags": {"connect": {"id": tag1.id}},
+                }
+            )
 
         except Exception as err:
             errors.append({"Error": err, "Record": legislator})
