@@ -34,7 +34,7 @@ const ProfileNotes = () => {
         <h2 className="p-4 font-normal">There are no notes! Create one!</h2>
       )}
       {notesQuery.hasNextPage || notesQuery.isFetchingNextPage ? (
-        <div className="h-10 bg-slate-200 bg-gradient-to-t from-transparent to-white text-center">
+        <div className="my-2 flex h-10 justify-center bg-slate-200 bg-gradient-to-t from-transparent to-white text-center">
           <button onClick={() => notesQuery.fetchNextPage()}>
             Load More Notes
           </button>

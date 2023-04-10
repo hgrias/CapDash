@@ -84,7 +84,7 @@ const Note = ({
       </div>
       <div className="flex flex-col sm:pl-4">
         <h3 className="font-semibold">{creatorName}</h3>
-        <div className="font-normal">{content}</div>
+        <div className="my-1 font-normal">{content}</div>
         <div className="flex pt-1">
           <p className="text-sm font-medium text-gray-400">
             {formatNoteCreatedDate(createdAt)}
