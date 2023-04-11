@@ -38,6 +38,7 @@ export const interactionRouter = createTRPCRouter({
           // get an extra item at the end which we'll use as next cursor
           take: limit + 1,
           select: defaultInteractionSelect,
+          cursor: cursor ? { id: cursor } : undefined,
           where: {
             legislatorId: input.legislatorId,
             // Only get the relevant interactions for the user's organization

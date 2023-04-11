@@ -107,7 +107,7 @@ export function ProfileProvider({
   const interactionsQuery = api.interaction.getForLegislator.useInfiniteQuery(
     {
       legislatorId: legislatorId,
-      limit: 10,
+      limit: 5,
     },
     {
       enabled: !!legislatorId,

@@ -3,7 +3,7 @@ import { Interaction } from "./interaction";
 import React from "react";
 
 export const ProfileInteractions = () => {
-  const { interactions } = useProfileContext();
+  const { interactions, interactionsQuery } = useProfileContext();
 
   if (!interactions) {
     return null;
@@ -34,6 +34,13 @@ export const ProfileInteractions = () => {
           <div className=""> There are no interactions! Create one! </div>
         )}
       </ol>
+      {interactionsQuery.hasNextPage || interactionsQuery.isFetchingNextPage ? (
+        <div className="flex h-10 justify-center bg-slate-200 bg-gradient-to-t from-transparent to-white py-2 text-center">
+          <button onClick={() => interactionsQuery.fetchNextPage()}>
+            Load More Notes
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 };
