@@ -1,6 +1,6 @@
 import { useProfileContext } from "../profileContext";
 import { useSession } from "next-auth/react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import React, { useState, ChangeEvent } from "react";
 import { api } from "~/utils/api";
 import Select from "react-select";
@@ -14,6 +14,7 @@ const CreateNoteForm = () => {
     register,
     handleSubmit,
     formState: { errors },
+    control,
   } = useForm();
 
   const createNote = api.note.create.useMutation({
@@ -80,22 +81,33 @@ const CreateNoteForm = () => {
 
       <div className="mt-3 grid grid-cols-1 gap-x-5 gap-y-3 sm:grid-cols-2">
         <div className="col-span-2 content-center">
-          <Select
-            isMulti
-            name="colors"
-            options={tagOptions}
-            // className="w-full lg:w-1/2"
-            classNamePrefix="select"
-            placeholder="Select Tags"
+          <Controller
+            control={control}
+            name="tags"
+            render={({ field: { onChange, onBlur, value, name } }) => (
+              <Select
+                isMulti
+                name={name}
+                options={tagOptions}
+                classNamePrefix="select"
+                placeholder="Select Tags"
+                onBlur={onBlur}
+                onChange={(selected) => {
+                  onChange(selected);
+                }}
+                value={value}
+              />
+            )}
           />
         </div>
 
-        <div className="flex justify-center">
+        <div className="flex ">
           <label className="flex cursor-pointer items-center">
             <span className="label-text text-base">
               Create Interaction for Note?
             </span>
             <input
+              {...register("createInteraction")}
               type="checkbox"
               className="checkbox ml-3"
               checked={createInteraction}
