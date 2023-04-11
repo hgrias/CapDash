@@ -37,6 +37,7 @@ interface ProfileContextValue {
   staffers: Staffer[];
   error?: Error;
   notesQuery: any; // Can't find type of useInfiniteQuery output??
+  interactionsQuery: any;
 }
 
 const ProfileContext = createContext<ProfileContextValue | null>(null);
@@ -103,7 +104,7 @@ export function ProfileProvider({
     }
   );
 
-  const interactionQuery = api.interaction.getForLegislator.useInfiniteQuery(
+  const interactionsQuery = api.interaction.getForLegislator.useInfiniteQuery(
     {
       legislatorId: legislatorId,
       limit: 10,
@@ -131,6 +132,7 @@ export function ProfileProvider({
     interactions: interactions,
     staffers: staffers,
     notesQuery: notesQuery,
+    interactionsQuery: interactionsQuery,
   };
 
   return (
