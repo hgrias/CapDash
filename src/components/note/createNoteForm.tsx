@@ -4,11 +4,17 @@ import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import React, { useState, ChangeEvent } from "react";
 import { api } from "~/utils/api";
 import Select from "react-select";
+import { InteractionMethod } from "@prisma/client";
 
 const CreateNoteForm = () => {
   const [noteContent, setNoteContent] = useState<string>("");
   const [interactionContent, setInteractionContent] = useState<string>("");
   const [createInteraction, setCreateInteraction] = useState<boolean>(false);
+  const [tagIds, setTagIds] = useState<{ id: number }[] | undefined>();
+  const [interactionMethod, setInteractionMethod] =
+    useState<InteractionMethod>("email");
+  const { legislator, error } = useProfileContext();
+  const { data: session } = useSession();
   const utils = api.useContext();
 
   interface TagOptions {
@@ -31,6 +37,16 @@ const CreateNoteForm = () => {
     control,
   } = useForm<FormValues>();
 
+  const createInteractionMutation = api.interaction.create.useMutation({
+    onSuccess: (newInteractionId) => {
+      // Refetch interactions after one is created
+      utils.interaction.getForLegislator.invalidate();
+    },
+    onError: (error) => {
+      console.error("Error creating interaction from note: ", error);
+    },
+  });
+
   const createNote = api.note.create.useMutation({
     onSuccess: (newNoteId) => {
       setNoteContent("");
@@ -38,8 +54,17 @@ const CreateNoteForm = () => {
       utils.note.listForLegislator.invalidate();
       if (createInteraction) {
         setCreateInteraction(false);
-        // TODO: Create the new interaction as well and connect to note
-        // TODO: Invalidate interactions query to refetch them
+        console.log(interactionContent);
+        // Create the new interaction as well and connect to note
+        createInteractionMutation.mutate({
+          content: interactionContent,
+          legislatorId: legislator.id,
+          method: interactionMethod,
+          // TODO: Get the correct session ID
+          sessionId: 2003,
+          noteId: newNoteId,
+          tags: tagIds,
+        });
       }
     },
     onError: (error) => {
@@ -47,14 +72,9 @@ const CreateNoteForm = () => {
     },
   });
 
-  const { legislator, error } = useProfileContext();
-  const { data: session } = useSession();
-
   if (!legislator || !session) {
     return null;
   }
-
-  const userId = session.user.id;
 
   // TODO: Get these values from org/user context (need to create that)
   const tagOptions = [
@@ -66,18 +86,24 @@ const CreateNoteForm = () => {
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     console.log(data);
 
-    // If there are tags, get them into format so we can connect them to notes
-    let tagIds = undefined;
-    if (data.tags) {
-      tagIds = data.tags.map((tagObject) => {
-        return { id: tagObject.value };
-      });
+    if (createInteraction) {
+      // If there are tags, get them into format so we can connect them to notes
+      let tagIds: { id: number }[] | undefined = undefined;
+      if (data.tags) {
+        tagIds = data.tags.map((tagObject) => {
+          return { id: tagObject.value };
+        });
+        setTagIds(tagIds);
+      }
+      // Set the interaction method state
+      setInteractionMethod(
+        data.interactionMethod.toLowerCase() as InteractionMethod
+      );
     }
 
     const newNote = {
       content: noteContent,
       legislatorId: legislator.id,
-      userId: userId,
       tagIds: tagIds,
     };
 

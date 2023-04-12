@@ -59,7 +59,6 @@ export const noteRouter = createTRPCRouter({
       z.object({
         content: z.string(),
         legislatorId: z.string(),
-        userId: z.string(),
         tagIds: z
           .array(
             z.object({
@@ -75,7 +74,7 @@ export const noteRouter = createTRPCRouter({
           data: {
             content: input.content,
             user: {
-              connect: { id: input.userId },
+              connect: { id: ctx.session.user.id },
             },
             legislator: {
               connect: { id: input.legislatorId },
