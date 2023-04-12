@@ -153,7 +153,6 @@ model Interaction {
   organizationId String
   noteId         Int?
   sessionId      Int
-  type           InteractionType
   method         InteractionMethod
   actionNeeded   Boolean           @default(false)
   createdAt      DateTime          @default(now())
@@ -190,13 +189,6 @@ model Tag {
   notes          Note[]        @relation("NoteTags")
   interactions   Interaction[] @relation("InteractionTags")
   organization   Organization  @relation(fields: [organizationId], references: [id])
-}
-
-enum InteractionType {
-  general
-  bill
-  issue
-  lobby
 }
 
 enum InteractionMethod {

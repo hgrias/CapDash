@@ -1,5 +1,5 @@
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
-import { Prisma } from "@prisma/client";
+import { InteractionMethod, Prisma } from "@prisma/client";
 import { z } from "zod";
 
 const defaultInteractionSelect = Prisma.validator<Prisma.InteractionSelect>()({
@@ -7,7 +7,6 @@ const defaultInteractionSelect = Prisma.validator<Prisma.InteractionSelect>()({
   sessionId: true,
   noteId: true,
   content: true,
-  type: true,
   createdAt: true,
   tags: true,
   method: true,
@@ -60,6 +59,63 @@ export const interactionRouter = createTRPCRouter({
           interactions: interactions,
           nextCursor,
         };
+      } catch (error) {
+        console.error(error);
+      }
+    }),
+
+  // Create an interaction
+  create: protectedProcedure
+    .input(
+      z.object({
+        legislatorId: z.string().cuid(),
+        content: z.string().max(100),
+        sessionId: z.number().int(),
+        method: z.nativeEnum(InteractionMethod),
+        noteId: z.number().int().optional(),
+        tags: z
+          .array(
+            z.object({
+              id: z.number().int(),
+            })
+          )
+          .optional(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      try {
+        const newInteraction = await ctx.prisma.interaction.create({
+          data: {
+            content: input.content,
+            sessionId: input.sessionId,
+            method: input.method,
+            legislator: {
+              connect: {
+                id: input.legislatorId,
+              },
+            },
+            note: {
+              connect: {
+                id: input.noteId,
+              },
+            },
+            organization: {
+              connect: {
+                id: ctx.session.user.organizationId,
+              },
+            },
+            user: {
+              connect: {
+                id: ctx.session.user.id,
+              },
+            },
+            tags: {
+              connect: input.tags,
+            },
+          },
+        });
+
+        return newInteraction.id;
       } catch (error) {
         console.error(error);
       }
