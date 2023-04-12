@@ -60,6 +60,13 @@ export const noteRouter = createTRPCRouter({
         content: z.string(),
         legislatorId: z.string(),
         userId: z.string(),
+        tagIds: z
+          .array(
+            z.object({
+              id: z.number().int(),
+            })
+          )
+          .optional(), // [{id: 1}, {id: 2}, ...] | undefined
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -72,6 +79,9 @@ export const noteRouter = createTRPCRouter({
             },
             legislator: {
               connect: { id: input.legislatorId },
+            },
+            tags: {
+              connect: input.tagIds,
             },
           },
         });

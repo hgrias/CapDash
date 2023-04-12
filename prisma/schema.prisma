@@ -47,6 +47,7 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+// TODO: Possibly add current session ID
 model Organization {
   id           String        @id @default(cuid())
   name         String

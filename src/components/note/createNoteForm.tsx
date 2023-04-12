@@ -1,28 +1,46 @@
 import { useProfileContext } from "../profileContext";
 import { useSession } from "next-auth/react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import React, { useState, ChangeEvent } from "react";
 import { api } from "~/utils/api";
 import Select from "react-select";
 
 const CreateNoteForm = () => {
-  const [noteContent, setNoteContent] = useState("");
-  const [createInteraction, setCreateInteraction] = useState(false);
+  const [noteContent, setNoteContent] = useState<string>("");
+  const [interactionContent, setInteractionContent] = useState<string>("");
+  const [createInteraction, setCreateInteraction] = useState<boolean>(false);
   const utils = api.useContext();
+
+  interface TagOptions {
+    value: number;
+    label: string;
+  }
+
+  type FormValues = {
+    noteContent: string;
+    createInteraction: boolean;
+    interactionMethod: string;
+    interactionContent?: string;
+    tags?: TagOptions[]; // Array of tag ID to label objects
+  };
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     control,
-  } = useForm();
+  } = useForm<FormValues>();
 
   const createNote = api.note.create.useMutation({
-    onSuccess: () => {
+    onSuccess: (newNoteId) => {
       setNoteContent("");
       // Refetch notes after a note is created
       utils.note.listForLegislator.invalidate();
-      // TODO: Refetch interactions if one is created
+      if (createInteraction) {
+        setCreateInteraction(false);
+        // TODO: Create the new interaction as well and connect to note
+        // TODO: Invalidate interactions query to refetch them
+      }
     },
     onError: (error) => {
       console.error("Error creating note:", error);
@@ -40,20 +58,31 @@ const CreateNoteForm = () => {
 
   // TODO: Get these values from org/user context (need to create that)
   const tagOptions = [
-    { value: "Cite and Release", label: "Cite and Release" },
-    { value: "Criminal Justice", label: "Criminal Justice" },
-    { value: "General", label: "General" },
+    { value: 1, label: "Cite and Release" },
+    { value: 2, label: "Criminal Justice" },
+    { value: 3, label: "General" },
   ];
 
-  // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   const newNote = {
-  //     content,
-  //     legislatorId: legislator.id,
-  //     userId: userId,
-  //   };
-  //   createNote.mutate(newNote);
-  // };
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
+    console.log(data);
+
+    // If there are tags, get them into format so we can connect them to notes
+    let tagIds = undefined;
+    if (data.tags) {
+      tagIds = data.tags.map((tagObject) => {
+        return { id: tagObject.value };
+      });
+    }
+
+    const newNote = {
+      content: noteContent,
+      legislatorId: legislator.id,
+      userId: userId,
+      tagIds: tagIds,
+    };
+
+    createNote.mutate(newNote);
+  };
 
   const handleCreateInteractionCheck = (
     event: ChangeEvent<HTMLInputElement>
@@ -64,9 +93,7 @@ const CreateNoteForm = () => {
   return (
     <form
       className="flex w-full flex-col sm:ml-4"
-      onSubmit={handleSubmit((formData) => {
-        console.log(formData);
-      })}
+      onSubmit={handleSubmit(onSubmit)}
     >
       <textarea
         {...register("noteContent", { required: true })}
@@ -78,6 +105,32 @@ const CreateNoteForm = () => {
         onChange={(e) => setNoteContent(e.target.value)}
         placeholder="Add a note"
       />
+
+      {createInteraction && (
+        <div className="mt-3 grid grid-cols-1 gap-x-5 gap-y-3 sm:grid-cols-2">
+          <select
+            {...register("interactionMethod", { required: true })}
+            className="select-bordered select w-full max-w-xs font-normal"
+            required
+          >
+            {/* TODO: Dynamically get these values from enum */}
+            <option disabled>Select Interaction Method</option>
+            <option>Email</option>
+            <option>Meeting</option>
+            <option>Testify</option>
+          </select>
+
+          <textarea
+            {...register("interactionContent")}
+            id="interactionContent"
+            className="textarea-bordered textarea h-12 w-full resize-y"
+            style={{ resize: "vertical" }}
+            value={interactionContent}
+            onChange={(e) => setInteractionContent(e.target.value)}
+            placeholder="Brief interaction summary (optional)"
+          />
+        </div>
+      )}
 
       <div className="mt-3 grid grid-cols-1 gap-x-5 gap-y-3 sm:grid-cols-2">
         <div className="col-span-2 content-center">
