@@ -35,12 +35,17 @@ const CreateNoteForm = () => {
     handleSubmit,
     formState: { errors },
     control,
+    reset,
   } = useForm<FormValues>();
 
   const createInteractionMutation = api.interaction.create.useMutation({
     onSuccess: (newInteractionId) => {
       // Refetch interactions after one is created
       utils.interaction.getForLegislator.invalidate();
+      // Reset the multi-select for tags
+      reset({ tags: [] });
+      // Also reset the tag IDs state
+      setTagIds(undefined);
     },
     onError: (error) => {
       console.error("Error creating interaction from note: ", error);
@@ -52,10 +57,10 @@ const CreateNoteForm = () => {
       setNoteContent("");
       // Refetch notes after a note is created
       utils.note.listForLegislator.invalidate();
+      // Create a new interaction as well if specified
       if (createInteraction) {
         setCreateInteraction(false);
-        console.log(interactionContent);
-        // Create the new interaction as well and connect to note
+        // Create the new interaction as well as connect to note
         createInteractionMutation.mutate({
           content: interactionContent,
           legislatorId: legislator!.id,
@@ -65,6 +70,11 @@ const CreateNoteForm = () => {
           noteId: newNoteId,
           tags: tagIds,
         });
+      } else {
+        // Reset the multi-select for tags
+        reset({ tags: [] });
+        // Also reset the tag IDs state
+        setTagIds(undefined);
       }
     },
     onError: (error) => {
@@ -163,7 +173,7 @@ const CreateNoteForm = () => {
           <Controller
             control={control}
             name="tags"
-            render={({ field: { onChange, onBlur, value, name } }) => (
+            render={({ field: { onChange, onBlur, value, name, ref } }) => (
               <Select
                 isMulti
                 name={name}
@@ -175,6 +185,7 @@ const CreateNoteForm = () => {
                   onChange(selected);
                 }}
                 value={value}
+                ref={ref}
               />
             )}
           />
