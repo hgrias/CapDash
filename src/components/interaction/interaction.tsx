@@ -14,7 +14,6 @@ function formatTags(tags: Tag[]) {
 interface InteractionProps {
   createdAt: Date;
   creatorName: string;
-  type: string;
   method: string;
   content?: string;
   noteId?: number;
@@ -24,7 +23,6 @@ interface InteractionProps {
 export const Interaction = ({
   createdAt,
   creatorName,
-  type,
   method,
   content,
   noteId,

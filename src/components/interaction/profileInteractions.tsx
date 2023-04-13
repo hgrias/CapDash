@@ -23,7 +23,6 @@ export const ProfileInteractions = () => {
                 createdAt={interaction.createdAt}
                 creatorName={interaction.user.name}
                 content={interaction.content}
-                type={interaction.type}
                 tags={interaction.tags}
                 method={interaction.method}
                 noteId={interaction.noteId ?? undefined}
@@ -37,7 +36,7 @@ export const ProfileInteractions = () => {
       {interactionsQuery.hasNextPage || interactionsQuery.isFetchingNextPage ? (
         <div className="flex h-10 justify-center bg-slate-200 bg-gradient-to-t from-transparent to-white py-2 text-center">
           <button onClick={() => interactionsQuery.fetchNextPage()}>
-            Load More Notes
+            Load More
           </button>
         </div>
       ) : null}
