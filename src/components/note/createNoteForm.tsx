@@ -58,7 +58,7 @@ const CreateNoteForm = () => {
         // Create the new interaction as well and connect to note
         createInteractionMutation.mutate({
           content: interactionContent,
-          legislatorId: legislator.id,
+          legislatorId: legislator!.id,
           method: interactionMethod,
           // TODO: Get the correct session ID
           sessionId: 2003,
