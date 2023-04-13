@@ -6,6 +6,19 @@ import { api } from "~/utils/api";
 import Select from "react-select";
 import { InteractionMethod } from "@prisma/client";
 
+interface TagOptions {
+  value: number;
+  label: string;
+}
+
+type FormValues = {
+  noteContent: string;
+  createInteraction: boolean;
+  interactionMethod: string;
+  interactionContent?: string;
+  tags?: TagOptions[]; // Array of tag ID to label objects
+};
+
 const CreateNoteForm = () => {
   const [noteContent, setNoteContent] = useState<string>("");
   const [interactionContent, setInteractionContent] = useState<string>("");
@@ -16,19 +29,6 @@ const CreateNoteForm = () => {
   const { legislator, error } = useProfileContext();
   const { data: session } = useSession();
   const utils = api.useContext();
-
-  interface TagOptions {
-    value: number;
-    label: string;
-  }
-
-  type FormValues = {
-    noteContent: string;
-    createInteraction: boolean;
-    interactionMethod: string;
-    interactionContent?: string;
-    tags?: TagOptions[]; // Array of tag ID to label objects
-  };
 
   const {
     register,
