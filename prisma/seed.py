@@ -142,7 +142,6 @@ async def main() -> None:
                     "content": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
                     "sessionId": session.id,
                     "organizationId": organization.id,
-                    "type": "issue",
                     "method": "email",
                     "tags": {"connect": {"id": tag1.id}},
                 }
@@ -156,7 +155,6 @@ async def main() -> None:
                     "content": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
                     "sessionId": session.id,
                     "organizationId": organization.id,
-                    "type": "issue",
                     "method": "email",
                     "tags": {"connect": {"id": tag2.id}},
                 }
@@ -168,7 +166,6 @@ async def main() -> None:
                     "content": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
                     "sessionId": session.id,
                     "organizationId": organization.id,
-                    "type": "issue",
                     "method": "email",
                 }
             )
