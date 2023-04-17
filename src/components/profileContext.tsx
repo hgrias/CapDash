@@ -5,6 +5,8 @@ import { api } from "~/utils/api";
 
 // Define some types from our router/procedure outputs
 type legislatorQueryType = RouterOutputs["legislator"]["byId"];
+type legislativeSessionQueryType =
+  RouterOutputs["legislativeSession"]["getActiveSession"];
 
 // Manually define these types
 type InteractionsWithUser = {
@@ -34,6 +36,7 @@ interface ProfileContextValue {
   notes: NotesWithUser;
   interactions: InteractionsWithUser;
   staffers: Staffer[];
+  selectedSession: legislativeSessionQueryType;
   error?: Error;
   notesQuery: any; // Can't find type of useInfiniteQuery output??
   interactionsQuery: any;
@@ -52,8 +55,20 @@ export function ProfileProvider({
 }: ProfileProviderProps) {
   const [legislator, setLegislator] = useState<legislatorQueryType>();
   const [interactions, setInteractions] = useState<InteractionsWithUser>([]);
+  const [selectedSession, setSelectedSession] =
+    useState<legislativeSessionQueryType>();
   const [staffers, setStaffers] = useState<Staffer[]>([]);
   const [notes, setNotes] = useState<NotesWithUser>([]);
+
+  // Set the default selected session as the org's active session
+  const legislativeSessionQuery =
+    api.legislativeSession.getActiveSession.useQuery(undefined, {
+      enabled: !!legislatorId,
+      refetchOnWindowFocus: false,
+      onSuccess: (data) => {
+        setSelectedSession(data);
+      },
+    });
 
   const legislatorQuery = api.legislator.byId.useQuery(
     {
@@ -130,6 +145,7 @@ export function ProfileProvider({
     notes: notes,
     interactions: interactions,
     staffers: staffers,
+    selectedSession: selectedSession,
     notesQuery: notesQuery,
     interactionsQuery: interactionsQuery,
   };

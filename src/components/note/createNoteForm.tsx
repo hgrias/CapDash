@@ -6,6 +6,7 @@ import { api } from "~/utils/api";
 import Select from "react-select";
 import { InteractionMethod } from "@prisma/client";
 
+// This models the multi-select options
 interface TagOptions {
   value: number;
   label: string;
@@ -26,7 +27,7 @@ const CreateNoteForm = () => {
   const [tagIds, setTagIds] = useState<{ id: number }[] | undefined>();
   const [interactionMethod, setInteractionMethod] =
     useState<InteractionMethod>("email");
-  const { legislator, error } = useProfileContext();
+  const { legislator, selectedSession, error } = useProfileContext();
   const { data: session } = useSession();
   const utils = api.useContext();
 
@@ -52,6 +53,7 @@ const CreateNoteForm = () => {
     },
   });
 
+  // TODO: Figure out if there is a better way to handle !. invocations
   const createNote = api.note.create.useMutation({
     onSuccess: (newNoteId) => {
       setNoteContent("");
@@ -65,8 +67,7 @@ const CreateNoteForm = () => {
           content: interactionContent,
           legislatorId: legislator!.id,
           method: interactionMethod,
-          // TODO: Get the correct session ID
-          sessionId: 2003,
+          sessionId: selectedSession!.id,
           noteId: newNoteId,
           tags: tagIds,
         });
