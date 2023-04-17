@@ -11,7 +11,6 @@ import { stafferRouter } from "./routers/staffer";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
-  example: exampleRouter,
   legislator: legislatorRouter,
   interaction: interactionRouter,
   note: noteRouter,
