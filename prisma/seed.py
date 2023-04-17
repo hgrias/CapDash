@@ -68,6 +68,7 @@ async def main() -> None:
             "sessionName": session_data["session_name"],
             "sessionTitle": session_data["session_title"],
             "sessionTag": session_data["session_tag"],
+            "organizationId": organization.id,
         },
     )
 

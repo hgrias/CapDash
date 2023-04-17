@@ -47,17 +47,17 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-// TODO: Possibly add current session ID
 model Organization {
-  id           String        @id @default(cuid())
+  id           String               @id @default(cuid())
   name         String
-  slug         String        @unique
+  slug         String               @unique
   websiteUrl   String?
   imageUri     String?
+  tags         Tag[]
   users        User[]
   legislators  Legislator[]
   interactions Interaction[]
-  tags         Tag[]
+  sessions     LegislativeSession[]
 }
 
 model User {
@@ -85,7 +85,7 @@ model VerificationToken {
 }
 
 model Legislator {
-  id                  String         @id @default(cuid())
+  id                  String               @id @default(cuid())
   legiscanId          Int?
   currentSessionId    Int
   firstName           String
@@ -103,12 +103,13 @@ model Legislator {
   capitolWebsiteUrl   String?
   nickName            String?
   organizationId      String
-  createdAt           DateTime       @default(now())
-  updatedAt           DateTime       @default(now()) @updatedAt
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @default(now()) @updatedAt
   state               State
   party               Party
   role                LegislatorRole
-  organization        Organization   @relation(fields: [organizationId], references: [id])
+  organization        Organization         @relation(fields: [organizationId], references: [id])
+  sessions            LegislativeSession[]
   interactions        Interaction[]
   staffers            Staffer[]
   notes               Note[]
@@ -130,19 +131,23 @@ model Staffer {
 }
 
 model LegislativeSession {
-  id           Int     @id
-  yearStart    Int
-  yearEnd      Int
-  sessionTag   String?
-  sessionTitle String?
-  sessionName  String?
-  active       Boolean @default(false)
-  archived     Boolean @default(false)
-  special      Boolean @default(false)
-  sineDie      Boolean @default(false)
-  state        State
+  id             Int           @id
+  yearStart      Int
+  yearEnd        Int
+  sessionTag     String?
+  sessionTitle   String?
+  sessionName    String?
+  organizationId String?
+  legislatorId   String?
+  active         Boolean       @default(false)
+  archived       Boolean       @default(false)
+  special        Boolean       @default(false)
+  sineDie        Boolean       @default(false)
+  state          State
+  Legislator     Legislator?   @relation(fields: [legislatorId], references: [id])
+  Organization   Organization? @relation(fields: [organizationId], references: [id])
 
-  @@unique([id, state])
+  @@unique([id, state, organizationId])
 }
 
 model Interaction {
