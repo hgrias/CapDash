@@ -56,10 +56,10 @@ export function ProfileProvider({
 }: ProfileProviderProps) {
   const [legislator, setLegislator] = useState<legislatorQueryType>();
   const [interactions, setInteractions] = useState<InteractionsWithUser>([]);
-  const [selectedSession, setSelectedSession] =
-    useState<legislativeSessionQueryType>();
   const [staffers, setStaffers] = useState<Staffer[]>([]);
   const [notes, setNotes] = useState<NotesWithUser>([]);
+  const [selectedSession, setSelectedSession] =
+    useState<legislativeSessionQueryType>();
 
   const { orgActiveSession } = useOrganizationContext();
 
@@ -143,7 +143,7 @@ export function ProfileProvider({
     interactionsQuery: interactionsQuery,
   };
 
-  // Set the default selected session as the org's active session
+  // Set the default selected session as the org's active session via org context
   useEffect(() => {
     setSelectedSession(orgActiveSession);
   }, [orgActiveSession]);
