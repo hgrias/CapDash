@@ -93,6 +93,10 @@ const CreateNoteForm = () => {
     return { value: tag.id, label: tag.name };
   });
 
+  const interactionMethods = Object.values(InteractionMethod).map((method) => {
+    return method;
+  });
+
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     if (createInteraction) {
       // If there are tags, get them into format so we can connect them to notes
@@ -147,11 +151,10 @@ const CreateNoteForm = () => {
             className="select-bordered select w-full max-w-xs font-normal"
             required
           >
-            {/* TODO: Dynamically get these values from enum */}
             <option disabled>Select Interaction Method</option>
-            <option>Email</option>
-            <option>Meeting</option>
-            <option>Testify</option>
+            {interactionMethods.map((method) => {
+              return <option key={method}>{method}</option>;
+            })}
           </select>
 
           <textarea
