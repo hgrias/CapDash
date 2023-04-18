@@ -1,0 +1,102 @@
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { LegislativeSession, Tag } from "@prisma/client";
+import { RouterOutputs } from "~/utils/api";
+import { api } from "~/utils/api";
+import { useSession } from "next-auth/react";
+
+// Import types from tRPC router outputs
+type orgInfoQueryType = RouterOutputs["organization"]["info"];
+type orgTagsQueryType = RouterOutputs["organization"]["tags"];
+type orgSessionsQueryType = RouterOutputs["organization"]["sessions"];
+
+// Provider Value Props
+interface OrganizationContextValue {
+  organization: orgInfoQueryType;
+  orgTags: Tag[] | undefined;
+  orgSessions: LegislativeSession[] | undefined;
+  orgActiveSession: LegislativeSession | undefined;
+}
+
+const OrganizationContext = createContext<OrganizationContextValue | null>(
+  null
+);
+
+interface OrganizationProviderProps {
+  children: React.ReactNode;
+}
+
+export function OrganizationProvider({ children }: OrganizationProviderProps) {
+  const [orgSessions, setOrgSessions] = useState<LegislativeSession[]>();
+  const [orgTags, setOrgTags] = useState<Tag[]>();
+  const [orgInfo, setOrgInfo] = useState<orgInfoQueryType>();
+  const [orgActiveSession, setOrgActiveSession] =
+    useState<LegislativeSession>();
+
+  // Get the user's organization ID from session context data
+  const { data: session } = useSession();
+  // Only grab context data once organization ID is valid
+  const organizationId = session?.user?.organizationId ?? undefined;
+
+  // TODO: Could probably get all these queries into 1 then extract to state
+  const orgInfoQuery = api.organization.info.useQuery(undefined, {
+    enabled: !!organizationId,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+    onSuccess: (data) => {
+      setOrgInfo(data);
+    },
+  });
+
+  const orgTagsQuery = api.organization.tags.useQuery(undefined, {
+    enabled: !!organizationId,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+    onSuccess: (data) => {
+      const [{ tags } = { tags: [] }] = data ?? [];
+      setOrgTags(tags);
+    },
+  });
+
+  const orgSessionsQuery = api.organization.sessions.useQuery(undefined, {
+    enabled: !!organizationId,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+    onSuccess: (data) => {
+      const [{ sessions } = { sessions: [] }] = data ?? [];
+      setOrgSessions(sessions);
+    },
+  });
+
+  // Set the active session from the sessions list
+  useEffect(() => {
+    if (orgSessions) {
+      const activeSession = orgSessions.find((session) => session.active);
+      setOrgActiveSession(activeSession);
+    }
+  }, [orgSessions]);
+
+  const value: OrganizationContextValue = {
+    organization: orgInfo,
+    orgTags: orgTags,
+    orgSessions: orgSessions,
+    orgActiveSession: orgActiveSession,
+  };
+
+  // !? Had to use createElement instead of fragment syntax bc it couldnt recognize OrganizationContext in the fragment (no idea why)
+  return React.createElement(
+    OrganizationContext.Provider,
+    { value: value },
+    children
+  );
+}
+
+// Create a hook to use this new context
+export function useOrganizationContext(): OrganizationContextValue {
+  const context = useContext(OrganizationContext);
+  if (!context) {
+    throw new Error(
+      "useOrganizationContext must be used within a OrganizationProvider component"
+    );
+  }
+  return context;
+}
