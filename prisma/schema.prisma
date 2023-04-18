@@ -163,7 +163,7 @@ model Interaction {
   createdAt      DateTime          @default(now())
   updatedAt      DateTime          @default(now()) @updatedAt
   tags           Tag[]             @relation("InteractionTags")
-  note           Note?             @relation(fields: [noteId], references: [id])
+  note           Note?             @relation(fields: [noteId], references: [id], onDelete: Cascade)
   organization   Organization      @relation(fields: [organizationId], references: [id])
   user           User              @relation(fields: [createdBy], references: [id], onDelete: Cascade)
   legislator     Legislator        @relation(fields: [legislatorId], references: [id], onDelete: Cascade)

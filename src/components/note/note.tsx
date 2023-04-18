@@ -74,6 +74,7 @@ const Note = ({
     onSuccess: () => {
       // Refresh the notes on profile page
       utils.note.listForLegislator.invalidate();
+      utils.interaction.getForLegislator.invalidate();
     },
     onError: (error) => {
       console.error("Error deleting note:", error);
