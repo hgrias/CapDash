@@ -1,7 +1,8 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { Staffer, Note, Tag } from "@prisma/client";
 import { RouterOutputs } from "~/utils/api";
 import { api } from "~/utils/api";
+import { useOrganizationContext } from "./organizationContext";
 
 // Define some types from our router/procedure outputs
 type legislatorQueryType = RouterOutputs["legislator"]["byId"];
@@ -60,15 +61,7 @@ export function ProfileProvider({
   const [staffers, setStaffers] = useState<Staffer[]>([]);
   const [notes, setNotes] = useState<NotesWithUser>([]);
 
-  // Set the default selected session as the org's active session
-  const legislativeSessionQuery =
-    api.legislativeSession.getActiveSession.useQuery(undefined, {
-      enabled: !!legislatorId,
-      refetchOnWindowFocus: false,
-      onSuccess: (data) => {
-        setSelectedSession(data);
-      },
-    });
+  const { orgActiveSession } = useOrganizationContext();
 
   const legislatorQuery = api.legislator.byId.useQuery(
     {
@@ -149,6 +142,11 @@ export function ProfileProvider({
     notesQuery: notesQuery,
     interactionsQuery: interactionsQuery,
   };
+
+  // Set the default selected session as the org's active session
+  useEffect(() => {
+    setSelectedSession(orgActiveSession);
+  }, [orgActiveSession]);
 
   return (
     <ProfileContext.Provider value={value}>{children}</ProfileContext.Provider>
