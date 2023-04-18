@@ -5,6 +5,7 @@ import React, { useState, ChangeEvent } from "react";
 import { api } from "~/utils/api";
 import Select from "react-select";
 import { InteractionMethod } from "@prisma/client";
+import { useOrganizationContext } from "../organizationContext";
 
 // This models the multi-select options
 interface TagOptions {
@@ -21,13 +22,14 @@ type FormValues = {
 };
 
 const CreateNoteForm = () => {
-  const [noteContent, setNoteContent] = useState<string>("");
   const [interactionContent, setInteractionContent] = useState<string>("");
   const [createInteraction, setCreateInteraction] = useState<boolean>(false);
   const [tagIds, setTagIds] = useState<{ id: number }[] | undefined>();
+  const { legislator, selectedSession, error } = useProfileContext();
+  const [noteContent, setNoteContent] = useState<string>("");
   const [interactionMethod, setInteractionMethod] =
     useState<InteractionMethod>("email");
-  const { legislator, selectedSession, error } = useProfileContext();
+  const { orgTags } = useOrganizationContext();
   const { data: session } = useSession();
   const utils = api.useContext();
 
@@ -87,16 +89,11 @@ const CreateNoteForm = () => {
     return null;
   }
 
-  // TODO: Get these values from org/user context (need to create that)
-  const tagOptions = [
-    { value: 1, label: "Cite and Release" },
-    { value: 2, label: "Criminal Justice" },
-    { value: 3, label: "General" },
-  ];
+  const tagOptions = orgTags?.map((tag) => {
+    return { value: tag.id, label: tag.name };
+  });
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log(data);
-
     if (createInteraction) {
       // If there are tags, get them into format so we can connect them to notes
       let tagIds: { id: number }[] | undefined = undefined;
