@@ -19,10 +19,9 @@ const Avatar = ({ imageUri, name, type, size }: AvatarProps) => {
 
   // If there is no image, render a placeholder with initials
   if (!imageUri) {
-    const firstInitial = firstName.charAt(0).toUpperCase();
-    const initials = `${firstName?.charAt(0).toUpperCase()}${lastName
-      ?.charAt(0)
-      .toUpperCase()}`;
+    const firstInitial = firstName?.charAt(0).toUpperCase() ?? "A";
+    const secondIntial = lastName?.charAt(0).toUpperCase() ?? "Z";
+    const initials = firstInitial + secondIntial;
 
     return (
       <>
