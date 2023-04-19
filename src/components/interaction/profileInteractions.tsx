@@ -9,6 +9,10 @@ export const ProfileInteractions = () => {
     return null;
   }
 
+  async function handleLoadMoreClick() {
+    await interactionsQuery.fetchNextPage();
+  }
+
   return (
     <div className="w-full rounded-lg bg-white shadow-lg sm:mt-12">
       <div id="header" className="border-b-1 mb-3 border-b p-4 text-xl">
@@ -35,9 +39,7 @@ export const ProfileInteractions = () => {
       </ol>
       {interactionsQuery.hasNextPage || interactionsQuery.isFetchingNextPage ? (
         <div className="flex h-10 justify-center bg-slate-200 bg-gradient-to-t from-transparent to-white py-2 text-center">
-          <button onClick={() => interactionsQuery.fetchNextPage()}>
-            Load More
-          </button>
+          <button onClick={() => handleLoadMoreClick}>Load More</button>
         </div>
       ) : null}
     </div>
