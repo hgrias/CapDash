@@ -19,6 +19,7 @@ const Avatar = ({ imageUri, name, type, size }: AvatarProps) => {
 
   // If there is no image, render a placeholder with initials
   if (!imageUri) {
+    const firstInitial = firstName.charAt(0).toUpperCase();
     const initials = `${firstName?.charAt(0).toUpperCase()}${lastName
       ?.charAt(0)
       .toUpperCase()}`;
@@ -41,9 +42,8 @@ const Avatar = ({ imageUri, name, type, size }: AvatarProps) => {
     let imagePath = imageUri;
     // Use the GCS bucket path if legislator
     if (type === "LEGISLATOR") {
-      // TODO: Do I need to store the bucket name in an env var?
-      const gcsBasePath =
-        "https://storage.googleapis.com/legislator-dashboard/avatars";
+      const bucketName = process.env.GCS_BUCKET_NAME ?? "defaultBucketName";
+      const gcsBasePath = `https://storage.googleapis.com/${bucketName}/avatars`;
       imagePath = `${gcsBasePath}/${imageUri}`;
     }
     return (
