@@ -18,9 +18,12 @@ export const Header = () => {
             onClick={() => void signOut()}
           >
             <div className="w-10 rounded-full">
+              {/* TODO: Make width and height correct? */}
               <Image
                 src={sessionData?.user?.image ?? ""}
                 alt={sessionData?.user?.name ?? ""}
+                width={12}
+                height={12}
               />
             </div>
           </label>

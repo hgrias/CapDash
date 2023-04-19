@@ -54,7 +54,8 @@ const Avatar = ({ imageUri, name, type, size }: AvatarProps) => {
               size ?? defaultSize
             } rounded-full`}
           >
-            <Image src={imagePath} alt="avatar" />
+            {/* TODO: Make width and height correct? */}
+            <Image src={imagePath} alt="avatar" width={12} height={12} />
           </div>
         </div>
       </>
