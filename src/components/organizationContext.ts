@@ -1,13 +1,11 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { LegislativeSession, Tag } from "@prisma/client";
-import { RouterOutputs } from "~/utils/api";
+import type { LegislativeSession, Tag } from "@prisma/client";
+import type { RouterOutputs } from "~/utils/api";
 import { api } from "~/utils/api";
 import { useSession } from "next-auth/react";
 
 // Import types from tRPC router outputs
 type orgInfoQueryType = RouterOutputs["organization"]["info"];
-type orgTagsQueryType = RouterOutputs["organization"]["tags"];
-type orgSessionsQueryType = RouterOutputs["organization"]["sessions"];
 
 // Provider Value Props
 interface OrganizationContextValue {
@@ -38,7 +36,7 @@ export function OrganizationProvider({ children }: OrganizationProviderProps) {
   const organizationId = session?.user?.organizationId ?? undefined;
 
   // TODO: Could probably get all these queries into 1 then extract to state
-  const orgInfoQuery = api.organization.info.useQuery(undefined, {
+  api.organization.info.useQuery(undefined, {
     enabled: !!organizationId,
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
@@ -47,7 +45,7 @@ export function OrganizationProvider({ children }: OrganizationProviderProps) {
     },
   });
 
-  const orgTagsQuery = api.organization.tags.useQuery(undefined, {
+  api.organization.tags.useQuery(undefined, {
     enabled: !!organizationId,
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
@@ -57,7 +55,7 @@ export function OrganizationProvider({ children }: OrganizationProviderProps) {
     },
   });
 
-  const orgSessionsQuery = api.organization.sessions.useQuery(undefined, {
+  api.organization.sessions.useQuery(undefined, {
     enabled: !!organizationId,
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
