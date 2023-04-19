@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 interface AvatarProps {
   type: "USER" | "LEGISLATOR";
@@ -53,7 +54,7 @@ const Avatar = ({ imageUri, name, type, size }: AvatarProps) => {
               size ?? defaultSize
             } rounded-full`}
           >
-            <img src={imagePath} />
+            <Image src={imagePath} alt="avatar" />
           </div>
         </div>
       </>
