@@ -9,6 +9,8 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "~/env.mjs";
 import { prisma } from "~/server/db";
 
+const TEST_ORG_ID = "clgn330dm000008jvcg5x05k4";
+
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
  * object and keep type safety.
@@ -39,11 +41,33 @@ declare module "next-auth" {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    session({ session, user }) {
+    async session({ session, user }) {
       if (session.user) {
         session.user.id = user.id;
-        session.user.organizationId = user.organizationId;
         // session.user.role = user.role; <-- put other properties on the session here
+        // New User: If their domain does not have an org, add them to the test org
+        if (user.organizationId) {
+          session.user.organizationId = user.organizationId;
+        } else {
+          // TODO: Check whether the new user's domain belongs to an org already and connect them
+          console.log(
+            `\n\nUser ${session.user.id} does not belong to an org. Adding them to test org.\n\n`
+          );
+          // If not, add them to the test organization
+          await prisma.user.update({
+            where: {
+              id: session.user.id,
+            },
+            data: {
+              organization: {
+                connect: {
+                  id: TEST_ORG_ID,
+                },
+              },
+            },
+          });
+          session.user.organizationId = TEST_ORG_ID;
+        }
       }
       return session;
     },
