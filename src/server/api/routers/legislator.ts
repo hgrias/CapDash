@@ -52,6 +52,9 @@ export const legislatorRouter = createTRPCRouter({
         // Only get legislators for the user's organization
         organizationId: ctx.session.user.organizationId,
       },
+      orderBy: {
+        firstName: "asc",
+      },
     });
   }),
 
