@@ -11,9 +11,9 @@ const Login: NextPage = () => {
   // Redirect to index page if logged in
   useEffect(() => {
     if (sessionData) {
-      router.push("/");
+      void router.push("/");
     }
-  }, [sessionData]);
+  }, [router, sessionData]);
 
   return (
     <div className="auth-container my-20">

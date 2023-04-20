@@ -13,9 +13,9 @@ const Home: NextPage = () => {
   // Redirect to login page if not signed in
   useEffect(() => {
     if (!sessionData) {
-      router.push("/login");
+      void router.push("/login");
     }
-  }, [sessionData]);
+  }, [router, sessionData]);
 
   return (
     <>
