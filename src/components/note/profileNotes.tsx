@@ -4,7 +4,7 @@ import Note from "./note";
 import React from "react";
 
 const ProfileNotes = () => {
-  const { notes, notesQuery, error } = useProfileContext();
+  const { notes, notesQuery } = useProfileContext();
 
   if (!notes) {
     return null;
@@ -35,7 +35,7 @@ const ProfileNotes = () => {
       )}
       {notesQuery.hasNextPage || notesQuery.isFetchingNextPage ? (
         <div className="flex h-10 justify-center bg-slate-200 bg-gradient-to-t from-transparent to-white py-2 text-center">
-          <button onClick={() => notesQuery.fetchNextPage()}>
+          <button onClick={() => void notesQuery.fetchNextPage()}>
             Load More Notes
           </button>
         </div>

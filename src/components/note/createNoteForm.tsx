@@ -1,11 +1,11 @@
+import { useForm, Controller, type SubmitHandler } from "react-hook-form";
+import { useOrganizationContext } from "../organizationContext";
+import React, { useState, type ChangeEvent } from "react";
 import { useProfileContext } from "../profileContext";
+import { InteractionMethod } from "@prisma/client";
 import { useSession } from "next-auth/react";
-import { useForm, Controller, SubmitHandler } from "react-hook-form";
-import React, { useState, ChangeEvent } from "react";
 import { api } from "~/utils/api";
 import Select from "react-select";
-import { InteractionMethod } from "@prisma/client";
-import { useOrganizationContext } from "../organizationContext";
 
 // This models the multi-select options
 interface TagOptions {
@@ -25,26 +25,21 @@ const CreateNoteForm = () => {
   const [interactionContent, setInteractionContent] = useState<string>("");
   const [createInteraction, setCreateInteraction] = useState<boolean>(false);
   const [tagIds, setTagIds] = useState<{ id: number }[] | undefined>();
-  const { legislator, selectedSession, error } = useProfileContext();
   const [noteContent, setNoteContent] = useState<string>("");
   const [interactionMethod, setInteractionMethod] =
     useState<InteractionMethod>("email");
+
+  const { legislator, selectedSession } = useProfileContext();
   const { orgTags } = useOrganizationContext();
   const { data: session } = useSession();
   const utils = api.useContext();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    control,
-    reset,
-  } = useForm<FormValues>();
+  const { register, handleSubmit, control, reset } = useForm<FormValues>();
 
   const createInteractionMutation = api.interaction.create.useMutation({
-    onSuccess: (newInteractionId) => {
+    onSuccess: () => {
       // Refetch interactions after one is created
-      utils.interaction.getForLegislator.invalidate();
+      void utils.interaction.getForLegislator.invalidate();
       // Reset the multi-select for tags
       reset({ tags: [] });
       // Also reset the tag IDs state
@@ -60,7 +55,7 @@ const CreateNoteForm = () => {
     onSuccess: (newNoteId) => {
       setNoteContent("");
       // Refetch notes after a note is created
-      utils.note.listForLegislator.invalidate();
+      void utils.note.listForLegislator.invalidate();
       // Create a new interaction as well if specified
       if (createInteraction) {
         setCreateInteraction(false);
@@ -98,28 +93,32 @@ const CreateNoteForm = () => {
   });
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    if (createInteraction) {
-      // If there are tags, get them into format so we can connect them to notes
-      let tagIds: { id: number }[] | undefined = undefined;
-      if (data.tags) {
-        tagIds = data.tags.map((tagObject) => {
-          return { id: tagObject.value };
-        });
-        setTagIds(tagIds);
+    try {
+      if (createInteraction) {
+        // If there are tags, get them into format so we can connect them to notes
+        let tagIds: { id: number }[] | undefined = undefined;
+        if (data.tags) {
+          tagIds = data.tags.map((tagObject) => {
+            return { id: tagObject.value };
+          });
+          setTagIds(tagIds);
+        }
+        // Set the interaction method state
+        setInteractionMethod(
+          data.interactionMethod.toLowerCase() as InteractionMethod
+        );
       }
-      // Set the interaction method state
-      setInteractionMethod(
-        data.interactionMethod.toLowerCase() as InteractionMethod
-      );
+
+      const newNote = {
+        content: noteContent,
+        legislatorId: legislator.id,
+        tagIds: tagIds,
+      };
+
+      createNote.mutate(newNote);
+    } catch (error) {
+      console.error(error);
     }
-
-    const newNote = {
-      content: noteContent,
-      legislatorId: legislator.id,
-      tagIds: tagIds,
-    };
-
-    createNote.mutate(newNote);
   };
 
   const handleCreateInteractionCheck = (
@@ -131,7 +130,9 @@ const CreateNoteForm = () => {
   return (
     <form
       className="flex w-full flex-col sm:ml-4"
-      onSubmit={handleSubmit(onSubmit)}
+      // To fix ESLint error with react hook form..
+      // https://github.com/orgs/react-hook-form/discussions/8020#discussioncomment-3362300
+      onSubmit={(...args) => void handleSubmit(onSubmit)(...args)}
     >
       <textarea
         {...register("noteContent", { required: true })}

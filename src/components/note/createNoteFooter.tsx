@@ -3,11 +3,7 @@ import CreateNoteForm from "./createNoteForm";
 import Avatar from "../avatar";
 import React from "react";
 
-interface CreateNoteFooterProps {
-  imageUri?: String;
-}
-
-const CreateNoteFooter = ({ imageUri }: CreateNoteFooterProps) => {
+const CreateNoteFooter = () => {
   // TODO: Determine if this is the best spot to do this?
   // Maybe create own avatar component which determines whether or not to use Initials or Image
   const session = useSession();
