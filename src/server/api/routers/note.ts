@@ -40,8 +40,10 @@ export const noteRouter = createTRPCRouter({
         let nextCursor: typeof cursor | undefined = undefined;
         if (notes.length > limit) {
           // Remove the last item and use it as next cursor
-          const nextItem = notes.pop()!;
-          nextCursor = nextItem.id;
+          const nextItem = notes.pop();
+          if (nextItem) {
+            nextCursor = nextItem.id;
+          }
         }
 
         return {

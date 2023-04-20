@@ -51,8 +51,10 @@ export const interactionRouter = createTRPCRouter({
         let nextCursor: typeof cursor | undefined = undefined;
         if (interactions.length > limit) {
           // Remove the last item and use it as next cursor
-          const nextItem = interactions.pop()!;
-          nextCursor = nextItem.id;
+          const nextItem = interactions.pop();
+          if (nextItem) {
+            nextCursor = nextItem.id;
+          }
         }
 
         return {

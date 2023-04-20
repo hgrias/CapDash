@@ -1,4 +1,4 @@
-import { Party, LegislatorRole, State } from "@prisma/client";
+import type { Party, LegislatorRole, State } from "@prisma/client";
 
 type StateName =
   | "Alabama"

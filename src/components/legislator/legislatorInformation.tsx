@@ -2,7 +2,7 @@ import { useProfileContext } from "../profileContext";
 import React from "react";
 
 const LegislatorInformation = () => {
-  const { legislator, error } = useProfileContext();
+  const { legislator } = useProfileContext();
   if (!legislator) {
     return null;
   }

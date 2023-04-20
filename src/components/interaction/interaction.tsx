@@ -1,5 +1,6 @@
-import { Tag } from "@prisma/client";
+import type { Tag } from "@prisma/client";
 import { format } from "date-fns";
+import Link from "next/link";
 import React from "react";
 
 function capitalizeFirstLetter(string: string) {
@@ -51,11 +52,7 @@ export const Interaction = ({
           </div>
         ) : null}
         {/* TODO: Figure out how to move to note when clicked */}
-        {noteId ? (
-          <a href="/" className="ml-6 text-blue-700">
-            View Notes
-          </a>
-        ) : null}
+        {noteId ? <Link href="/" /> : null}
       </div>
     </li>
   );

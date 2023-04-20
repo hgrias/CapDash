@@ -41,7 +41,7 @@ export const legislatorRouter = createTRPCRouter({
     }),
 
   // Get all legislators
-  getAll: protectedProcedure.query(({ ctx, input }) => {
+  getAll: protectedProcedure.query(({ ctx }) => {
     return ctx.prisma.legislator.findMany({
       select: {
         id: true,

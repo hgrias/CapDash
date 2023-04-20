@@ -8,7 +8,7 @@ import {
 } from "~/utils/componentUtils";
 
 const ProfileHeader = () => {
-  const { legislator, error } = useProfileContext();
+  const { legislator } = useProfileContext();
   if (!legislator) {
     return null;
   }

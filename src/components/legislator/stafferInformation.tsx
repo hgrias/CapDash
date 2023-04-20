@@ -1,4 +1,4 @@
-import { Staffer } from "@prisma/client";
+import type { Staffer } from "@prisma/client";
 import React from "react";
 
 interface StafferInformationProps {

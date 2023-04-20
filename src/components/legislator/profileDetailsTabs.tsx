@@ -7,15 +7,15 @@ interface profileDetailsTabsProps {
   committees?: []; // TODO: Add committees model
 }
 
-const ProfileDetailsTabs = ({ committees }: profileDetailsTabsProps) => {
-  const [activeTab, setActiveTab] = useState<String>("legislatorInfo");
+const ProfileDetailsTabs = ({}: profileDetailsTabsProps) => {
+  const [activeTab, setActiveTab] = useState<string>("legislatorInfo");
 
-  const { legislator, staffers, error } = useProfileContext();
+  const { legislator, staffers } = useProfileContext();
   if (!legislator) {
     return null;
   }
 
-  const handleTabClick = (tab: String) => {
+  const handleTabClick = (tab: string) => {
     setActiveTab(tab);
   };
 
