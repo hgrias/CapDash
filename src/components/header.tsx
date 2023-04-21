@@ -31,13 +31,13 @@ export const Header = () => {
             </Link>
             <Link
               className="text-foreground/60 transition-colors hover:text-foreground/80"
-              href=""
+              href={`/org/${organization.slug}`}
             >
               Tags
             </Link>
             <Link
               className="text-foreground/60 transition-colors hover:text-foreground/80"
-              href=""
+              href={`/org/${organization.slug}`}
             >
               Examples
             </Link>
