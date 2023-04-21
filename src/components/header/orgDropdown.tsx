@@ -95,7 +95,13 @@ export function OrgDropdown() {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onSelect={() => void signOut()}>
+        <DropdownMenuItem
+          onSelect={() =>
+            void signOut({
+              callbackUrl: "/",
+            })
+          }
+        >
           <LogOut className="mr-2 h-4 w-4" />
           <span>Log out</span>
         </DropdownMenuItem>
