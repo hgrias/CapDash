@@ -1,14 +1,25 @@
 import { ProfileInteractions } from "~/components/interaction/profileInteractions";
 import ProfileDetailsTabs from "~/components/legislator/profileDetailsTabs";
 import ProfileHeader from "~/components/legislator/profileHeader";
-import ProfileNotes from "~/components/note/profileNotes";
 import { ProfileProvider } from "~/components/profileContext";
+import ProfileNotes from "~/components/note/profileNotes";
+import { useSession } from "next-auth/react";
 import { Header } from "~/components/header";
 import { useRouter } from "next/router";
 import { type NextPage } from "next";
+import Error from "next/error";
 
 const LegislatorProfile: NextPage = () => {
+  const { status } = useSession();
   const legislatorId = useRouter().query.id as string;
+
+  if (status === "loading") {
+    return <p>Loading...</p>;
+  }
+
+  if (status === "unauthenticated") {
+    return <Error statusCode={403} title="Access Denied" />;
+  }
 
   if (!legislatorId) {
     return null;
