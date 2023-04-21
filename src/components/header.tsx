@@ -25,7 +25,7 @@ export const Header = () => {
           <nav className="flex items-center space-x-6 text-sm font-medium">
             <Link
               className="text-foreground/60 transition-colors hover:text-foreground/80"
-              href="/"
+              href={`/org/${organization.slug}/legislators`}
             >
               Legislators
             </Link>
