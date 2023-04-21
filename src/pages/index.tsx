@@ -20,7 +20,7 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Legislator Dashboard</title>
+        <title>CapDash</title>
         <meta
           name="Texas Legislator Dashboard"
           content="Dashboard to view TX legislator profiles"
