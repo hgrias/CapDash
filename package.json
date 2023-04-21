@@ -25,6 +25,7 @@
     "@trpc/react-query": "^10.9.0",
     "@trpc/server": "^10.9.0",
     "avatar": "^0.1.0",
+    "button": "^1.1.1",
     "class-variance-authority": "^0.5.2",
     "clsx": "^1.2.1",
     "daisyui": "^2.51.3",
