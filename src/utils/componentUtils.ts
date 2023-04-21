@@ -1,5 +1,15 @@
 import type { Party, LegislatorRole, State } from "@prisma/client";
 
+export function getInitials(name: string): string {
+  const names = name.split(" ");
+  const initials = names.reduce(
+    (accumulator, currentName) =>
+      accumulator + currentName.charAt(0).toUpperCase(),
+    ""
+  );
+  return initials;
+}
+
 type StateName =
   | "Alabama"
   | "Alaska"
