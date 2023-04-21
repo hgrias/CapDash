@@ -1,8 +1,8 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Prisma } from "@prisma/client";
 import fs from "fs";
 
 const STATE = "TX";
-const ORG_CUID = "clgn330dm000008jvcg5x05k4";
+const TEST_ORG_CUID = "clgn330dm000008jvcg5x05k4";
 const twentyFourDaysAgo = new Date(Date.now() - 24 * 24 * 60 * 60 * 1000);
 const oneWeekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
 const aCoupleOfHoursAgo = new Date(Date.now() - 2 * 60 * 60 * 1000);
@@ -20,7 +20,7 @@ async function main() {
   console.log("Creating test organization");
   const organization = await prisma.organization.create({
     data: {
-      id: ORG_CUID,
+      id: TEST_ORG_CUID,
       name: "Test Appleseed",
       slug: "test-appleseed",
     },
