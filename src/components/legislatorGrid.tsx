@@ -35,7 +35,7 @@ export const LegislatorGrid = () => {
   );
 
   return (
-    <div className="m-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
+    <div className="m-1 grid grid-cols-2 gap-4 sm:m-4 sm:grid-cols-4">
       {legislatorCards}
     </div>
   );
