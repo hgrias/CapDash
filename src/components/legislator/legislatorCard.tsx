@@ -1,12 +1,6 @@
-import React from "react";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardTitle,
-  CardHeader,
-} from "~/components/ui/card";
+import { Card, CardHeader } from "~/components/ui/card";
 import { Separator } from "~/components/ui/separator";
+import React from "react";
 
 interface LegislatorCardProps {
   firstName: string;
