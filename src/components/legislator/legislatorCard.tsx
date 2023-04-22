@@ -28,7 +28,7 @@ export const LegislatorCard = ({
       className={`flex h-32 items-center justify-center text-white ${bgColor}`}
     >
       <CardHeader className="text-center">
-        <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
+        <h3 className="scroll-m-20 whitespace-nowrap text-xl font-semibold tracking-tight drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] md:text-2xl">
           {firstName.charAt(0)}. {lastName}
         </h3>
         <Separator
@@ -43,7 +43,7 @@ export const LegislatorCard = ({
             <Separator orientation="vertical" className="mx-3 h-4 bg-white " />
           </div>
           <div>
-            <p>{district}</p>
+            <p className="whitespace-nowrap">{district}</p>
           </div>
         </div>
       </CardHeader>
