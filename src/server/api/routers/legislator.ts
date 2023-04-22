@@ -41,21 +41,29 @@ export const legislatorRouter = createTRPCRouter({
     }),
 
   // Get all legislators
-  getAll: protectedProcedure.query(({ ctx }) => {
-    return ctx.prisma.legislator.findMany({
-      select: {
-        id: true,
-        firstName: true,
-        lastName: true,
-      },
-      where: {
-        // Only get legislators for the user's organization
-        organizationId: ctx.session.user.organizationId,
-      },
-      orderBy: {
-        firstName: "asc",
-      },
-    });
+  getAll: protectedProcedure.query(async ({ ctx }) => {
+    try {
+      const legislators = ctx.prisma.legislator.findMany({
+        select: {
+          id: true,
+          firstName: true,
+          lastName: true,
+          district: true,
+          role: true,
+          party: true,
+        },
+        where: {
+          // Only get legislators for the user's organization
+          organizationId: ctx.session.user.organizationId,
+        },
+        orderBy: {
+          lastName: "asc",
+        },
+      });
+      return legislators;
+    } catch (error) {
+      console.error(error);
+    }
   }),
 
   // Return all legislator IDs - Used to generate dynamic routes
