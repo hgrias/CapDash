@@ -38,7 +38,7 @@ export const LegislatorGrid = () => {
     return null;
   }
 
-  const renderedCards = hits.map((legislator) => {
+  const legislatorCards = hits.map((legislator) => {
     return (
       <div key={legislator.id as string}>
         <Link href={`/org/${orgSlug}/legislators/${legislator.id as string}`}>
@@ -55,8 +55,8 @@ export const LegislatorGrid = () => {
   });
 
   return (
-    <div className="m-1 grid grid-cols-2 gap-4 sm:m-4 sm:grid-cols-4">
-      {renderedCards}
+    <div className="m-1 grid grid-cols-2 gap-4 sm:m-4 sm:grid-cols-5">
+      {legislatorCards}
       <div ref={sentinelRef} aria-hidden="true" />
     </div>
   );
