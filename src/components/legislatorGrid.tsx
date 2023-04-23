@@ -1,42 +1,33 @@
+import { useInfiniteHits } from "react-instantsearch-hooks-web";
 import { LegislatorCard } from "./legislator/legislatorCard";
 import { useRouter } from "next/router";
-import { api } from "~/utils/api";
 import Link from "next/link";
 
 export const LegislatorGrid = () => {
+  // Get hits from typesense
+  const { hits } = useInfiniteHits();
   const router = useRouter();
   const orgSlug = router.query["org-slug"] as string;
 
-  const { data: legislators } = api.legislator.getAll.useQuery(undefined, {
-    refetchOnWindowFocus: false,
-  });
-
-  const legislatorCards = legislators?.map(
-    (legislator: {
-      id: string;
-      firstName: string;
-      lastName: string;
-      role: string;
-      district: string;
-      party: string;
-    }) => (
-      <div key={legislator.id}>
-        <Link href={`/org/${orgSlug}/legislators/${legislator.id}`}>
+  const renderedCards = hits.map((legislator) => {
+    return (
+      <div key={legislator.id as string}>
+        <Link href={`/org/${orgSlug}/legislators/${legislator.id as string}`}>
           <LegislatorCard
-            firstName={legislator.firstName}
-            lastName={legislator.lastName}
-            role={legislator.role}
-            district={legislator.district}
-            party={legislator.party}
+            firstName={legislator.firstName as string}
+            lastName={legislator.lastName as string}
+            role={legislator.role as string}
+            district={legislator.district as string}
+            party={legislator.party as string}
           />
         </Link>
       </div>
-    )
-  );
+    );
+  });
 
   return (
     <div className="m-1 grid grid-cols-2 gap-4 sm:m-4 sm:grid-cols-4">
-      {legislatorCards}
+      {renderedCards}
     </div>
   );
 };
