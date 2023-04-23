@@ -21,10 +21,7 @@ async function importData() {
   await client
     .collections("legislators")
     .documents()
-    .import(legislatorsInFile, { action: "create" })
-    .then((data) => {
-      console.log(data);
-    });
+    .import(legislatorsInFile, { action: "create" });
 }
 
 void importData();

@@ -17,8 +17,8 @@ const legislatorSchema: CollectionCreateSchema = {
   name: "legislators",
   fields: [
     { name: "id", type: "string" },
-    { name: "firstName", type: "string" },
-    { name: "lastName", type: "string" },
+    { name: "firstName", type: "string", sort: true },
+    { name: "lastName", type: "string", sort: true },
     { name: "district", type: "string" },
     { name: "party", type: "string", facet: true },
     { name: "role", type: "string" },

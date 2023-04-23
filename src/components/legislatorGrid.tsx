@@ -9,6 +9,14 @@ export const LegislatorGrid = () => {
   const router = useRouter();
   const orgSlug = router.query["org-slug"] as string;
 
+  if (!hits) {
+    console.error(
+      "No legislators found in search index for org with slug: ",
+      orgSlug
+    );
+    return null;
+  }
+
   const renderedCards = hits.map((legislator) => {
     return (
       <div key={legislator.id as string}>
