@@ -56,3 +56,6 @@ data/
 # Ignore pyenv/python stuffs
 .python-version
 .vscode/
+
+# Typesense Data
+typesense-data/
