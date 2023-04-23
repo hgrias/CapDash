@@ -6,7 +6,6 @@ import { type NextPage } from "next";
 import Error from "next/error";
 import {
   InstantSearch,
-  RefinementList,
   SearchBox,
   Configure,
 } from "react-instantsearch-hooks-web";
@@ -43,21 +42,16 @@ const Home: NextPage = () => {
   return (
     <div>
       <Header />
-      <div className="flex h-full w-full">
-        <InstantSearch
-          searchClient={typesenseSearchAdapter.searchClient}
-          indexName="legislators"
-        >
-          <Configure hitsPerPage={32} />
-          <aside className="w-1/4 bg-gray-100">
-            <RefinementList attribute="party" />
-          </aside>
-          <main className="">
-            <SearchBox className="bg-gray-100 p-4 shadow-lg" />
-            <LegislatorGrid />
-          </main>
-        </InstantSearch>
-      </div>
+      <InstantSearch
+        searchClient={typesenseSearchAdapter.searchClient}
+        indexName="legislators"
+      >
+        <Configure hitsPerPage={32} />
+        <div className="">
+          <SearchBox className="w-full bg-gray-100 p-4 shadow-lg" />
+          <LegislatorGrid />
+        </div>
+      </InstantSearch>
     </div>
   );
 };

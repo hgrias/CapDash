@@ -1,4 +1,3 @@
-import type { InfiniteHitsProps } from "react-instantsearch-hooks-web";
 import { useInfiniteHits } from "react-instantsearch-hooks-web";
 import { LegislatorCard } from "./legislator/legislatorCard";
 import React, { useRef, useEffect } from "react";
