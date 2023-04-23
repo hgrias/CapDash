@@ -9,6 +9,7 @@ import {
   SearchBox,
   Configure,
 } from "react-instantsearch-hooks-web";
+import Head from "next/head";
 
 const typesenseSearchAdapter = new TypesenseInstantsearchAdapter({
   server: {
@@ -40,7 +41,11 @@ const Home: NextPage = () => {
   }
 
   return (
-    <div>
+    <>
+      <Head>
+        <title>Legislator Explorer</title>
+        <meta name="CapDash" content="CapDash Legislator Explorer" />
+      </Head>
       <Header />
       <InstantSearch
         searchClient={typesenseSearchAdapter.searchClient}
@@ -52,7 +57,7 @@ const Home: NextPage = () => {
           <LegislatorGrid />
         </div>
       </InstantSearch>
-    </div>
+    </>
   );
 };
 
