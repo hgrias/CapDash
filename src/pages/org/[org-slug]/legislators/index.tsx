@@ -9,7 +9,6 @@ import {
   RefinementList,
   SearchBox,
   Configure,
-  Pagination,
 } from "react-instantsearch-hooks-web";
 
 const typesenseSearchAdapter = new TypesenseInstantsearchAdapter({
@@ -44,19 +43,18 @@ const Home: NextPage = () => {
   return (
     <div>
       <Header />
-      <div className="flex">
+      <div className="flex h-full w-full">
         <InstantSearch
           searchClient={typesenseSearchAdapter.searchClient}
           indexName="legislators"
         >
           <Configure hitsPerPage={32} />
-          <aside className="h-screen w-1/4 bg-gray-100">
+          <aside className="w-1/4 bg-gray-100">
             <RefinementList attribute="party" />
           </aside>
           <main className="">
             <SearchBox className="bg-gray-100 p-4 shadow-lg" />
             <LegislatorGrid />
-            <Pagination className="bg-gray-100" />
           </main>
         </InstantSearch>
       </div>
