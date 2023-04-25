@@ -1,5 +1,6 @@
 import TypesenseInstantsearchAdapter from "typesense-instantsearch-adapter";
-import { LegislatorGrid } from "~/components/legislatorGrid";
+import { LegislatorResults } from "~/components/legislatorResults";
+import { Switch } from "~/components/ui/switch";
 import { useSession } from "next-auth/react";
 import { Header } from "~/components/header";
 import { type NextPage } from "next";
@@ -9,9 +10,8 @@ import {
   SearchBox,
   Configure,
 } from "react-instantsearch-hooks-web";
-import Head from "next/head";
 import { useState } from "react";
-import { Switch } from "~/components/ui/switch";
+import Head from "next/head";
 
 // TODO: Abstract this out - add vals to config
 const typesenseSearchAdapter = new TypesenseInstantsearchAdapter({
@@ -69,8 +69,8 @@ const Home: NextPage = () => {
               className="w-full rounded-lg bg-gray-100 p-2 shadow-lg"
             />
 
-            <div className="flex items-center justify-center py-4">
-              <div className="flex gap-x-2">
+            <div className="my-4 flex items-center justify-center rounded-lg bg-gray-100 p-2">
+              <div className="flex items-center gap-x-2 text-center">
                 <label>List View</label>
                 <Switch onCheckedChange={() => toggleDisplayMode()} />
                 <label>Grid View</label>
@@ -78,7 +78,7 @@ const Home: NextPage = () => {
             </div>
           </aside>
           <main className="w-full">
-            <LegislatorGrid view={view} />
+            <LegislatorResults view={view} />
           </main>
         </div>
       </InstantSearch>

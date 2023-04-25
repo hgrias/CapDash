@@ -9,7 +9,7 @@ interface LegislatorExploreResultsProps {
   view?: "grid" | "list";
 }
 
-export const LegislatorGrid = ({
+export const LegislatorResults = ({
   view = "list",
 }: LegislatorExploreResultsProps) => {
   // Get hits from typesense
