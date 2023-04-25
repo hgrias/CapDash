@@ -11,6 +11,7 @@ import {
 } from "react-instantsearch-hooks-web";
 import Head from "next/head";
 
+// TODO: Abstract this out - add vals to config
 const typesenseSearchAdapter = new TypesenseInstantsearchAdapter({
   server: {
     apiKey: "xyz",
@@ -52,9 +53,17 @@ const Home: NextPage = () => {
         indexName="legislators"
       >
         <Configure hitsPerPage={32} />
-        <div className="">
-          <SearchBox className="w-full bg-gray-100 p-4 shadow-lg" />
-          <LegislatorGrid />
+        <div className="flex">
+          {/* TODO: top-14 refers to header height to keep header from covering sidebar - fix this */}
+          <aside className="sticky top-14 h-screen w-1/4 py-4 pl-4">
+            <SearchBox
+              placeholder="Search"
+              className="w-full rounded-lg bg-gray-100 p-2 shadow-lg"
+            />
+          </aside>
+          <main className="">
+            <LegislatorGrid />
+          </main>
         </div>
       </InstantSearch>
     </>
