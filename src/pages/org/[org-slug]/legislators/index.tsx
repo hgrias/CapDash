@@ -10,6 +10,8 @@ import {
   Configure,
 } from "react-instantsearch-hooks-web";
 import Head from "next/head";
+import { useState } from "react";
+import { Switch } from "~/components/ui/switch";
 
 // TODO: Abstract this out - add vals to config
 const typesenseSearchAdapter = new TypesenseInstantsearchAdapter({
@@ -32,6 +34,8 @@ const typesenseSearchAdapter = new TypesenseInstantsearchAdapter({
 });
 
 const Home: NextPage = () => {
+  const [view, setView] = useState<"list" | "grid">("list");
+
   const { status } = useSession();
   if (status === "loading") {
     return <p>Loading...</p>;
@@ -40,6 +44,10 @@ const Home: NextPage = () => {
   if (status === "unauthenticated") {
     return <Error statusCode={403} title="Access Denied" />;
   }
+
+  const toggleDisplayMode = () => {
+    setView(view === "list" ? "grid" : "list");
+  };
 
   return (
     <>
@@ -60,9 +68,17 @@ const Home: NextPage = () => {
               placeholder="Search"
               className="w-full rounded-lg bg-gray-100 p-2 shadow-lg"
             />
+
+            <div className="flex items-center justify-center py-4">
+              <div className="flex gap-x-2">
+                <label>List View</label>
+                <Switch onCheckedChange={() => toggleDisplayMode()} />
+                <label>Grid View</label>
+              </div>
+            </div>
           </aside>
-          <main className="">
-            <LegislatorGrid />
+          <main className="w-full">
+            <LegislatorGrid view={view} />
           </main>
         </div>
       </InstantSearch>
