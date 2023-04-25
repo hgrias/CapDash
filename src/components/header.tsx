@@ -6,6 +6,7 @@ import Link from "next/link";
 export const Header = () => {
   const { organization } = useOrganizationContext() || null;
 
+  // TODO: The header does not render if there is no internet??
   if (!organization) {
     return null;
   }
