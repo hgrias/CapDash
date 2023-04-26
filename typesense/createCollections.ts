@@ -14,7 +14,7 @@ const client = new Typesense.Client({
 });
 
 const legislatorSchema: CollectionCreateSchema = {
-  name: "legislators",
+  name: "Legislator",
   fields: [
     { name: "id", type: "string" },
     { name: "firstName", type: "string", sort: true },
@@ -26,9 +26,25 @@ const legislatorSchema: CollectionCreateSchema = {
   // default_sorting_field: "lastName",
 };
 
+const noteSchema: CollectionCreateSchema = {
+  name: "Note",
+  fields: [
+    { name: "id", type: "string" },
+    { name: "content", type: "string" },
+    { name: "createdBy", type: "string" },
+  ],
+};
+
 void client
   .collections()
   .create(legislatorSchema)
+  .then((data) => {
+    console.log(data);
+  });
+
+void client
+  .collections()
+  .create(noteSchema)
   .then((data) => {
     console.log(data);
   });
