@@ -1,5 +1,6 @@
 import { PrismaClient, Prisma } from "@prisma/client";
 import fs from "fs";
+import { mutationQueue } from "./middleware";
 
 const STATE = "TX";
 const TEST_ORG_CUID = "clgn330dm000008jvcg5x05k4";
@@ -238,6 +239,9 @@ async function main() {
     }
   });
 }
+
+// Prisma middleware for adding mutations to Typesense Reindex Queue
+mutationQueue(prisma);
 
 main()
   .catch((e) => console.error(e))

@@ -187,6 +187,14 @@ model Tag {
   organization   Organization  @relation(fields: [organizationId], references: [id])
 }
 
+model UpdateQueue {
+  id        Int      @id @default(autoincrement())
+  action    String
+  model     String
+  data      Json
+  createdAt DateTime @default(now())
+}
+
 enum InteractionMethod {
   meeting
   email
