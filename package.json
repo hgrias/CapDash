@@ -11,10 +11,7 @@
     "postinstall": "prisma generate",
     "resetdb": "prisma db push --force-reset && yarn prisma db seed",
     "lint": "next lint",
-    "start": "next start",
-    "workers-build": "tsc --project worker-tsconfig.json",
-    "workers-watch": "tsc --watch --project worker-tsconfig.json",
-    "workers-start": "NODE_PATH=.workers/:node_modules/ node ./.workers/src/reindexTypesense.js"
+    "start": "next start"
   },
   "dependencies": {
     "@next-auth/prisma-adapter": "^1.0.5",
