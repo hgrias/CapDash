@@ -19,10 +19,12 @@ const server = z.object({
     process.env.VERCEL ? z.string().min(1) : z.string().url()
   ),
   // Add `.min(1) on ID and SECRET if you want to make sure they're not empty
-  GOOGLE_CLIENT_ID: z.string(),
-  GOOGLE_CLIENT_SECRET: z.string(),
-  GCP_PROJECT_ID: z.string(),
-  GCS_BUCKET_NAME: z.string(),
+  GOOGLE_CLIENT_ID: z.string().min(1),
+  GOOGLE_CLIENT_SECRET: z.string().min(1),
+  GCP_PROJECT_ID: z.string().min(1),
+  GCS_BUCKET_NAME: z.string().min(1),
+  TYPESENSE_HOSTNAME: z.string().min(1),
+  TYPESENSE_API_KEY: z.string().min(1),
 });
 
 /**
@@ -48,6 +50,8 @@ const processEnv = {
   GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
   GCP_PROJECT_ID: process.env.GCP_PROJECT_ID,
   GCS_BUCKET_NAME: process.env.GCS_BUCKET_NAME,
+  TYPESENSE_HOSTNAME: process.env.TYPESENSE_HOSTNAME,
+  TYPESENSE_API_KEY: process.env.TYPESENSE_API_KEY,
   // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
 };
 
