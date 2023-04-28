@@ -1,4 +1,4 @@
-import { typesenseClient } from "./utils";
+import { typesenseClient } from "./utils.js";
 import fs from "fs/promises";
 
 async function importData() {
