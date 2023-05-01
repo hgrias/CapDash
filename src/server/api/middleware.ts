@@ -1,7 +1,21 @@
 import { type PrismaClient } from "@prisma/client";
+import Typesense from "typesense";
+
+// Typesense client
+export const typesenseClient = new Typesense.Client({
+  nodes: [
+    {
+      host: "127.0.0.1", // For Typesense Cloud use xxx.a1.typesense.net
+      port: 8108, // For Typesense Cloud use 443
+      protocol: "http", // For Typesense Cloud use https
+    },
+  ],
+  apiKey: "xyz",
+  connectionTimeoutSeconds: 2,
+});
 
 // Models and actions we are looking for in prisma middleware
-const mutationModels = ["Legislator", "Note"];
+const mutationModels = ["Legislator"];
 const mutations = [
   "create",
   "createMany",
@@ -12,7 +26,7 @@ const mutations = [
 ];
 
 // Prisma middleware for adding mutations to Typesense Reindex Queue
-export const mutationQueue = (prisma: PrismaClient) => {
+export const mutationQueueMiddleware = (prisma: PrismaClient) => {
   prisma.$use(async (params, next) => {
     // Manipulate params here
     const model = String(params.model);
@@ -21,7 +35,7 @@ export const mutationQueue = (prisma: PrismaClient) => {
     // Only add mutations for certain models to the queue
     if (mutationModels.includes(model) && mutations.includes(action)) {
       // Wait for the result of the mutation
-      const result = await next(params);
+      const result: object = await next(params);
 
       // Add the updated record the queue
       await prisma.updateQueue.create({
@@ -32,7 +46,13 @@ export const mutationQueue = (prisma: PrismaClient) => {
         },
       });
 
-      console.log("\n\nADDED TO QUEUE!!!\n\n");
+      // Upsert / Index to Typesense
+      const upsertResult = await typesenseClient
+        .collections(model)
+        .documents()
+        .upsert(result);
+
+      console.log("UPSERT RESULT: ", upsertResult);
 
       return result;
     }

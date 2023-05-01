@@ -13,10 +13,9 @@ import {
 import { useState } from "react";
 import Head from "next/head";
 
-// TODO: Abstract this out - add vals to config
 const typesenseSearchAdapter = new TypesenseInstantsearchAdapter({
   server: {
-    apiKey: "xyz",
+    apiKey: "xyz", // Only use API key that has search access
     nodes: [
       {
         host: "127.0.0.1",
@@ -33,6 +32,7 @@ const typesenseSearchAdapter = new TypesenseInstantsearchAdapter({
   },
 });
 
+// TODO: Have backup in case the typesense collections cannot be connected to
 const Home: NextPage = () => {
   const [view, setView] = useState<"list" | "grid">("list");
 
@@ -58,7 +58,7 @@ const Home: NextPage = () => {
       <Header />
       <InstantSearch
         searchClient={typesenseSearchAdapter.searchClient}
-        indexName="legislators"
+        indexName="Legislator"
       >
         <Configure hitsPerPage={32} />
         <div className="flex">

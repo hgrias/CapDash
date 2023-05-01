@@ -1,6 +1,7 @@
-import { PrismaClient, Prisma } from "@prisma/client";
+// TODO: Fix this import to use relative path? Won't work without full path?
+import { mutationQueueMiddleware } from "/Users/harrisongrias/Documents/dev/legislator-dashboard/src/server/api/middleware";
+import { PrismaClient } from "@prisma/client";
 import fs from "fs";
-import { mutationQueue } from "./middleware";
 
 const STATE = "TX";
 const TEST_ORG_CUID = "clgn330dm000008jvcg5x05k4";
@@ -10,7 +11,13 @@ const aCoupleOfHoursAgo = new Date(Date.now() - 2 * 60 * 60 * 1000);
 
 const prisma = new PrismaClient();
 
+// Middleware to upsert new data to typesense search collections/indexes
+mutationQueueMiddleware(prisma);
+
 async function main() {
+  // Prisma middleware for adding mutations to Typesense Reindex Queue
+  // mutationQueueMiddleware(prisma);
+
   console.log("Start seeding...");
 
   console.log("Loading data from JSON file");
@@ -239,9 +246,6 @@ async function main() {
     }
   });
 }
-
-// Prisma middleware for adding mutations to Typesense Reindex Queue
-mutationQueue(prisma);
 
 main()
   .catch((e) => console.error(e))

@@ -1,5 +1,5 @@
 // src/workers/task.ts
-import { typesenseClient } from "~/typesense/utils.js";
+import { typesenseClient } from "~/server/api/typesense/utils.js";
 import { prisma } from "~/server/db";
 
 async function indexTypesenseQueue() {
