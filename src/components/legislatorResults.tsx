@@ -80,7 +80,7 @@ export const LegislatorResults = ({
   // Render as either a grid or list
   const renderStyle =
     selectedView === "grid"
-      ? "m-1 grid grid-cols-2 gap-4 sm:m-4 sm:grid-cols-4"
+      ? "m-1 grid grid-cols-2 gap-2 sm:m-4 sm:grid-cols-4"
       : "m-1 grid grid-cols-1 gap-y-1 sm:m-4";
 
   return (
