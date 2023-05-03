@@ -30,6 +30,8 @@ async function main() {
       id: TEST_ORG_CUID,
       name: "Test Appleseed",
       slug: "test-appleseed",
+      imageUri:
+        "https://scontent-hou1-1.xx.fbcdn.net/v/t39.30808-6/279034397_331937069035270_5684934952993197572_n.png?_nc_cat=106&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=3K0GgxzagmwAX_gEHIY&_nc_ht=scontent-hou1-1.xx&oh=00_AfDYHyQ0SI4yfVN4_Efz6_2OUUYeMOxJfJkYRe9jnJJGFg&oe=64586207",
     },
   });
 
