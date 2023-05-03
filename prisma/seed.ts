@@ -1,5 +1,4 @@
-// TODO: Fix this import to use relative path? Won't work without full path?
-import { mutationQueueMiddleware } from "/Users/harrisongrias/Documents/dev/legislator-dashboard/src/server/api/middleware";
+import { mutationQueueMiddleware } from "./middleware";
 import { PrismaClient } from "@prisma/client";
 import fs from "fs";
 
