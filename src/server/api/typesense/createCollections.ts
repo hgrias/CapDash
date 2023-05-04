@@ -1,9 +1,6 @@
 import { type CollectionCreateSchema } from "typesense/lib/Typesense/Collections";
 import Typesense from "typesense";
 
-// TODO: Figure out how to use this abstracted typsense util with env var
-// import { typesenseClient } from "./utils";
-
 // Typesense client
 const typesenseClient = new Typesense.Client({
   nodes: [
@@ -21,6 +18,7 @@ const legislatorSchema: CollectionCreateSchema = {
   name: "Legislator",
   fields: [
     { name: "id", type: "string" },
+    { name: "organizationId", type: "string" },
     { name: "firstName", type: "string", sort: true },
     { name: "lastName", type: "string", sort: true },
     { name: "district", type: "string" },
