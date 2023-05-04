@@ -33,12 +33,19 @@ export const searchRouter = createTRPCRouter({
         throw "Organization search API key not found";
       }
       const keyWithSearchPermissions = orgSearchApiKey.searchApiKey;
+
+      // Create expires at time
+      const now = new Date();
+      const tomorrow = new Date(now);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      const expiresAtMs = tomorrow.getTime();
+
       // Generate the scoped api key with organization API key
       const scopedSearchApiKey = typesenseClient(keyWithSearchPermissions)
         .keys()
         .generateScopedSearchKey(keyWithSearchPermissions, {
           filter_by: `organizationId:${ctx.session.user.organizationId}`,
-          //   expires_at:
+          expires_at: expiresAtMs,
         });
       return scopedSearchApiKey;
     } catch (error) {
