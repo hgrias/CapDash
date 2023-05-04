@@ -42,6 +42,7 @@ model Organization {
   id           String               @id @default(cuid())
   name         String
   slug         String               @unique
+  searchApiKey String               @unique
   websiteUrl   String?
   imageUri     String?
   tags         Tag[]

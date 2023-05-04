@@ -4,6 +4,7 @@ import fs from "fs";
 
 const STATE = "TX";
 const TEST_ORG_CUID = "clgn330dm000008jvcg5x05k4";
+const TEST_ORG_SEARCH_API_KEY = "hVbO5Y4PHOKsFcIviZ6AYjznlfTG9roR";
 const twentyFourDaysAgo = new Date(Date.now() - 24 * 24 * 60 * 60 * 1000);
 const oneWeekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
 const aCoupleOfHoursAgo = new Date(Date.now() - 2 * 60 * 60 * 1000);
@@ -14,9 +15,6 @@ const prisma = new PrismaClient();
 mutationQueueMiddleware(prisma);
 
 async function main() {
-  // Prisma middleware for adding mutations to Typesense Reindex Queue
-  // mutationQueueMiddleware(prisma);
-
   console.log("Start seeding...");
 
   console.log("Loading data from JSON file");
@@ -30,6 +28,7 @@ async function main() {
       id: TEST_ORG_CUID,
       name: "Test Appleseed",
       slug: "test-appleseed",
+      searchApiKey: TEST_ORG_SEARCH_API_KEY,
       imageUri:
         "https://scontent-hou1-1.xx.fbcdn.net/v/t39.30808-6/279034397_331937069035270_5684934952993197572_n.png?_nc_cat=106&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=3K0GgxzagmwAX_gEHIY&_nc_ht=scontent-hou1-1.xx&oh=00_AfDYHyQ0SI4yfVN4_Efz6_2OUUYeMOxJfJkYRe9jnJJGFg&oe=64586207",
     },
