@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import TypesenseInstantsearchAdapter from "typesense-instantsearch-adapter";
 import type { LegislativeSession, Tag } from "@prisma/client";
 import type { RouterOutputs } from "~/utils/api";
 import { api } from "~/utils/api";
@@ -13,6 +14,7 @@ interface OrganizationContextValue {
   orgTags: Tag[] | undefined;
   orgSessions: LegislativeSession[] | undefined;
   orgActiveSession: LegislativeSession | undefined;
+  scopedSearchApiKey: string | undefined;
 }
 
 const OrganizationContext = createContext<OrganizationContextValue | null>(
@@ -27,6 +29,7 @@ export function OrganizationProvider({ children }: OrganizationProviderProps) {
   const [orgSessions, setOrgSessions] = useState<LegislativeSession[]>();
   const [orgTags, setOrgTags] = useState<Tag[]>();
   const [orgInfo, setOrgInfo] = useState<orgInfoQueryType>();
+  const [scopedSearchApiKey, setScopedSearchApiKey] = useState<string>("");
   const [orgActiveSession, setOrgActiveSession] =
     useState<LegislativeSession>();
 
@@ -65,6 +68,18 @@ export function OrganizationProvider({ children }: OrganizationProviderProps) {
     },
   });
 
+  // Generate the scoped API key for Typesense
+  api.search.generateScopedApiKey.useQuery(undefined, {
+    enabled: !!organizationId,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    onSuccess: (data) => {
+      if (data) {
+        setScopedSearchApiKey(data);
+      }
+    },
+  });
+
   // Set the active session from the sessions list
   useEffect(() => {
     if (orgSessions) {
@@ -78,6 +93,7 @@ export function OrganizationProvider({ children }: OrganizationProviderProps) {
     orgTags: orgTags,
     orgSessions: orgSessions,
     orgActiveSession: orgActiveSession,
+    scopedSearchApiKey: scopedSearchApiKey,
   };
 
   // !? Had to use createElement instead of fragment syntax bc it couldnt recognize OrganizationContext in the fragment (no idea why)
