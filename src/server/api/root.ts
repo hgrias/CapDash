@@ -4,6 +4,7 @@ import { interactionRouter } from "./routers/interaction";
 import { legislatorRouter } from "./routers/legislator";
 import { createTRPCRouter } from "~/server/api/trpc";
 import { stafferRouter } from "./routers/staffer";
+import { searchRouter } from "./routers/search";
 import { noteRouter } from "./routers/note";
 
 /**
@@ -18,6 +19,7 @@ export const appRouter = createTRPCRouter({
   staffer: stafferRouter,
   legislativeSession: legislativeSessionRouter,
   organization: organizationRouter,
+  search: searchRouter,
 });
 
 // export type definition of API
