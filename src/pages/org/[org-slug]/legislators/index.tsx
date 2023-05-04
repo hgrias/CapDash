@@ -1,11 +1,11 @@
 import TypesenseInstantsearchAdapter from "typesense-instantsearch-adapter";
+import { useOrganizationContext } from "~/components/organizationContext";
 import { LegislatorResults } from "~/components/legislatorResults";
 import { Switch } from "~/components/ui/switch";
 import { useSession } from "next-auth/react";
 import { Header } from "~/components/header";
+import { useState, useEffect } from "react";
 import { type NextPage } from "next";
-import { api } from "~/utils/api";
-import { useState } from "react";
 import Error from "next/error";
 import Head from "next/head";
 import {
@@ -17,15 +17,34 @@ import {
 // TODO: Have backup in case the typesense collections cannot be connected to
 const Home: NextPage = () => {
   const [view, setView] = useState<"list" | "grid">("list");
-  const [scopedSearchApiKey, setScopedSearchApiKey] = useState<string>("");
+  const [typesenseSearchAdapter, setTypesenseSearchAdapter] =
+    useState<TypesenseInstantsearchAdapter | null>(null);
 
-  // Generate the scoped API key for Typesense
-  api.search.generateScopedApiKey.useQuery(undefined, {
-    onSuccess: (data) => {
-      setScopedSearchApiKey(data);
-    },
-    refetchOnWindowFocus: false,
-  });
+  const { scopedSearchApiKey } = useOrganizationContext();
+
+  useEffect(() => {
+    if (scopedSearchApiKey) {
+      const searchAdapter = new TypesenseInstantsearchAdapter({
+        server: {
+          apiKey: scopedSearchApiKey,
+          nodes: [
+            {
+              host: "127.0.0.1",
+              port: 8108,
+              protocol: "http",
+            },
+          ],
+        },
+        additionalSearchParameters: {
+          query_by: "lastName, firstName",
+          query_by_weights: "4, 1",
+          sort_by: "lastName:asc, firstName:asc",
+          include_fields: "firstName,lastName,role,party,district,id",
+        },
+      });
+      setTypesenseSearchAdapter(searchAdapter);
+    }
+  }, [scopedSearchApiKey]);
 
   const { status } = useSession();
   if (status === "loading") {
@@ -36,29 +55,13 @@ const Home: NextPage = () => {
     return <Error statusCode={403} title="Access Denied" />;
   }
 
+  if (!scopedSearchApiKey) {
+    return null;
+  }
+
   const toggleDisplayMode = () => {
     setView(view === "list" ? "grid" : "list");
   };
-
-  // Typesense Client using scoped API key for org user
-  const typesenseSearchAdapter = new TypesenseInstantsearchAdapter({
-    server: {
-      apiKey: scopedSearchApiKey,
-      nodes: [
-        {
-          host: "127.0.0.1",
-          port: 8108,
-          protocol: "http",
-        },
-      ],
-    },
-    additionalSearchParameters: {
-      query_by: "lastName, firstName",
-      query_by_weights: "4, 1",
-      sort_by: "lastName:asc, firstName:asc",
-      include_fields: "firstName,lastName,role,party,district,id",
-    },
-  });
 
   return (
     <>
@@ -67,7 +70,7 @@ const Home: NextPage = () => {
         <meta name="CapDash" content="CapDash Legislator Explorer" />
       </Head>
       <Header />
-      {scopedSearchApiKey && (
+      {typesenseSearchAdapter && (
         <InstantSearch
           searchClient={typesenseSearchAdapter.searchClient}
           indexName="Legislator"
