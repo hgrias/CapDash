@@ -23,7 +23,7 @@ const legislatorSchema: CollectionCreateSchema = {
     { name: "lastName", type: "string", sort: true },
     { name: "district", type: "string" },
     { name: "party", type: "string", facet: true },
-    { name: "role", type: "string" },
+    { name: "role", type: "string", facet: true },
   ],
   // default_sorting_field: "lastName",
 };

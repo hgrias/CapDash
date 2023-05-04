@@ -12,6 +12,7 @@ import {
   InstantSearch,
   SearchBox,
   Configure,
+  RefinementList,
 } from "react-instantsearch-hooks-web";
 
 // TODO: Have backup in case the typesense collections cannot be connected to
@@ -83,13 +84,16 @@ const Home: NextPage = () => {
                 placeholder="Search"
                 className="w-full rounded-lg bg-gray-100 p-2 shadow-lg"
               />
-
               <div className="my-4 flex items-center justify-center rounded-lg bg-gray-100 p-2">
                 <div className="flex items-center gap-x-2 text-center">
                   <label>List View</label>
                   <Switch onCheckedChange={() => toggleDisplayMode()} />
                   <label>Grid View</label>
                 </div>
+              </div>
+              <div className="my-4 flex flex-col rounded-lg bg-gray-100 p-2">
+                <RefinementList attribute="party" />
+                <RefinementList attribute="role" />
               </div>
             </aside>
             <main className="w-full">
