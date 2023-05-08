@@ -16,14 +16,12 @@ const Login: NextPage = () => {
   }, [router, sessionData]);
 
   return (
-    <div className="auth-container my-20">
-      <div className="">
-        {!sessionData ? (
-          <>
-            <LoginForm />
-          </>
-        ) : null}
-      </div>
+    <div className="flex h-screen w-full justify-center bg-slate-100 pt-20">
+      {!sessionData ? (
+        <>
+          <LoginForm />
+        </>
+      ) : null}
     </div>
   );
 };
