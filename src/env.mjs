@@ -23,8 +23,6 @@ const server = z.object({
   GOOGLE_CLIENT_SECRET: z.string().min(1),
   GCP_PROJECT_ID: z.string().min(1),
   GCS_BUCKET_NAME: z.string().min(1),
-  TYPESENSE_HOSTNAME: z.string().min(1),
-  TYPESENSE_API_KEY: z.string().min(1),
 });
 
 /**
@@ -32,7 +30,9 @@ const server = z.object({
  * built with invalid env vars. To expose them to the client, prefix them with `NEXT_PUBLIC_`.
  */
 const client = z.object({
-  // NEXT_PUBLIC_CLIENTVAR: z.string().min(1),
+  NEXT_PUBLIC_TYPESENSE_HOST: z.string().min(1),
+  NEXT_PUBLIC_TYPESENSE_PORT: z.string().min(1),
+  NEXT_PUBLIC_TYPESENSE_PROTOCOL: z.string().min(1),
 });
 
 /**
@@ -50,9 +50,9 @@ const processEnv = {
   GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
   GCP_PROJECT_ID: process.env.GCP_PROJECT_ID,
   GCS_BUCKET_NAME: process.env.GCS_BUCKET_NAME,
-  TYPESENSE_HOSTNAME: process.env.TYPESENSE_HOSTNAME,
-  TYPESENSE_API_KEY: process.env.TYPESENSE_API_KEY,
-  // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
+  NEXT_PUBLIC_TYPESENSE_HOST: process.env.NEXT_PUBLIC_TYPESENSE_HOST,
+  NEXT_PUBLIC_TYPESENSE_PORT: process.env.NEXT_PUBLIC_TYPESENSE_PORT,
+  NEXT_PUBLIC_TYPESENSE_PROTOCOL: process.env.NEXT_PUBLIC_TYPESENSE_PROTOCOL,
 };
 
 // Don't touch the part below

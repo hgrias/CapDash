@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import { Header } from "~/components/header";
 import { useState, useEffect } from "react";
 import { type NextPage } from "next";
+import { env } from "~/env.mjs";
 import Error from "next/error";
 import Head from "next/head";
 import {
@@ -30,9 +31,9 @@ const Home: NextPage = () => {
           apiKey: scopedSearchApiKey,
           nodes: [
             {
-              host: "127.0.0.1",
-              port: 8108,
-              protocol: "http",
+              host: env.NEXT_PUBLIC_TYPESENSE_HOST,
+              port: parseInt(env.NEXT_PUBLIC_TYPESENSE_PORT),
+              protocol: env.NEXT_PUBLIC_TYPESENSE_PROTOCOL,
             },
           ],
         },
