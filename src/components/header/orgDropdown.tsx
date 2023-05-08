@@ -98,7 +98,7 @@ export function OrgDropdown() {
         <DropdownMenuItem
           onSelect={() =>
             void signOut({
-              callbackUrl: "/",
+              callbackUrl: "/login",
             })
           }
         >
