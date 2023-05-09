@@ -5,15 +5,15 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 const Login: NextPage = () => {
-  const { data: sessionData } = useSession();
+  const { data: sessionData, status } = useSession();
   const router = useRouter();
 
   // Redirect to index page if logged in
   useEffect(() => {
-    if (sessionData) {
-      void router.push("/");
+    if (sessionData && status === "authenticated") {
+      void router.push(`/org/${sessionData.user.organizationSlug}`);
     }
-  }, [router, sessionData]);
+  }, [router, sessionData, status]);
 
   return (
     <div className="flex h-screen w-full justify-center bg-slate-100 pt-20">
