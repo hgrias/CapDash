@@ -22,6 +22,7 @@ declare module "next-auth" {
     user: {
       id: string;
       organizationId: string;
+      organizationSlug: string;
       // ...other properties
       // role: UserRole;
     } & DefaultSession["user"];
@@ -29,6 +30,7 @@ declare module "next-auth" {
 
   interface User {
     organizationId: string;
+    organizationSlug: string;
     // ...other properties
     // role: UserRole;
   }
@@ -48,6 +50,15 @@ export const authOptions: NextAuthOptions = {
         // New User: If their domain does not have an org, add them to the test org
         if (user.organizationId) {
           session.user.organizationId = user.organizationId;
+          const orgSlug = await prisma.organization.findUnique({
+            select: {
+              slug: true,
+            },
+            where: {
+              id: user.organizationId,
+            },
+          });
+          session.user.organizationSlug = orgSlug?.slug ?? "";
         } else {
           // TODO: Check whether the new user's domain belongs to an org already and connect them
           console.log(
@@ -67,6 +78,7 @@ export const authOptions: NextAuthOptions = {
             },
           });
           session.user.organizationId = TEST_ORG_ID;
+          session.user.organizationSlug = "test-appleseed";
         }
       }
       return session;
