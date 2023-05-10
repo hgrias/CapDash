@@ -7,11 +7,39 @@ import { useSession } from "next-auth/react";
 import { Header } from "~/components/header";
 import { useRouter } from "next/router";
 import { type NextPage } from "next";
+import { api } from "~/utils/api";
+import { useState } from "react";
 import Error from "next/error";
 
 const LegislatorProfile: NextPage = () => {
-  const { status } = useSession();
+  const [recordExists, setRecordExists] = useState<boolean>();
   const legislatorId = useRouter().query.id as string;
+  const { status } = useSession();
+
+  // Check if the legislator exists
+  api.legislator.exists.useQuery(
+    {
+      legislatorId: legislatorId,
+    },
+    {
+      enabled: !!legislatorId,
+      refetchOnWindowFocus: false,
+      onSuccess: (data) => {
+        if (data === true || data === false) {
+          setRecordExists(data);
+        }
+      },
+    }
+  );
+
+  if (recordExists === false) {
+    return (
+      <Error
+        statusCode={404}
+        title="Page Not Found: Legislator Does Not Exist"
+      />
+    );
+  }
 
   if (status === "loading") {
     return <p>Loading...</p>;
@@ -19,10 +47,6 @@ const LegislatorProfile: NextPage = () => {
 
   if (status === "unauthenticated") {
     return <Error statusCode={403} title="Access Denied" />;
-  }
-
-  if (!legislatorId) {
-    return null;
   }
 
   return (
