@@ -1,6 +1,6 @@
 import { useOrganizationContext } from "../organizationContext";
-import { badgeVariants } from "../ui/badge";
 import type { Tag } from "@prisma/client";
+import { TagBadge } from "../tagBadge";
 import { format } from "date-fns";
 import Link from "next/link";
 import React from "react";
@@ -35,19 +35,8 @@ export const Interaction = ({
 
   const orgSlug = organization.slug;
 
-  const tagLinks = tags
-    ? tags.map((tag) => (
-        <Link
-          key={tag.name}
-          href={`/org/${orgSlug}/tags/${tag.id}`}
-          className={badgeVariants({
-            variant: "outline",
-            className: "mr-1 mb-1 hover:bg-gray-100",
-          })}
-        >
-          {tag.name}
-        </Link>
-      ))
+  const tagBadges = tags
+    ? tags.map((tag) => <TagBadge key={tag.name} tag={tag} orgSlug={orgSlug} />)
     : null;
 
   return (
@@ -65,7 +54,7 @@ export const Interaction = ({
       <div className="flex">
         {tags?.length ? (
           <div className="flex">
-            <p className="text-base font-medium text-gray-900">{tagLinks}</p>
+            <p className="text-base font-medium text-gray-900">{tagBadges}</p>
           </div>
         ) : null}
         {/* TODO: Figure out how to move to note when clicked */}
