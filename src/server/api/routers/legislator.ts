@@ -23,12 +23,35 @@ const defaultLegislatorSelect = Prisma.validator<Prisma.LegislatorSelect>()({
 });
 
 export const legislatorRouter = createTRPCRouter({
+  // Determine if a legislator exists from ID
+  exists: protectedProcedure
+    .input(z.object({ legislatorId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      try {
+        const legislator = await ctx.prisma.legislator.findUnique({
+          select: {
+            id: true,
+          },
+          where: {
+            id: input.legislatorId,
+          },
+        });
+        if (legislator !== null) {
+          return true;
+        } else {
+          return false;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }),
+
   // Get a single legislator from Legislator ID
   byId: protectedProcedure
     .input(z.object({ legislatorId: z.string() }))
-    .query(({ ctx, input }) => {
+    .query(async ({ ctx, input }) => {
       try {
-        const legislator = ctx.prisma.legislator.findUnique({
+        const legislator = await ctx.prisma.legislator.findUnique({
           select: defaultLegislatorSelect,
           where: {
             id: input.legislatorId,
