@@ -136,7 +136,7 @@ const Note = ({
           <p className="text-sm font-medium text-gray-400">
             {formatNoteCreatedDate(createdAt)}
           </p>
-          <div className="">{tagBadges}</div>
+          <div className="flex space-x-1">{tagBadges}</div>
         </div>
       </div>
       {creatorId === currentUserId && isHovered && (

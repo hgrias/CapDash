@@ -15,7 +15,7 @@ export const TagBadge = ({ tag, orgSlug }: TagBadgeProps) => {
       href={`/org/${orgSlug}/tags/${tag.id}`}
       className={badgeVariants({
         variant: "outline",
-        className: "mr-1 mb-1 hover:bg-blue-100",
+        className: "text-center hover:bg-blue-100",
       })}
     >
       {tag.name}
