@@ -37,6 +37,10 @@ type NotesWithUser = (Note & {
     name: string;
     image: string | null;
   };
+  tags: {
+    id: number;
+    name: string;
+  }[];
 })[];
 
 interface ProfileContextValue {

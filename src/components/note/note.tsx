@@ -1,6 +1,8 @@
+import { useOrganizationContext } from "../organizationContext";
 import { format, formatDistanceToNowStrict } from "date-fns";
 import { useSession } from "next-auth/react";
 import React, { useState } from "react";
+import { TagBadge } from "../tagBadge";
 import { api } from "~/utils/api";
 import Avatar from "../avatar";
 
@@ -50,6 +52,11 @@ const confirmDeleteModal = (deleteHandler: () => void) => {
   );
 };
 
+interface TagProps {
+  id: number;
+  name: string;
+}
+
 interface NoteProps {
   noteId: number;
   content: string;
@@ -57,6 +64,7 @@ interface NoteProps {
   creatorName: string;
   createdAt: Date;
   creatorImage?: string | null;
+  tags: TagProps[] | [];
 }
 
 const Note = ({
@@ -66,6 +74,7 @@ const Note = ({
   creatorName,
   createdAt,
   creatorImage,
+  tags,
 }: NoteProps) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -83,12 +92,19 @@ const Note = ({
 
   // Get current user ID from session
   const session = useSession();
+  // Get the org slug from context
+  const { organization } = useOrganizationContext();
 
-  if (!session.data) {
+  if (!session.data || !organization) {
     return null;
   }
 
   const currentUserId = session.data.user.id;
+  const orgSlug = organization.slug;
+
+  const tagBadges = tags
+    ? tags.map((tag) => <TagBadge key={tag.name} tag={tag} orgSlug={orgSlug} />)
+    : null;
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -116,10 +132,11 @@ const Note = ({
       <div className="flex flex-col sm:pl-4">
         <h3 className="font-semibold">{creatorName}</h3>
         <div className="my-1 font-normal">{content}</div>
-        <div className="flex pt-1">
+        <div className="flex items-center justify-between pt-1">
           <p className="text-sm font-medium text-gray-400">
             {formatNoteCreatedDate(createdAt)}
           </p>
+          <div className="">{tagBadges}</div>
         </div>
       </div>
       {creatorId === currentUserId && isHovered && (

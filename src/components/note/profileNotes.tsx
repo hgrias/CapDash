@@ -27,6 +27,7 @@ const ProfileNotes = () => {
               creatorImage={note.user.image}
               createdAt={note.createdAt}
               creatorId={note.user.id}
+              tags={note.tags}
             />
           );
         })
