@@ -53,7 +53,7 @@ export const Interaction = ({
       </p>
       <div className="flex">
         {tags?.length ? (
-          <div className="flex space-x-1">{tagBadges}</div>
+          <div className="flex flex-wrap space-x-1">{tagBadges}</div>
         ) : null}
         {/* TODO: Figure out how to move to note when clicked */}
         {noteId ? <Link href="/" /> : null}
