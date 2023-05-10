@@ -21,6 +21,8 @@ type FormValues = {
   tags?: TagOptions[]; // Array of tag ID to label objects
 };
 
+// TODO: When a note is created with an interaction, the tags are not added to the note! Fix pls
+
 const CreateNoteForm = () => {
   const [interactionContent, setInteractionContent] = useState<string>("");
   const [createInteraction, setCreateInteraction] = useState<boolean>(false);
@@ -94,15 +96,16 @@ const CreateNoteForm = () => {
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     try {
+      // If there are tags, get them into format so we can connect them to notes
+      let tagIds: { id: number }[] | undefined = undefined;
+      if (data.tags) {
+        tagIds = data.tags.map((tagObject) => {
+          return { id: tagObject.value };
+        });
+        setTagIds(tagIds);
+      }
+
       if (createInteraction) {
-        // If there are tags, get them into format so we can connect them to notes
-        let tagIds: { id: number }[] | undefined = undefined;
-        if (data.tags) {
-          tagIds = data.tags.map((tagObject) => {
-            return { id: tagObject.value };
-          });
-          setTagIds(tagIds);
-        }
         // Set the interaction method state
         setInteractionMethod(
           data.interactionMethod.toLowerCase() as InteractionMethod

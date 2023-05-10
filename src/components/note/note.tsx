@@ -129,7 +129,7 @@ const Note = ({
       <div className="hidden h-12 w-12 sm:block">
         <Avatar name={creatorName} type="USER" imageUri={creatorImage} />
       </div>
-      <div className="flex flex-col sm:pl-4">
+      <div className="flex w-full flex-col sm:pl-4">
         <h3 className="font-semibold">{creatorName}</h3>
         <div className="my-1 font-normal">{content}</div>
         <div className="flex items-center justify-between pt-1">
