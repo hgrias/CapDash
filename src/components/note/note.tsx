@@ -127,7 +127,7 @@ const Note = ({
           {confirmDeleteModal(handleDeleteNote)}
           <label
             htmlFor="confirmDeleteModal"
-            className="btn-outline btn-xs btn-square btn border-red-600 text-sm text-red-600 hover:border-red-600 hover:bg-red-600"
+            className="btn-outline btn-square btn-xs btn border-red-600 text-sm text-red-600 hover:border-red-600 hover:bg-red-600"
           >
             X
           </label>
