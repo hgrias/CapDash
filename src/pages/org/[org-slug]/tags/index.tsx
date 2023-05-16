@@ -7,7 +7,7 @@ import Error from "next/error";
 import Head from "next/head";
 
 const OrgTags: NextPage = () => {
-  const { orgTags } = useOrganizationContext();
+  const { orgTags, organization } = useOrganizationContext();
   const { status } = useSession();
 
   if (status === "loading") {
@@ -21,7 +21,7 @@ const OrgTags: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Organization Tags</title>
+        <title>{organization?.name} | Tags</title>
         <meta
           name="Texas Legislator Dashboard"
           content="Organization Tags Page"
@@ -30,7 +30,7 @@ const OrgTags: NextPage = () => {
       </Head>
       <main>
         <Header />
-        <div className="w-full p-4">
+        <div className="flex w-full items-center justify-center gap-x-2 p-4">
           <h1 className="text-center text-3xl font-bold">Organization Tags</h1>
         </div>
         <div className="grid grid-cols-3 place-content-center gap-10 px-10 pt-2">
