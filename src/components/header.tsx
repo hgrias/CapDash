@@ -32,15 +32,15 @@ export const Header = () => {
             </Link>
             <Link
               className="text-foreground/60 transition-colors hover:text-foreground/80"
-              href={`/org/${organization.slug}`}
+              href={`/org/${organization.slug}/tags`}
             >
               Tags
             </Link>
             <Link
               className="text-foreground/60 transition-colors hover:text-foreground/80"
-              href={`/org/${organization.slug}`}
+              href={`/org/${organization.slug}/map`}
             >
-              Examples
+              Map
             </Link>
           </nav>
         </div>
