@@ -35,7 +35,7 @@ export function OrgDropdown() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" shape="roundedFull">
+        <Button variant="outline">
           <div className="-mr-1 flex items-center justify-center">
             <Label className="mr-2 flex">
               {organization?.name ?? "Organization Menu"}

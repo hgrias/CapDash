@@ -1,6 +1,6 @@
 import { useOrganizationContext } from "./organizationContext";
+import { Landmark, Users, Tags, Map } from "lucide-react";
 import { OrgDropdown } from "./header/orgDropdown";
-import { Landmark } from "lucide-react";
 import Link from "next/link";
 
 export const Header = () => {
@@ -20,26 +20,31 @@ export const Header = () => {
             className="mr-6 flex items-center space-x-2"
           >
             <Landmark />
-            <span className="hidden font-bold sm:inline-block">CapDash</span>
+            <span className="hidden text-xl font-bold sm:inline-block">
+              CapDash
+            </span>
           </Link>
           {/* TODO: Change to text-foreground on each link when selected */}
           <nav className="flex items-center space-x-6 text-sm font-medium">
             <Link
-              className="text-foreground/60 transition-colors hover:text-foreground/80"
+              className="flex items-center gap-x-1 text-foreground/60 transition-colors hover:text-foreground/80"
               href={`/org/${organization.slug}/legislators`}
             >
+              <Users />
               Legislators
             </Link>
             <Link
-              className="text-foreground/60 transition-colors hover:text-foreground/80"
+              className="flex items-center gap-x-1 text-foreground/60 transition-colors hover:text-foreground/80"
               href={`/org/${organization.slug}/tags`}
             >
+              <Tags />
               Tags
             </Link>
             <Link
-              className="text-foreground/60 transition-colors hover:text-foreground/80"
+              className="flex items-center gap-x-1 text-foreground/60 transition-colors hover:text-foreground/80"
               href={`/org/${organization.slug}/map`}
             >
+              <Map />
               Map
             </Link>
           </nav>
