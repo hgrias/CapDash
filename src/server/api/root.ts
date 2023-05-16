@@ -6,6 +6,7 @@ import { createTRPCRouter } from "~/server/api/trpc";
 import { stafferRouter } from "./routers/staffer";
 import { searchRouter } from "./routers/search";
 import { noteRouter } from "./routers/note";
+import { tagRouter } from "./routers/tag";
 
 /**
  * This is the primary router for your server.
@@ -20,6 +21,7 @@ export const appRouter = createTRPCRouter({
   legislativeSession: legislativeSessionRouter,
   organization: organizationRouter,
   search: searchRouter,
+  tag: tagRouter,
 });
 
 // export type definition of API
