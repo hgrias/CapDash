@@ -1,12 +1,14 @@
+import { Landmark, Chrome, Loader2 } from "lucide-react";
 import { signIn, useSession } from "next-auth/react";
-import { Landmark, Chrome } from "lucide-react";
 import { useRouter } from "next/router";
 import { Button } from "./ui/button";
 import { useEffect } from "react";
+import { useState } from "react";
 
 export const LoginForm = () => {
   const { data, status } = useSession();
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (data && status === "authenticated") {
@@ -15,7 +17,12 @@ export const LoginForm = () => {
   }, [status, data, router]);
 
   const handleSignIn = async () => {
-    await signIn("google");
+    setIsLoading(true);
+    try {
+      await signIn("google");
+    } finally {
+      // setIsLoading(false);
+    }
   };
 
   return (
@@ -23,15 +30,27 @@ export const LoginForm = () => {
       <Landmark className="mb-2 h-10 w-10" />
       <h2 className="mb-2 font-bold">CapDash Login</h2>
       <p className="text-center">Please authenticate with a provider</p>
-      <div className="">
-        <Button
-          className="mt-2 bg-white shadow-md outline outline-1 outline-slate-600"
-          variant="outline"
-          onClick={() => void handleSignIn()}
-        >
-          Sign In with Google
-          <Chrome className="ml-2" />
-        </Button>
+      <div className="mt-2">
+        {isLoading ? (
+          <Button
+            disabled
+            className="mt-2 bg-white shadow-md outline outline-1 outline-slate-600"
+            variant="outline"
+          >
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            Please wait
+          </Button>
+        ) : (
+          <Button
+            className="mt-2 bg-white shadow-md outline outline-1 outline-slate-600"
+            variant="outline"
+            onClick={() => void handleSignIn()}
+            disabled={isLoading} // Disable the button while loading
+          >
+            <Chrome className="mr-2" />
+            Sign In with Google
+          </Button>
+        )}
       </div>
     </div>
   );
