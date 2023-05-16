@@ -15,7 +15,7 @@ export const TagTile = ({ id, name }: TagTileProps) => {
 
   return (
     <Link href={`/org/${organization?.slug}/tags/${id}`}>
-      <div className="flex items-center justify-center rounded-lg bg-slate-200 text-center">
+      <div className="flex h-32 items-center justify-center rounded-lg bg-slate-200 text-center">
         <h1 className="text-2xl">{name}</h1>
       </div>
     </Link>
