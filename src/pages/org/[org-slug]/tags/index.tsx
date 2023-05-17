@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { type NextPage } from "next";
 import Error from "next/error";
 import Head from "next/head";
+import { CreateTagDialog } from "~/components/tag/createTagDialog";
 
 const OrgTags: NextPage = () => {
   const { orgTags, organization } = useOrganizationContext();
@@ -30,8 +31,9 @@ const OrgTags: NextPage = () => {
       </Head>
       <main>
         <Header />
-        <div className="flex w-full items-center justify-center gap-x-2 p-4">
-          <h1 className="text-center text-3xl font-bold">Organization Tags</h1>
+        <div className="flex w-full items-center justify-between gap-x-2 px-10 py-6">
+          <h1 className="text-3xl font-bold">Organization Tags</h1>
+          <CreateTagDialog />
         </div>
         <div className="grid grid-cols-3 place-content-center gap-10 px-10 pt-2">
           {orgTags?.map((orgTag) => {
