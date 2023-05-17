@@ -2,6 +2,7 @@ import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { z } from "zod";
 
 export const tagRouter = createTRPCRouter({
+  // Create a new organization tag
   create: protectedProcedure
     .input(
       z.object({
@@ -28,8 +29,8 @@ export const tagRouter = createTRPCRouter({
       }
     }),
 
-  // Get all info needed for the org tag page
-  getPageInfo: protectedProcedure
+  // Get tag basic info
+  get: protectedProcedure
     .input(
       z.object({
         tagId: z.number().int().positive(),
@@ -38,16 +39,75 @@ export const tagRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       try {
         const tag = await ctx.prisma.tag.findUnique({
-          select: {
-            name: true,
-            interactions: true,
-            notes: true,
-          },
           where: {
             id: input.tagId,
           },
         });
         return tag;
+      } catch (error) {
+        console.log(error);
+      }
+    }),
+
+  // Get all notes associated with a tag
+  getNotes: protectedProcedure
+    .input(
+      z.object({
+        tagId: z.number().int().positive(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      try {
+        const tagNotes = await ctx.prisma.tag.findUnique({
+          select: {
+            notes: {
+              include: {
+                user: {
+                  select: {
+                    name: true,
+                    image: true,
+                    id: true,
+                  },
+                },
+                tags: true,
+              },
+              orderBy: {
+                createdAt: "asc",
+              },
+            },
+          },
+          where: {
+            id: input.tagId,
+          },
+        });
+        return tagNotes?.notes ?? [];
+      } catch (error) {
+        console.log(error);
+      }
+    }),
+
+  // Get all interactions associated with a tag
+  getInteractions: protectedProcedure
+    .input(
+      z.object({
+        tagId: z.number().int().positive(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      try {
+        const tagInteractions = await ctx.prisma.tag.findUnique({
+          select: {
+            interactions: {
+              orderBy: {
+                createdAt: "asc",
+              },
+            },
+          },
+          where: {
+            id: input.tagId,
+          },
+        });
+        return tagInteractions?.interactions ?? [];
       } catch (error) {
         console.log(error);
       }

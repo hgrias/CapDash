@@ -1,4 +1,6 @@
-import { type Interaction, type Note } from "@prisma/client";
+import { Note as NoteComponent } from "~/components/note/note";
+import { type Interaction } from "@prisma/client";
+import type { RouterOutputs } from "~/utils/api";
 import { Header } from "~/components/header";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
@@ -8,15 +10,18 @@ import { api } from "~/utils/api";
 import Error from "next/error";
 import Head from "next/head";
 
+// Get types from router outputs
+type notesType = RouterOutputs["tag"]["getNotes"];
+
 const TagPage: NextPage = () => {
   const [interactions, setInteractions] = useState<Interaction[]>([]);
   const [tagName, setTagName] = useState<string>("");
-  const [notes, setNotes] = useState<Note[]>([]);
+  const [notes, setNotes] = useState<notesType>([]);
 
   const tagId = useRouter().query.id as string;
   const { status } = useSession();
 
-  const { data, error } = api.tag.getPageInfo.useQuery(
+  const { data: tagData, error: tagError } = api.tag.get.useQuery(
     {
       tagId: parseInt(tagId),
     },
@@ -26,13 +31,38 @@ const TagPage: NextPage = () => {
     }
   );
 
-  useEffect(() => {
-    if (data) {
-      setTagName(data?.name);
-      setInteractions(data?.interactions);
-      setNotes(data?.notes);
+  const { data: noteData, error: notesError } = api.tag.getNotes.useQuery(
+    {
+      tagId: parseInt(tagId),
+    },
+    {
+      enabled: !!tagId,
+      refetchOnWindowFocus: false,
     }
-  }, [data]);
+  );
+
+  const { data: interactionData, error: interactionError } =
+    api.tag.getInteractions.useQuery(
+      {
+        tagId: parseInt(tagId),
+      },
+      {
+        enabled: !!tagId,
+        refetchOnWindowFocus: false,
+      }
+    );
+
+  useEffect(() => {
+    if (tagData) {
+      setTagName(tagData.name);
+    }
+    if (noteData) {
+      setNotes(noteData);
+    }
+    if (interactionData) {
+      setInteractions(interactionData);
+    }
+  }, [tagData, noteData, interactionData]);
 
   if (status === "loading") {
     return <p>Loading...</p>;
@@ -42,7 +72,7 @@ const TagPage: NextPage = () => {
     return <Error statusCode={403} title="Access Denied" />;
   }
 
-  if (error) {
+  if (tagError) {
     return <Error statusCode={404} title="Tag Not Found" />;
   }
 
@@ -56,7 +86,25 @@ const TagPage: NextPage = () => {
       <main>
         <Header />
         <div className="w-full p-4">
-          <h1 className="text-center text-3xl font-bold">{tagName}</h1>
+          <div className="flex items-center justify-between px-4">
+            <h1 className="text-center text-3xl font-bold">{tagName}</h1>
+          </div>
+          <div>
+            {notes
+              ? notes.map((note) => (
+                  <NoteComponent
+                    key={note.id}
+                    noteId={note.id}
+                    content={note.content}
+                    creatorName={note.user.name}
+                    creatorImage={note.user.image}
+                    createdAt={note.createdAt}
+                    creatorId={note.user.id}
+                    tags={note.tags}
+                  />
+                ))
+              : null}
+          </div>
         </div>
       </main>
     </>
