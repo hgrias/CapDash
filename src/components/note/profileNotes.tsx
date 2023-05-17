@@ -1,6 +1,6 @@
 import { useProfileContext } from "../profileContext";
 import CreateNoteFooter from "./createNoteFooter";
-import Note from "./note";
+import { Note } from "./note";
 import React from "react";
 
 const ProfileNotes = () => {

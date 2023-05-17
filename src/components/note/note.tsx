@@ -67,7 +67,7 @@ interface NoteProps {
   tags: TagProps[] | [];
 }
 
-const Note = ({
+export const Note = ({
   noteId,
   content,
   creatorId,
@@ -153,5 +153,3 @@ const Note = ({
     </div>
   );
 };
-
-export default Note;
