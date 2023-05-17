@@ -17,13 +17,20 @@ const MyApp: AppType<{ session: Session | null }> = ({
   pageProps: { session, ...pageProps },
 }) => {
   return (
-    <main lang="en" className={`${inter.variable} font-sans`}>
-      <SessionProvider session={session}>
-        <OrganizationProvider>
-          <Component {...pageProps} />
-        </OrganizationProvider>
-      </SessionProvider>
-    </main>
+    <>
+      <style jsx global>{`
+	   :root {
+		--font-inter: ${inter.style.fontFamily};
+	  }
+	}`}</style>
+      <main lang="en" className={`${inter.variable} font-sans`}>
+        <SessionProvider session={session}>
+          <OrganizationProvider>
+            <Component {...pageProps} />
+          </OrganizationProvider>
+        </SessionProvider>
+      </main>
+    </>
   );
 };
 
