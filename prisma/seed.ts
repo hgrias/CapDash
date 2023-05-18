@@ -65,6 +65,36 @@ async function main() {
       },
     },
   });
+  const tag4 = await prisma.tag.create({
+    data: {
+      name: "Policy Tracker",
+      organization: {
+        connect: {
+          id: organization.id,
+        },
+      },
+    },
+  });
+  const tag5 = await prisma.tag.create({
+    data: {
+      name: "Urban Planning",
+      organization: {
+        connect: {
+          id: organization.id,
+        },
+      },
+    },
+  });
+  const tag6 = await prisma.tag.create({
+    data: {
+      name: "Student Affairs",
+      organization: {
+        connect: {
+          id: organization.id,
+        },
+      },
+    },
+  });
 
   console.log("Creating test user");
   const user = await prisma.user.create({
