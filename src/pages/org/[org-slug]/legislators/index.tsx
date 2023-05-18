@@ -1,12 +1,12 @@
 import TypesenseInstantsearchAdapter from "typesense-instantsearch-adapter";
 import { useOrganizationContext } from "~/components/organizationContext";
 import { LegislatorResults } from "~/components/legislatorResults";
+import { assembleTypesenseServerConfig } from "~/lib/utils";
 import { Switch } from "~/components/ui/switch";
 import { useSession } from "next-auth/react";
 import { Header } from "~/components/header";
 import { useState, useEffect } from "react";
 import { type NextPage } from "next";
-import { env } from "~/env.mjs";
 import Error from "next/error";
 import Head from "next/head";
 import {
@@ -26,17 +26,10 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     if (scopedSearchApiKey) {
+      const typesenseServerConfig =
+        assembleTypesenseServerConfig(scopedSearchApiKey);
       const searchAdapter = new TypesenseInstantsearchAdapter({
-        server: {
-          apiKey: scopedSearchApiKey,
-          nodes: [
-            {
-              host: env.NEXT_PUBLIC_TYPESENSE_HOST,
-              port: parseInt(env.NEXT_PUBLIC_TYPESENSE_PORT),
-              protocol: env.NEXT_PUBLIC_TYPESENSE_PROTOCOL,
-            },
-          ],
-        },
+        server: typesenseServerConfig,
         additionalSearchParameters: {
           query_by: "lastName, firstName",
           query_by_weights: "4, 1",
