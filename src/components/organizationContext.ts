@@ -29,7 +29,7 @@ export function OrganizationProvider({ children }: OrganizationProviderProps) {
   const [orgSessions, setOrgSessions] = useState<LegislativeSession[]>();
   const [orgTags, setOrgTags] = useState<Tag[]>();
   const [orgInfo, setOrgInfo] = useState<orgInfoQueryType>();
-  const [scopedSearchApiKey, setScopedSearchApiKey] = useState<string>("");
+  const [scopedSearchApiKey, setScopedSearchApiKey] = useState<string>();
   const [orgActiveSession, setOrgActiveSession] =
     useState<LegislativeSession>();
 
