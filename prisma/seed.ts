@@ -1,10 +1,10 @@
 import { mutationQueueMiddleware } from "./middleware";
 import { PrismaClient } from "@prisma/client";
+import Typesense from "typesense";
 import fs from "fs";
 
 const STATE = "TX";
 const TEST_ORG_CUID = "clgn330dm000008jvcg5x05k4";
-const TEST_ORG_SEARCH_API_KEY = "hVbO5Y4PHOKsFcIviZ6AYjznlfTG9roR";
 const twentyFourDaysAgo = new Date(Date.now() - 24 * 24 * 60 * 60 * 1000);
 const oneWeekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
 const aCoupleOfHoursAgo = new Date(Date.now() - 2 * 60 * 60 * 1000);
@@ -17,6 +17,27 @@ mutationQueueMiddleware(prisma);
 async function main() {
   console.log("Start seeding...");
 
+  console.log("Generating Typesense Search API key for test organization");
+
+  // Typesense client
+  const typesenseClient = new Typesense.Client({
+    nodes: [
+      {
+        host: "127.0.0.1", // For Typesense Cloud use xxx.a1.typesense.net
+        port: 8108, // For Typesense Cloud use 443
+        protocol: "http", // For Typesense Cloud use https
+      },
+    ],
+    apiKey: "xyz",
+    connectionTimeoutSeconds: 2,
+  });
+  const createSearchApiKey = await typesenseClient.keys().create({
+    description: "Search-only key.",
+    actions: ["documents:search"],
+    collections: ["Legislator", "Note"],
+  });
+  const testOrgSearchApiKey = createSearchApiKey.value ?? "";
+
   console.log("Loading data from JSON file");
   const jsonData = JSON.parse(fs.readFileSync("prisma/seedData.json", "utf8"));
   const sessionData = jsonData.sessionpeople.session;
@@ -28,7 +49,7 @@ async function main() {
       id: TEST_ORG_CUID,
       name: "Test Appleseed",
       slug: "test-appleseed",
-      searchApiKey: TEST_ORG_SEARCH_API_KEY,
+      searchApiKey: testOrgSearchApiKey,
       imageUri:
         "https://scontent-hou1-1.xx.fbcdn.net/v/t39.30808-6/279034397_331937069035270_5684934952993197572_n.png?_nc_cat=106&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=3K0GgxzagmwAX_gEHIY&_nc_ht=scontent-hou1-1.xx&oh=00_AfDYHyQ0SI4yfVN4_Efz6_2OUUYeMOxJfJkYRe9jnJJGFg&oe=64586207",
     },

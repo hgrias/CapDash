@@ -15,7 +15,7 @@ export const typesenseClient = new Typesense.Client({
 });
 
 // Models and actions we are looking for in prisma middleware
-const mutationModels = ["Legislator"];
+const mutationModels = ["Legislator", "Note"];
 const mutations = [
   "create",
   "createMany",
@@ -25,7 +25,7 @@ const mutations = [
   "deleteMany",
 ];
 
-// Prisma middleware for adding mutations to Typesense Reindex Queue
+// Prisma middleware for updating/reindexing Typesense documents
 export const mutationQueueMiddleware = (prisma: PrismaClient) => {
   prisma.$use(async (params, next) => {
     // Manipulate params here
@@ -35,7 +35,7 @@ export const mutationQueueMiddleware = (prisma: PrismaClient) => {
     // Only add mutations for certain models to the queue
     if (mutationModels.includes(model) && mutations.includes(action)) {
       // Wait for the result of the mutation
-      const result: object = await next(params);
+      const result = await next(params);
 
       // Add the updated record the queue
       await prisma.updateQueue.create({
@@ -45,6 +45,17 @@ export const mutationQueueMiddleware = (prisma: PrismaClient) => {
           data: result,
         },
       });
+
+      if (model === "Note") {
+        // Convert datetime to UNIX timestamp
+        const unixTimestamp = Math.floor(result.createdAt.getTime() / 1000);
+        result.createdAt = unixTimestamp.toString();
+        // Convert ID to string
+        result.id = result.id.toString();
+        // Add organization ID so we can use a scoped API key
+        result.organizationId = "clgn330dm000008jvcg5x05k4";
+        console.log(result);
+      }
 
       // Upsert / Index to Typesense
       const upsertResult = await typesenseClient

@@ -17,7 +17,6 @@ const typesenseClient = new Typesense.Client({
 const legislatorSchema: CollectionCreateSchema = {
   name: "Legislator",
   fields: [
-    { name: "id", type: "string" },
     { name: "organizationId", type: "string" },
     { name: "firstName", type: "string", sort: true },
     { name: "lastName", type: "string", sort: true },
@@ -28,9 +27,29 @@ const legislatorSchema: CollectionCreateSchema = {
   // default_sorting_field: "lastName",
 };
 
+const noteSchema: CollectionCreateSchema = {
+  name: "Note",
+  fields: [
+    { name: "organizationId", type: "string" },
+    { name: "content", type: "string", sort: true },
+    { name: "legislatorId", type: "string", sort: true },
+    { name: "tags", type: "string*", optional: true },
+    { name: "createdBy", type: "string", sort: true },
+    { name: "createdAt", type: "string", sort: true }, // Need to be converted to unix timestamps
+  ],
+  default_sorting_field: "createdAt",
+};
+
 void typesenseClient
   .collections()
   .create(legislatorSchema)
   .then((data) => {
-    console.log("Typesense collections created.");
+    console.log("Legislator collection created.");
+  });
+
+void typesenseClient
+  .collections()
+  .create(noteSchema)
+  .then((data) => {
+    console.log("Note collection created.");
   });

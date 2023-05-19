@@ -21,5 +21,26 @@ void typesenseClient
   .collections("Legislator")
   .delete()
   .then((data) => {
-    console.log("Typesense collections deleted.");
+    console.log("Legislator collection deleted.");
+  })
+  .catch((error) => {
+    if (error.statusCode === 404) {
+      console.log("Legislator collection does not exist.");
+    } else {
+      console.error(error);
+    }
+  });
+
+void typesenseClient
+  .collections("Note")
+  .delete()
+  .then((data) => {
+    console.log("Note collection deleted.");
+  })
+  .catch((error) => {
+    if (error.statusCode === 404) {
+      console.log("Legislator collection does not exist.");
+    } else {
+      console.error(error);
+    }
   });
