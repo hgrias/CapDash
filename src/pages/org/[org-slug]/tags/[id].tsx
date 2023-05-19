@@ -1,4 +1,7 @@
+import TypesenseInstantsearchAdapter from "typesense-instantsearch-adapter";
+import { useOrganizationContext } from "~/components/organizationContext";
 import { Note as NoteComponent } from "~/components/note/note";
+import { assembleTypesenseServerConfig } from "~/lib/utils";
 import { type Interaction } from "@prisma/client";
 import type { RouterOutputs } from "~/utils/api";
 import { Header } from "~/components/header";
@@ -9,17 +12,49 @@ import { type NextPage } from "next";
 import { api } from "~/utils/api";
 import Error from "next/error";
 import Head from "next/head";
+import {
+  InstantSearch,
+  SearchBox,
+  Highlight,
+  Configure,
+  Hits,
+} from "react-instantsearch-hooks-web";
+import { TagTabs } from "~/components/tag/tagTabs";
 
 // Get types from router outputs
 type notesType = RouterOutputs["tag"]["getNotes"];
 
 const TagPage: NextPage = () => {
+  const [activeTab, setActivetab] = useState<
+    "details" | "notes" | "interactions"
+  >("details");
   const [interactions, setInteractions] = useState<Interaction[]>([]);
   const [tagName, setTagName] = useState<string>("");
   const [notes, setNotes] = useState<notesType>([]);
+  const [typesenseSearchAdapter, setTypesenseSearchAdapter] =
+    useState<TypesenseInstantsearchAdapter | null>(null);
 
   const tagId = useRouter().query.id as string;
   const { status } = useSession();
+
+  const { scopedSearchApiKey } = useOrganizationContext();
+
+  useEffect(() => {
+    if (scopedSearchApiKey) {
+      const typesenseServerConfig =
+        assembleTypesenseServerConfig(scopedSearchApiKey);
+      const searchAdapter = new TypesenseInstantsearchAdapter({
+        server: typesenseServerConfig,
+        additionalSearchParameters: {
+          query_by: "content, createdAt",
+          query_by_weights: "4, 1",
+          sort_by: "createdAt:asc",
+          include_fields: "content, createdAt, legislatorId",
+        },
+      });
+      setTypesenseSearchAdapter(searchAdapter);
+    }
+  }, [scopedSearchApiKey]);
 
   const { data: tagData, error: tagError } = api.tag.get.useQuery(
     {
@@ -85,27 +120,19 @@ const TagPage: NextPage = () => {
       </Head>
       <main>
         <Header />
-        <div className="w-full p-4">
-          <div className="flex items-center justify-between px-4">
-            <h1 className="text-center text-3xl font-bold">{tagName}</h1>
-          </div>
-          <div>
-            {notes
-              ? notes.map((note) => (
-                  <NoteComponent
-                    key={note.id}
-                    noteId={note.id}
-                    content={note.content}
-                    creatorName={note.user.name}
-                    creatorImage={note.user.image}
-                    createdAt={note.createdAt}
-                    creatorId={note.user.id}
-                    tags={note.tags}
-                  />
-                ))
-              : null}
-          </div>
-        </div>
+        {typesenseSearchAdapter && (
+          <InstantSearch
+            searchClient={typesenseSearchAdapter.searchClient}
+            indexName="Note"
+          >
+            <div className="w-full p-4">
+              <div className="mb-4 flex items-center justify-between px-4">
+                <h1 className="text-center text-3xl font-bold">{tagName}</h1>
+              </div>
+              <TagTabs />
+            </div>
+          </InstantSearch>
+        )}
       </main>
     </>
   );
