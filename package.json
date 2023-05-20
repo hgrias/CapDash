@@ -18,6 +18,7 @@
     "reset-dev-env": "yarn delete-search-collections && yarn create-search-collections && yarn resetdb"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.1.0",
     "@next-auth/prisma-adapter": "^1.0.5",
     "@prisma/client": "^4.9.0",
     "@radix-ui/react-avatar": "^1.0.2",
@@ -25,6 +26,7 @@
     "@radix-ui/react-dropdown-menu": "^2.0.4",
     "@radix-ui/react-label": "^2.0.1",
     "@radix-ui/react-separator": "^1.0.2",
+    "@radix-ui/react-slot": "^1.0.1",
     "@radix-ui/react-switch": "^1.0.2",
     "@radix-ui/react-tabs": "^1.0.3",
     "@tailwindcss/typography": "^0.5.9",
@@ -59,7 +61,7 @@
     "tailwindcss-animate": "^1.0.5",
     "typesense": "^1.5.3",
     "typesense-instantsearch-adapter": "^2.6.0",
-    "zod": "^3.20.6",
+    "zod": "^3.21.4",
     "zod-formik-adapter": "^1.2.0"
   },
   "devDependencies": {
