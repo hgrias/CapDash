@@ -1,7 +1,8 @@
 import TypesenseInstantsearchAdapter from "typesense-instantsearch-adapter";
 import { useOrganizationContext } from "~/components/organizationContext";
-import { Note as NoteComponent } from "~/components/note/note";
+import { InstantSearch } from "react-instantsearch-hooks-web";
 import { assembleTypesenseServerConfig } from "~/lib/utils";
+import { TagTabs } from "~/components/tag/tagTabs";
 import { type Interaction } from "@prisma/client";
 import type { RouterOutputs } from "~/utils/api";
 import { Header } from "~/components/header";
@@ -12,14 +13,6 @@ import { type NextPage } from "next";
 import { api } from "~/utils/api";
 import Error from "next/error";
 import Head from "next/head";
-import {
-  InstantSearch,
-  SearchBox,
-  Highlight,
-  Configure,
-  Hits,
-} from "react-instantsearch-hooks-web";
-import { TagTabs } from "~/components/tag/tagTabs";
 
 // Get types from router outputs
 type notesType = RouterOutputs["tag"]["getNotes"];

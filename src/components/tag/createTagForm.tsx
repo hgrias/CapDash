@@ -39,14 +39,13 @@ export const CreateTagForm = ({
       void utils.organization.tags.invalidate();
       // Close the dialog
       handleDialogVisibilityChange(false);
-      // Send a notification
+      // Confirmation notification
       toast({
         title: "Tag Created!",
         description: "Tag has been added to organization tags",
       });
     },
     onError: (error) => {
-      console.error("Error creating new tag: ", error);
       if (
         error.shape?.message ===
         "ERROR: Unique constraint violation for create tag"
@@ -55,16 +54,16 @@ export const CreateTagForm = ({
           message: "Tag already exists.",
           type: "string",
         });
+      } else {
+        console.error(error);
       }
     },
   });
 
-  // Define the form
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
-  // Define the submit handler
   function onSubmit(values: z.infer<typeof formSchema>) {
     createTagMutation(values);
   }
