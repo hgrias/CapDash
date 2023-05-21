@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
+import { useToast } from "../ui/use-toast";
 import { useForm } from "react-hook-form";
 import { api } from "~/utils/api";
 import {
@@ -26,6 +27,7 @@ export const CreateTagForm = ({
   setDialogVisibility: (visible: boolean) => void;
 }) => {
   const utils = api.useContext();
+  const { toast } = useToast();
 
   const handleDialogVisibilityChange = (visible: boolean) => {
     setDialogVisibility(visible);
@@ -37,6 +39,11 @@ export const CreateTagForm = ({
       void utils.organization.tags.invalidate();
       // Close the dialog
       handleDialogVisibilityChange(false);
+      // Send a notification
+      toast({
+        title: "Tag Created!",
+        description: "Tag has been added to organization tags",
+      });
     },
     onError: (error) => {
       console.error("Error creating new tag: ", error);

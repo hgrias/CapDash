@@ -1,5 +1,6 @@
 import { OrganizationProvider } from "~/components/organizationContext";
 import { SessionProvider } from "next-auth/react";
+import { Toaster } from "~/components/ui/toaster";
 import { type Session } from "next-auth";
 import { Inter } from "next/font/google";
 import { type AppType } from "next/app";
@@ -27,6 +28,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <SessionProvider session={session}>
           <OrganizationProvider>
             <Component {...pageProps} />
+            <Toaster />
           </OrganizationProvider>
         </SessionProvider>
       </main>

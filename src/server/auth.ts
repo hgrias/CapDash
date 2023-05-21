@@ -62,7 +62,10 @@ export const authOptions: NextAuthOptions = {
         } else {
           // TODO: Check whether the new user's domain belongs to an org already and connect them
           console.log(
-            `\n\nUser ${session.user.id} does not belong to an org. Adding them to test org.\n\n`
+            `
+\nUser ${session.user.id} does not belong to an org. Adding them to test org.
+
+`
           );
           // If not, add them to the test organization
           await prisma.user.update({
