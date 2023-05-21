@@ -169,10 +169,10 @@ model Note {
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @default(now()) @updatedAt
   createdBy    String
-  legislatorId String
+  legislatorId String?
   parentNoteId Int?
   user         User          @relation(fields: [createdBy], references: [id], onDelete: Cascade)
-  legislator   Legislator    @relation(fields: [legislatorId], references: [id], onDelete: Cascade)
+  legislator   Legislator?   @relation(fields: [legislatorId], references: [id], onDelete: Cascade)
   parentNote   Note?         @relation("ChildNotes", fields: [parentNoteId], references: [id])
   childNotes   Note[]        @relation("ChildNotes")
   tags         Tag[]         @relation("NoteTags")
@@ -183,6 +183,7 @@ model Tag {
   id             Int           @id @default(autoincrement())
   name           String        @unique
   organizationId String
+  description    String?
   icon           String?       @default("Tag")
   notes          Note[]        @relation("NoteTags")
   interactions   Interaction[] @relation("InteractionTags")
