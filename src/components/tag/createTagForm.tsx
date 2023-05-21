@@ -82,7 +82,7 @@ export const CreateTagForm = ({
             <FormItem>
               <FormLabel>Tag Name</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input {...field} value={field.value || ""} />
               </FormControl>
               <FormMessage />
             </FormItem>
