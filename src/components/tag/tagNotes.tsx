@@ -6,6 +6,7 @@ import {
   Hits,
 } from "react-instantsearch-hooks-web";
 
+// TODO: Need to filter hits based on the selected tag name
 export const TagNotes = () => {
   return (
     <div className="flex p-4">

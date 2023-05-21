@@ -35,7 +35,7 @@ const OrgTags: NextPage = () => {
           <h1 className="text-3xl font-bold">Organization Tags</h1>
           <CreateTagDialog />
         </div>
-        <div className="grid grid-cols-3 place-content-center gap-10 px-10 pt-2">
+        <div className="mb-6 grid grid-cols-3 place-content-center gap-10 px-10 pt-2">
           {orgTags?.map((orgTag) => {
             return (
               <TagTile key={orgTag.id} id={orgTag.id} name={orgTag.name} />

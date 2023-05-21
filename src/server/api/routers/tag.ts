@@ -25,7 +25,17 @@ export const tagRouter = createTRPCRouter({
         });
         return createdTag.id;
       } catch (error) {
-        console.error(error);
+        if (error.code === "P2002") {
+          // Unique constraint violation occurred
+          console.error(
+            "ERROR: Unique constraint violation. Unable to create new tag."
+          );
+          console.error(error);
+          throw new Error("ERROR: Unique constraint violation for create tag");
+        } else {
+          console.error(error);
+          throw new Error("ERROR: Cannot create the new tag");
+        }
       }
     }),
 

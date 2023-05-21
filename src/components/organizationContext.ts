@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import TypesenseInstantsearchAdapter from "typesense-instantsearch-adapter";
 import type { LegislativeSession, Tag } from "@prisma/client";
 import type { RouterOutputs } from "~/utils/api";
 import { api } from "~/utils/api";
