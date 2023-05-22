@@ -11,7 +11,7 @@ type userOrgTags = RouterOutputs["organization"]["tags"];
 // Provider Value Props
 interface OrganizationContextValue {
   organization: orgInfoQueryType;
-  orgTags: Tag[] | undefined;
+  orgTags: userOrgTags | undefined;
   orgSessions: LegislativeSession[] | undefined;
   orgActiveSession: LegislativeSession | undefined;
   scopedSearchApiKey: string | undefined;
