@@ -23,7 +23,9 @@ export const LegislatorListItem = ({
   const bgColor = party === "R" ? redGradient : blueGradient;
 
   return (
-    <Card className={`flex h-14 w-full justify-between text-white ${bgColor}`}>
+    <Card
+      className={`flex h-14 w-full justify-between text-white hover:underline ${bgColor}`}
+    >
       <CardHeader className="flex justify-center p-4 text-left">
         <h3 className="scroll-m-20 text-xl font-semibold tracking-tight drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] md:text-2xl">
           {lastName}, {firstName}
