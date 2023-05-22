@@ -1,5 +1,6 @@
 import { useProfileContext } from "../profileContext";
 import CreateNoteFooter from "./createNoteFooter";
+import { NoteSkeleton } from "./noteSkeleton";
 import { Note } from "./note";
 import React from "react";
 
@@ -16,7 +17,13 @@ const ProfileNotes = () => {
         <h1>Notes</h1>
       </div>
 
-      {notes.length ? (
+      {notesQuery.isLoading ? (
+        <div className="gap-y-1">
+          <NoteSkeleton />
+          <NoteSkeleton />
+          <NoteSkeleton />
+        </div>
+      ) : notes.length ? (
         notes.map((note) => {
           return (
             <Note
