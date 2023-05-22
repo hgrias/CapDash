@@ -8,6 +8,7 @@ import type { RouterOutputs } from "~/utils/api";
 import { Header } from "~/components/header";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { type Tag } from "@prisma/client";
 import { useRouter } from "next/router";
 import { type NextPage } from "next";
 import { api } from "~/utils/api";
@@ -19,7 +20,7 @@ type notesType = RouterOutputs["tag"]["getNotes"];
 
 const TagPage: NextPage = () => {
   const [interactions, setInteractions] = useState<Interaction[]>([]);
-  const [tagName, setTagName] = useState<string>("");
+  const [tag, setTag] = useState<Tag>();
   const [notes, setNotes] = useState<notesType>([]);
   const [typesenseSearchAdapter, setTypesenseSearchAdapter] =
     useState<TypesenseInstantsearchAdapter | null>(null);
@@ -79,7 +80,7 @@ const TagPage: NextPage = () => {
 
   useEffect(() => {
     if (tagData) {
-      setTagName(tagData.name);
+      setTag(tagData);
     }
     if (noteData) {
       setNotes(noteData);
@@ -104,21 +105,22 @@ const TagPage: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Tags | {tagName}</title>
+        <title>Tags | {tag?.name}</title>
         <meta name="CapDash" content="Organization Tag Page" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
       {typesenseSearchAdapter && (
-        <main className="pt-14">
+        <main className="bg-gray-50 pt-14">
           <InstantSearch
             searchClient={typesenseSearchAdapter.searchClient}
             indexName="Note"
           >
             <div className="w-full p-4">
               <div className="mb-4 flex items-center justify-between px-4">
-                <h1 className="text-center text-3xl font-bold">{tagName}</h1>
+                <h1 className="text-center text-3xl font-bold">{tag?.name}</h1>
               </div>
+
               <TagTabs />
             </div>
           </InstantSearch>
