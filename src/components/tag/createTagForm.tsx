@@ -43,6 +43,9 @@ export const CreateTagForm = ({
       toast({
         title: "Tag Created!",
         description: "Tag has been added to organization tags",
+        action: <Check color="green" size={36} />,
+        className: "border-2 border-green-600",
+        duration: 3000,
       });
     },
     onError: (error) => {
