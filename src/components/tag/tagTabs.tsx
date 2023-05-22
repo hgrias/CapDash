@@ -12,30 +12,12 @@ import {
 
 export const TagTabs = () => {
   return (
-    <Tabs defaultValue="details" className="w-full px-4">
+    <Tabs defaultValue="notes" className="w-full">
       <TabsList className="grid w-full grid-cols-3">
-        <TabsTrigger value="details">Details</TabsTrigger>
         <TabsTrigger value="notes">Notes</TabsTrigger>
         <TabsTrigger value="interactions">Interactions</TabsTrigger>
+        <TabsTrigger value="legislators">Legislators</TabsTrigger>
       </TabsList>
-      <TabsContent value="details">
-        <Card>
-          <CardHeader>
-            <CardTitle>Details</CardTitle>
-            <CardDescription>View and Edit Tag Details</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <div className="space-y-1">
-              <Label htmlFor="name">Name</Label>
-              <Input id="name" defaultValue="Pedro Duarte" />
-            </div>
-            <div className="space-y-1">
-              <Label htmlFor="username">Username</Label>
-              <Input id="username" defaultValue="@peduarte" />
-            </div>
-          </CardContent>
-        </Card>
-      </TabsContent>
       <TabsContent value="notes">
         <Card>
           <CardHeader>
@@ -61,6 +43,24 @@ export const TagTabs = () => {
             <div className="space-y-1">
               <Label htmlFor="new">New notes</Label>
               <Input id="new" type="notes" />
+            </div>
+          </CardContent>
+        </Card>
+      </TabsContent>
+      <TabsContent value="legislators">
+        <Card>
+          <CardHeader>
+            <CardTitle>Legislators</CardTitle>
+            <CardDescription>View and Edit Tag Details</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <div className="space-y-1">
+              <Label htmlFor="name">Name</Label>
+              <Input id="name" defaultValue="Pedro Duarte" />
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="username">Username</Label>
+              <Input id="username" defaultValue="@peduarte" />
             </div>
           </CardContent>
         </Card>
