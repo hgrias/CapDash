@@ -53,7 +53,7 @@ const LegislatorProfile: NextPage = () => {
     <>
       <Header />
       <ProfileProvider legislatorId={legislatorId}>
-        <div className="bg-slate-100 px-2 pb-36 pt-14">
+        <div className="bg-gray-50 px-2 pb-36 pt-14">
           <div className="flex py-2">
             <div className="flex w-full ">
               <ProfileHeader />

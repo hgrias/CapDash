@@ -54,7 +54,7 @@ export const TagTile = ({ id, name, isFavorite }: TagTileProps) => {
     <div
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className="relative"
+      className="relative bg-white"
     >
       {favorite ? (
         <button className="absolute right-2 top-2">
@@ -75,7 +75,7 @@ export const TagTile = ({ id, name, isFavorite }: TagTileProps) => {
         </button>
       ) : null}
       <Link href={`/org/${organization?.slug}/tags/${id}`}>
-        <div className="flex h-36 flex-col items-center justify-center gap-y-2 rounded-lg border-2 border-slate-800 text-center shadow-xl">
+        <div className="flex h-36 flex-col items-center justify-center gap-y-2 rounded-lg border border-slate-800 text-center shadow-xl">
           <Tag className="h-10 w-10" />
           <h1 className="text-2xl">{name}</h1>
         </div>

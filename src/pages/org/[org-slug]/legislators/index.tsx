@@ -66,7 +66,7 @@ const LegislatorIndex: NextPage = () => {
       </Head>
       <Header />
       {typesenseSearchAdapter && (
-        <main className="pt-14">
+        <main className="bg-gray-50 pt-14">
           <InstantSearch
             searchClient={typesenseSearchAdapter.searchClient}
             indexName="Legislator"
@@ -74,21 +74,22 @@ const LegislatorIndex: NextPage = () => {
             <Configure hitsPerPage={32} />
             <div className="flex">
               {/* TODO: top-14 refers to header height to keep header from covering sidebar - fix this */}
-              <aside className="sticky h-72 w-1/4 py-4 pl-4">
-                <SearchBox
-                  placeholder="Search"
-                  className="w-full rounded-lg bg-gray-100 p-2 shadow-lg"
-                />
-                <div className="my-4 flex items-center justify-center rounded-lg bg-gray-100 p-2 shadow-lg">
-                  <div className="flex items-center gap-x-2 text-center">
-                    <label>List View</label>
-                    <Switch onCheckedChange={() => toggleDisplayMode()} />
-                    <label>Grid View</label>
-                  </div>
-                </div>
-                <div className="my-4 flex flex-col rounded-lg bg-gray-100 p-2 shadow-lg">
+              <aside className="sticky w-1/4 gap-y-2 border-r p-4">
+                <SearchBox placeholder="Search" className="pl-2" />
+                <div className="flex flex-col items-start p-2">
+                  <label className="mb-1 text-center font-medium">
+                    Refinement List
+                  </label>
                   <RefinementList attribute="party" />
                   <RefinementList attribute="role" />
+                </div>
+                <div className="flex flex-col justify-start p-2">
+                  <label className="mb-1 font-medium">View Select</label>
+                  <div className="flex items-center gap-x-2 text-center">
+                    <p>List</p>
+                    <Switch onCheckedChange={() => toggleDisplayMode()} />
+                    <p>Grid</p>
+                  </div>
                 </div>
               </aside>
               <div className="w-full">

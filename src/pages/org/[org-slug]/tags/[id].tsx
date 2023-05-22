@@ -18,9 +18,6 @@ import Head from "next/head";
 type notesType = RouterOutputs["tag"]["getNotes"];
 
 const TagPage: NextPage = () => {
-  const [activeTab, setActivetab] = useState<
-    "details" | "notes" | "interactions"
-  >("details");
   const [interactions, setInteractions] = useState<Interaction[]>([]);
   const [tagName, setTagName] = useState<string>("");
   const [notes, setNotes] = useState<notesType>([]);
@@ -111,24 +108,22 @@ const TagPage: NextPage = () => {
         <meta name="CapDash" content="Organization Tag Page" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-        <Header />
-        {typesenseSearchAdapter && (
-          <main className="pt-14">
-            <InstantSearch
-              searchClient={typesenseSearchAdapter.searchClient}
-              indexName="Note"
-            >
-              <div className="w-full p-4">
-                <div className="mb-4 flex items-center justify-between px-4">
-                  <h1 className="text-center text-3xl font-bold">{tagName}</h1>
-                </div>
-                <TagTabs />
+      <Header />
+      {typesenseSearchAdapter && (
+        <main className="pt-14">
+          <InstantSearch
+            searchClient={typesenseSearchAdapter.searchClient}
+            indexName="Note"
+          >
+            <div className="w-full p-4">
+              <div className="mb-4 flex items-center justify-between px-4">
+                <h1 className="text-center text-3xl font-bold">{tagName}</h1>
               </div>
-            </InstantSearch>
-          </main>
-        )}
-      </main>
+              <TagTabs />
+            </div>
+          </InstantSearch>
+        </main>
+      )}
     </>
   );
 };
