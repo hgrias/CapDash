@@ -12,10 +12,28 @@ interface TagTileProps {
 
 export const TagTile = ({ id, name, isFavorite }: TagTileProps) => {
   const { organization } = useOrganizationContext();
-  const [hovered, setHovered] = useState(false);
-  const [favorite, setFavorite] = useState(isFavorite);
+  const [hovered, setHovered] = useState<boolean>(false);
+  const [favorite, setFavorite] = useState<boolean>(isFavorite);
 
-  // const favoriteTagMutation = api.tag.favorite.useMutation();
+  const { mutate: addFavoriteMutation } = api.tag.addFavoite.useMutation({
+    onSuccess: () => {
+      setFavorite(true);
+    },
+    onError: (error) => {
+      console.error(error);
+      // Send a toast it failed
+    },
+  });
+
+  const { mutate: removeFavoriteMutation } = api.tag.removeFavoite.useMutation({
+    onSuccess: () => {
+      setFavorite(false);
+    },
+    onError: (error) => {
+      console.error(error);
+      // Send a toast it failed
+    },
+  });
 
   const handleMouseEnter = () => {
     setHovered(true);
@@ -35,22 +53,21 @@ export const TagTile = ({ id, name, isFavorite }: TagTileProps) => {
       onMouseLeave={handleMouseLeave}
       className="relative"
     >
-      {isFavorite ? (
+      {favorite ? (
         <button className="absolute right-2 top-2">
           <Star
-            className=""
             size={28}
             fill="gold"
-            strokeWidth={0}
-            onClick={() => console.log("Tag Unfavorited!")}
+            stroke="gold"
+            onClick={() => removeFavoriteMutation({ tagId: id })}
           />
         </button>
       ) : hovered ? (
         <button className="absolute right-2 top-2">
           <Star
             className=""
-            size={26}
-            onClick={() => console.log("Tag Favorited!")}
+            size={28}
+            onClick={() => addFavoriteMutation({ tagId: id })}
           />
         </button>
       ) : null}
