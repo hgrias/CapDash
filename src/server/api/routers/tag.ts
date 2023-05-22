@@ -2,6 +2,54 @@ import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { z } from "zod";
 
 export const tagRouter = createTRPCRouter({
+  // Favorite a tag for a user
+  addFavoite: protectedProcedure
+    .input(
+      z.object({
+        tagId: z.number().int(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      try {
+        // Create UserFavoriteTag record
+        const favoriteTag = await ctx.prisma.userFavoriteTag.create({
+          data: {
+            tagId: input.tagId,
+            userId: ctx.session.user.id,
+          },
+        });
+        return favoriteTag.id;
+      } catch (error) {
+        console.error(error);
+        throw Error("Error while favoriting tag");
+      }
+    }),
+
+  // Remove a favorite tag for a user
+  removeFavoite: protectedProcedure
+    .input(
+      z.object({
+        tagId: z.number().int(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      try {
+        // Create UserFavoriteTag record
+        const deleteFavoriteTag = await ctx.prisma.userFavoriteTag.delete({
+          where: {
+            userId_tagId: {
+              tagId: input.tagId,
+              userId: ctx.session.user.id,
+            },
+          },
+        });
+        return deleteFavoriteTag.id;
+      } catch (error) {
+        console.error(error);
+        throw Error("Error while favoriting tag");
+      }
+    }),
+
   // Create a new organization tag
   create: protectedProcedure
     .input(

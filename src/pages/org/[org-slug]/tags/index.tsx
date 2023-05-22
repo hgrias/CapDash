@@ -38,7 +38,12 @@ const OrgTags: NextPage = () => {
         <div className="mb-6 grid grid-cols-3 place-content-center gap-10 px-10 pt-2">
           {orgTags?.map((orgTag) => {
             return (
-              <TagTile key={orgTag.id} id={orgTag.id} name={orgTag.name} />
+              <TagTile
+                key={orgTag.id}
+                id={orgTag.id}
+                name={orgTag.name}
+                isFavorite={orgTag.isFavorite}
+              />
             );
           })}
         </div>

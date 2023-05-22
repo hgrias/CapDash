@@ -24,6 +24,7 @@ export const organizationRouter = createTRPCRouter({
   // Get an org's tags
   tags: protectedProcedure.query(async ({ ctx }) => {
     try {
+      // Get all organization tags
       const orgTags = await ctx.prisma.organization.findMany({
         select: {
           tags: true,
@@ -32,7 +33,25 @@ export const organizationRouter = createTRPCRouter({
           id: ctx.session.user.organizationId,
         },
       });
-      return orgTags;
+      // Get all favorited tags from the user
+      const favoriteTags = await ctx.prisma.userFavoriteTag.findMany({
+        select: {
+          tagId: true,
+        },
+        where: {
+          userId: ctx.session.user.id,
+        },
+      });
+      const favoriteTagIds = favoriteTags.map((tag) => tag.tagId);
+      // Add isFavorite attribute so we know which tags a user has favorited
+      const newTagsArray = orgTags.map((orgTag) => {
+        const newTags = orgTag.tags.map((tag) => ({
+          ...tag,
+          isFavorite: favoriteTagIds.includes(tag.id),
+        }));
+        return newTags;
+      });
+      return newTagsArray[0];
     } catch (error) {
       console.error(error);
     }

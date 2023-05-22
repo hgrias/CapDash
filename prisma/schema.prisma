@@ -53,17 +53,18 @@ model Organization {
 }
 
 model User {
-  id             String        @id @default(cuid())
+  id             String            @id @default(cuid())
   name           String
-  email          String        @unique
+  email          String            @unique
   emailVerified  DateTime?
   image          String?
   accounts       Account[]
   sessions       Session[]
-  interactions   Interaction[]
   organizationId String?
-  organization   Organization? @relation(fields: [organizationId], references: [id])
+  organization   Organization?     @relation(fields: [organizationId], references: [id])
   Note           Note[]
+  favoriteTags   UserFavoriteTag[] // New field to represent user's favorite tags
+  Interaction    Interaction[]
 
   @@index([organizationId])
 }
@@ -180,16 +181,28 @@ model Note {
 }
 
 model Tag {
-  id             Int           @id @default(autoincrement())
-  name           String        @unique
-  organizationId String
-  description    String?
-  icon           String?       @default("Tag")
-  notes          Note[]        @relation("NoteTags")
-  interactions   Interaction[] @relation("InteractionTags")
-  organization   Organization  @relation(fields: [organizationId], references: [id])
+  id              Int               @id @default(autoincrement())
+  name            String            @unique
+  organizationId  String
+  description     String?
+  icon            String?           @default("Tag")
+  notes           Note[]            @relation("NoteTags")
+  interactions    Interaction[]     @relation("InteractionTags")
+  organization    Organization      @relation(fields: [organizationId], references: [id])
+  UserFavoriteTag UserFavoriteTag[]
 
   @@unique([name, organizationId])
+}
+
+model UserFavoriteTag {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  tag       Tag      @relation(fields: [tagId], references: [id])
+  tagId     Int
+  createdAt DateTime @default(now())
+
+  @@unique([userId, tagId])
 }
 
 model UpdateQueue {

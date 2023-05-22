@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 
 // Import types from tRPC router outputs
 type orgInfoQueryType = RouterOutputs["organization"]["info"];
+type userOrgTags = RouterOutputs["organization"]["tags"];
 
 // Provider Value Props
 interface OrganizationContextValue {
@@ -26,7 +27,7 @@ interface OrganizationProviderProps {
 
 export function OrganizationProvider({ children }: OrganizationProviderProps) {
   const [orgSessions, setOrgSessions] = useState<LegislativeSession[]>();
-  const [orgTags, setOrgTags] = useState<Tag[]>();
+  const [orgTags, setOrgTags] = useState<userOrgTags>();
   const [orgInfo, setOrgInfo] = useState<orgInfoQueryType>();
   const [scopedSearchApiKey, setScopedSearchApiKey] = useState<string>();
   const [orgActiveSession, setOrgActiveSession] =
@@ -47,15 +48,12 @@ export function OrganizationProvider({ children }: OrganizationProviderProps) {
     },
   });
 
-  api.organization.tags.useQuery(undefined, {
-    enabled: !!organizationId,
-    refetchOnReconnect: false,
-    refetchOnWindowFocus: false,
-    onSuccess: (data) => {
-      const [{ tags } = { tags: [] }] = data ?? [];
-      setOrgTags(tags);
-    },
-  });
+  const { data: tagData, error: tagQueryError } =
+    api.organization.tags.useQuery(undefined, {
+      enabled: !!organizationId,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
+    });
 
   api.organization.sessions.useQuery(undefined, {
     enabled: !!organizationId,
@@ -79,13 +77,17 @@ export function OrganizationProvider({ children }: OrganizationProviderProps) {
     },
   });
 
-  // Set the active session from the sessions list
   useEffect(() => {
+    // Set the active session from the sessions list
     if (orgSessions) {
       const activeSession = orgSessions.find((session) => session.active);
       setOrgActiveSession(activeSession);
     }
-  }, [orgSessions]);
+    // Set org tags state
+    if (tagData) {
+      setOrgTags(tagData);
+    }
+  }, [orgSessions, tagData]);
 
   const value: OrganizationContextValue = {
     organization: orgInfo,
