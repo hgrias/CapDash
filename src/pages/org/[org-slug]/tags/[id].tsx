@@ -116,11 +116,11 @@ const TagPage: NextPage = () => {
             searchClient={typesenseSearchAdapter.searchClient}
             indexName="Note"
           >
-            <div className="w-full p-4">
-              <div className="mb-4 flex items-center justify-between px-4">
+            <div className="w-full gap-y-2 p-4">
+              <div className="flex items-center justify-between px-4">
                 <h1 className="text-center text-3xl font-bold">{tag?.name}</h1>
               </div>
-
+              {tag?.description && <p className="p-4">{tag.description}</p>}
               <TagTabs />
             </div>
           </InstantSearch>
