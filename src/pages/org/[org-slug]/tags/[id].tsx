@@ -107,24 +107,26 @@ const TagPage: NextPage = () => {
   return (
     <>
       <Head>
-        <title>CapDash | {tagName}</title>
+        <title>Tags | {tagName}</title>
         <meta name="CapDash" content="Organization Tag Page" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
         <Header />
         {typesenseSearchAdapter && (
-          <InstantSearch
-            searchClient={typesenseSearchAdapter.searchClient}
-            indexName="Note"
-          >
-            <div className="w-full p-4">
-              <div className="mb-4 flex items-center justify-between px-4">
-                <h1 className="text-center text-3xl font-bold">{tagName}</h1>
+          <main className="pt-14">
+            <InstantSearch
+              searchClient={typesenseSearchAdapter.searchClient}
+              indexName="Note"
+            >
+              <div className="w-full p-4">
+                <div className="mb-4 flex items-center justify-between px-4">
+                  <h1 className="text-center text-3xl font-bold">{tagName}</h1>
+                </div>
+                <TagTabs />
               </div>
-              <TagTabs />
-            </div>
-          </InstantSearch>
+            </InstantSearch>
+          </main>
         )}
       </main>
     </>

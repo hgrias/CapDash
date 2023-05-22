@@ -2,6 +2,7 @@ import { LegislatorListItem } from "./legislator/legislatorListItem";
 import { useInfiniteHits } from "react-instantsearch-hooks-web";
 import { LegislatorCard } from "./legislator/legislatorCard";
 import React, { useRef, useEffect, useState } from "react";
+import { ScrollArea } from "~/components/ui/scroll-area";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
@@ -53,27 +54,28 @@ export const LegislatorResults = ({
 
   const legislatorResults = hits.map((legislator) => {
     return (
-      <div key={legislator.id as string}>
-        <Link href={`/org/${orgSlug}/legislators/${legislator.id as string}`}>
-          {selectedView === "grid" ? (
-            <LegislatorCard
-              firstName={legislator.firstName as string}
-              lastName={legislator.lastName as string}
-              role={legislator.role as string}
-              district={legislator.district as string}
-              party={legislator.party as string}
-            />
-          ) : (
-            <LegislatorListItem
-              firstName={legislator.firstName as string}
-              lastName={legislator.lastName as string}
-              role={legislator.role as string}
-              district={legislator.district as string}
-              party={legislator.party as string}
-            />
-          )}
-        </Link>
-      </div>
+      <Link
+        key={legislator.id as string}
+        href={`/org/${orgSlug}/legislators/${legislator.id as string}`}
+      >
+        {selectedView === "grid" ? (
+          <LegislatorCard
+            firstName={legislator.firstName as string}
+            lastName={legislator.lastName as string}
+            role={legislator.role as string}
+            district={legislator.district as string}
+            party={legislator.party as string}
+          />
+        ) : (
+          <LegislatorListItem
+            firstName={legislator.firstName as string}
+            lastName={legislator.lastName as string}
+            role={legislator.role as string}
+            district={legislator.district as string}
+            party={legislator.party as string}
+          />
+        )}
+      </Link>
     );
   });
 
@@ -84,9 +86,12 @@ export const LegislatorResults = ({
       : "m-1 grid grid-cols-1 gap-y-1 sm:m-4";
 
   return (
-    <div className={renderStyle}>
-      {legislatorResults}
-      <div ref={sentinelRef} aria-hidden="true" />
-    </div>
+    // Weird height calculation here to ignore the height of the header component
+    <ScrollArea className="h-[calc(100vh-64px)]">
+      <div className={renderStyle}>
+        {legislatorResults}
+        <div ref={sentinelRef} aria-hidden="true" />
+      </div>
+    </ScrollArea>
   );
 };
