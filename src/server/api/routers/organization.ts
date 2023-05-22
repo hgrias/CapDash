@@ -51,6 +51,14 @@ export const organizationRouter = createTRPCRouter({
         }));
         return newTags;
       });
+      if (newTagsArray[0]) {
+        // Sort the results with favorites first
+        return newTagsArray[0].sort((a, b) =>
+          a.isFavorite === b.isFavorite ? 0 : a.isFavorite ? -1 : 1
+        );
+      } else {
+        return [];
+      }
       return newTagsArray[0];
     } catch (error) {
       console.error(error);

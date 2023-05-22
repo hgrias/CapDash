@@ -12,12 +12,15 @@ interface TagTileProps {
 
 export const TagTile = ({ id, name, isFavorite }: TagTileProps) => {
   const { organization } = useOrganizationContext();
+  const utils = api.useContext();
+
   const [hovered, setHovered] = useState<boolean>(false);
   const [favorite, setFavorite] = useState<boolean>(isFavorite);
 
   const { mutate: addFavoriteMutation } = api.tag.addFavoite.useMutation({
     onSuccess: () => {
       setFavorite(true);
+      void utils.organization.tags.invalidate();
     },
     onError: (error) => {
       console.error(error);
