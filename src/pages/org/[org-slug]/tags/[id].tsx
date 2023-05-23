@@ -111,7 +111,7 @@ const TagPage: NextPage = () => {
       </Head>
       <Header />
       {typesenseSearchAdapter && (
-        <main className="bg-gray-50 pt-14">
+        <main className="flex h-auto min-h-screen w-full flex-col gap-y-6 bg-gray-50 px-6 py-14">
           <InstantSearch
             searchClient={typesenseSearchAdapter.searchClient}
             indexName="Note"
