@@ -30,7 +30,7 @@ const OrgTags: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <main className="h-full bg-gray-50 pt-14">
+      <main className="h-full min-h-screen bg-gray-50 pt-14">
         <div className="flex w-full items-center justify-between gap-x-2 px-10 py-6">
           <h1 className="text-3xl font-bold">Organization Tags</h1>
           <CreateTagDialog />

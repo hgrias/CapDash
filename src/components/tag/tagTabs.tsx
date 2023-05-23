@@ -10,9 +10,13 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 
-export const TagTabs = () => {
+interface tagTabsType {
+  tagId: string;
+}
+
+export const TagTabs = ({ tagId }: tagTabsType) => {
   return (
-    <Tabs defaultValue="notes" className="w-full">
+    <Tabs defaultValue="notes" className="h-full w-full">
       <TabsList className="grid w-full grid-cols-3">
         <TabsTrigger value="notes">Notes</TabsTrigger>
         <TabsTrigger value="interactions">Interactions</TabsTrigger>
@@ -24,8 +28,8 @@ export const TagTabs = () => {
             <CardTitle>Notes</CardTitle>
             <CardDescription>View and Search Tag Notes</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-2">
-            <TagNotes />
+          <CardContent className="">
+            <TagNotes tagId={tagId} />
           </CardContent>
         </Card>
       </TabsContent>
@@ -35,7 +39,7 @@ export const TagTabs = () => {
             <CardTitle>Interactions</CardTitle>
             <CardDescription>View and Search Tag Interactions</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-2">
+          <CardContent className="">
             <div className="space-y-1">
               <Label htmlFor="current">Current notes</Label>
               <Input id="current" type="notes" />
@@ -53,7 +57,7 @@ export const TagTabs = () => {
             <CardTitle>Legislators</CardTitle>
             <CardDescription>View and Edit Tag Details</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-2">
+          <CardContent className="">
             <div className="space-y-1">
               <Label htmlFor="name">Name</Label>
               <Input id="name" defaultValue="Pedro Duarte" />

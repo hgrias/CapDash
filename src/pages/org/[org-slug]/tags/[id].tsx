@@ -110,22 +110,13 @@ const TagPage: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      {typesenseSearchAdapter && (
-        <main className="flex h-auto min-h-screen w-full flex-col gap-y-6 bg-gray-50 px-6 py-14">
-          <InstantSearch
-            searchClient={typesenseSearchAdapter.searchClient}
-            indexName="Note"
-          >
-            <div className="w-full gap-y-2 p-4">
-              <div className="flex items-center justify-between px-4">
-                <h1 className="text-center text-3xl font-bold">{tag?.name}</h1>
-              </div>
-              {tag?.description && <p className="p-4">{tag.description}</p>}
-              <TagTabs />
-            </div>
-          </InstantSearch>
-        </main>
-      )}
+      <main className="flex h-full min-h-screen w-full flex-col gap-y-6 bg-gray-50 px-6 py-14">
+        <div className="mt-6 flex items-center justify-between">
+          <h1 className="text-center text-3xl font-bold">{tag?.name}</h1>
+        </div>
+        {tag?.description && <p className="">{tag.description}</p>}
+        <TagTabs tagId={tagId} />
+      </main>
     </>
   );
 };
