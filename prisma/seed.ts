@@ -195,6 +195,22 @@ async function main() {
         },
       });
 
+      // TODO: Extract this logic to the tRPC router and just call that instead
+      // What to return on creation of the notes for middleware to index to typesense
+      const noteSelection = {
+        createdBy: true,
+        createdAt: true,
+        tags: true,
+        id: true,
+        content: true,
+        legislatorId: true,
+        user: {
+          select: {
+            organizationId: true,
+          },
+        },
+      };
+
       const note1 = await prisma.note.create({
         data: {
           legislatorId: legislator.id,
@@ -236,6 +252,7 @@ async function main() {
             },
           },
         },
+        select: noteSelection,
       });
       const note2 = await prisma.note.create({
         data: {
@@ -288,6 +305,7 @@ async function main() {
             },
           },
         },
+        select: noteSelection,
       });
       const note3 = await prisma.note.create({
         data: {
@@ -297,6 +315,7 @@ async function main() {
           createdBy: user.id,
           createdAt: aCoupleOfHoursAgo,
         },
+        select: noteSelection,
       });
     } catch (error) {
       console.error(error);

@@ -33,7 +33,7 @@ const noteSchema: CollectionCreateSchema = {
     { name: "organizationId", type: "string" },
     { name: "content", type: "string", sort: true },
     { name: "legislatorId", type: "string", sort: true },
-    { name: "tags", type: "string*", optional: true },
+    { name: "tags", type: "string[]", optional: true, searchable: true },
     { name: "createdBy", type: "string", sort: true },
     { name: "createdAt", type: "string", sort: true }, // Need to be converted to unix timestamps
   ],

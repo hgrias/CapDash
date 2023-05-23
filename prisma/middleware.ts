@@ -52,9 +52,13 @@ export const mutationQueueMiddleware = (prisma: PrismaClient) => {
         result.createdAt = unixTimestamp.toString();
         // Convert ID to string
         result.id = result.id.toString();
+        // Get all tag IDs into a list of strings and overwrite tags list
+        const tagIds = result.tags.map((tag: { id: string }) => {
+          return tag.id.toString();
+        });
+        result.tags = tagIds;
         // Add organization ID so we can use a scoped API key
-        result.organizationId = "clgn330dm000008jvcg5x05k4";
-        console.log(result);
+        result.organizationId = result.user.organizationId;
       }
 
       // Upsert / Index to Typesense
