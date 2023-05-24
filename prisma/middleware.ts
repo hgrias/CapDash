@@ -59,6 +59,16 @@ export const mutationQueueMiddleware = (prisma: PrismaClient) => {
         result.tags = tagIds;
         // Add organization ID so we can use a scoped API key
         result.organizationId = result.user.organizationId;
+        // Add legislator name and created by user name
+        result.createdByName = result.user.name;
+        result.legislatorName = result.legislator.role.concat(
+          ". ",
+          result.legislator.firstName,
+          " ",
+          result.legislator.lastName
+        );
+        // Remap created by ID
+        result.createdById = result.createdBy;
       }
 
       // Upsert / Index to Typesense

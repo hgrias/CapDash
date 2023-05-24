@@ -206,7 +206,15 @@ async function main() {
         legislatorId: true,
         user: {
           select: {
+            name: true,
             organizationId: true,
+          },
+        },
+        legislator: {
+          select: {
+            firstName: true,
+            lastName: true,
+            role: true,
           },
         },
       };

@@ -22,7 +22,7 @@ export const TagTabs = ({ tagId }: tagTabsType) => {
         <TabsTrigger value="interactions">Interactions</TabsTrigger>
         <TabsTrigger value="legislators">Legislators</TabsTrigger>
       </TabsList>
-      <TabsContent value="notes">
+      <TabsContent value="notes" className="">
         <Card>
           <CardHeader>
             <CardTitle>Notes</CardTitle>

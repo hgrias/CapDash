@@ -1,7 +1,6 @@
 import TypesenseInstantsearchAdapter from "typesense-instantsearch-adapter";
 import { useOrganizationContext } from "../organizationContext";
 import { assembleTypesenseServerConfig } from "~/lib/utils";
-import { ScrollArea } from "../ui/scroll-area";
 import { useEffect, useState } from "react";
 import {
   InstantSearch,
@@ -9,7 +8,9 @@ import {
   Highlight,
   Configure,
   Hits,
+  HitsPerPage,
 } from "react-instantsearch-hooks-web";
+import { TagNotesResults } from "./tagNotesResults";
 
 interface tagNotesType {
   tagId: string;
@@ -32,7 +33,8 @@ export const TagNotes = ({ tagId }: tagNotesType) => {
           query_by: "content, createdAt",
           query_by_weights: "4, 1",
           sort_by: "createdAt:asc",
-          include_fields: "content, createdAt, legislatorId",
+          include_fields:
+            "content, createdAt, legislatorId, legislatorName, createdById, createdByName, id",
         },
       });
       setTypesenseSearchAdapter(searchAdapter);
@@ -40,7 +42,7 @@ export const TagNotes = ({ tagId }: tagNotesType) => {
   }, [scopedSearchApiKey]);
 
   return (
-    <div className="flex h-full p-4">
+    <div className="flex h-full">
       {typesenseSearchAdapter && (
         <div className="w-full">
           <InstantSearch
@@ -49,9 +51,7 @@ export const TagNotes = ({ tagId }: tagNotesType) => {
           >
             <Configure hitsPerPage={10} filters={[`tags: [${tagId}]`]} />
             <SearchBox />
-            <ScrollArea>
-              <Hits />
-            </ScrollArea>
+            <TagNotesResults />
           </InstantSearch>
         </div>
       )}
