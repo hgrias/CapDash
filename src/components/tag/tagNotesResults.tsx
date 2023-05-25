@@ -61,7 +61,13 @@ export const TagNotesResults = () => {
 
   return (
     <ScrollArea className="">
-      <div className="my-2 flex flex-col gap-y-3">{resultsList}</div>
+      {resultsList.length ? (
+        <div className="my-2 flex flex-col gap-y-3">{resultsList}</div>
+      ) : (
+        <div className="p-4 text-center">
+          No notes have been created for this tag yet!
+        </div>
+      )}
     </ScrollArea>
   );
 };
