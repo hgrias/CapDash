@@ -16,8 +16,8 @@ interface tagTabsType {
 
 export const TagTabs = ({ tagId }: tagTabsType) => {
   return (
-    <Tabs defaultValue="notes" className="h-full w-full">
-      <TabsList className="grid w-full grid-cols-3">
+    <Tabs defaultValue="notes" className="">
+      <TabsList className="grid grid-cols-3">
         <TabsTrigger value="notes">Notes</TabsTrigger>
         <TabsTrigger value="interactions">Interactions</TabsTrigger>
         <TabsTrigger value="legislators">Legislators</TabsTrigger>

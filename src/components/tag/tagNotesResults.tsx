@@ -26,7 +26,10 @@ export const TagNotesResults = () => {
     const humanReadableDate = date.toLocaleString();
 
     return (
-      <div key={hit.id} className="flex flex-col gap-y-1 rounded-md border p-2">
+      <div
+        key={hit.id}
+        className="flex flex-col gap-y-1 rounded-md border p-2 hover:bg-gray-50"
+      >
         <p>{hit.content}</p>
         <div className="flex items-center gap-x-4">
           <p className="text-sm font-medium text-gray-500">
@@ -45,7 +48,7 @@ export const TagNotesResults = () => {
                 }`}
                 className={`${badgeVariants({
                   variant: "outline",
-                })} hover:underline`}
+                })} bg-blue-50 hover:underline`}
               >
                 {hit.legislatorName}
               </Link>

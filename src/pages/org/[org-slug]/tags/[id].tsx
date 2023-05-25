@@ -110,13 +110,15 @@ const TagPage: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <main className="flex h-full min-h-screen w-full flex-col gap-y-6 bg-gray-50 px-6 py-14">
-        <div className="mt-6 flex items-center justify-between">
-          <h1 className="text-center text-3xl font-bold">{tag?.name}</h1>
-        </div>
-        {tag?.description && <p className="">{tag.description}</p>}
-        <TagTabs tagId={tagId} />
-      </main>
+      <div className="flex min-h-screen justify-center bg-gray-50 py-14">
+        <main className="flex flex-col gap-y-6 px-6 lg:w-2/3 lg:p-0">
+          <div className="mt-6 flex items-center justify-between">
+            <h1 className="text-center text-3xl font-bold">{tag?.name}</h1>
+          </div>
+          {tag?.description && <p className="">{tag.description}</p>}
+          <TagTabs tagId={tagId} />
+        </main>
+      </div>
     </>
   );
 };

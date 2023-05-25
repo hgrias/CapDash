@@ -6,11 +6,13 @@ import {
   InstantSearch,
   SearchBox,
   Highlight,
+  Pagination,
   Configure,
   Hits,
   HitsPerPage,
 } from "react-instantsearch-hooks-web";
 import { TagNotesResults } from "./tagNotesResults";
+import { Paginator } from "../ui/paginator";
 
 interface tagNotesType {
   tagId: string;
@@ -49,9 +51,15 @@ export const TagNotes = ({ tagId }: tagNotesType) => {
             indexName="Note"
             searchClient={typesenseSearchAdapter.searchClient}
           >
-            <Configure hitsPerPage={10} filters={[`tags: [${tagId}]`]} />
-            <SearchBox />
+            <Configure hitsPerPage={8} filters={[`tags: [${tagId}]`]} />
+            <div className="flex items-center justify-between">
+              <SearchBox />
+              <Paginator />
+            </div>
             <TagNotesResults />
+            <div className="flex justify-center">
+              <Paginator />
+            </div>
           </InstantSearch>
         </div>
       )}
