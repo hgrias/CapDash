@@ -39,7 +39,7 @@ export const SearchBox = (props: UseSearchBoxProps) => {
   };
 
   return (
-    <div className="group flex w-full items-center rounded-full border bg-white p-1 focus-within:ring-2 focus-within:ring-blue-400">
+    <div className="group flex w-full items-center rounded-full border bg-white p-1 shadow-inner focus-within:ring-2 focus-within:ring-blue-400">
       <div className="pl-1">
         <Search className="" height={18} width={18} />
       </div>
