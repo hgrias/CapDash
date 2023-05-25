@@ -10,11 +10,12 @@ import { type NextPage } from "next";
 import Error from "next/error";
 import Head from "next/head";
 import {
-  InstantSearch,
-  SearchBox,
-  Configure,
   RefinementList,
+  InstantSearch,
+  Configure,
 } from "react-instantsearch-hooks-web";
+import { SearchBox } from "~/components/ui/search/searchBox";
+import { NumResults } from "~/components/ui/search/numResults";
 
 // TODO: Have backup in case the typesense collections cannot be connected to
 const LegislatorIndex: NextPage = () => {
@@ -73,17 +74,19 @@ const LegislatorIndex: NextPage = () => {
           >
             <Configure hitsPerPage={32} />
             <div className="flex">
-              {/* TODO: top-14 refers to header height to keep header from covering sidebar - fix this */}
-              <aside className="sticky w-1/4 gap-y-2 border-r p-4">
-                <SearchBox placeholder="Search" className="pl-2" />
-                <div className="flex flex-col items-start p-2">
+              <aside className="sticky flex w-1/4 flex-col items-center gap-y-4 border-r-2 p-4">
+                <SearchBox />
+                <NumResults />
+                <div className="flex flex-col items-center">
                   <label className="mb-1 text-center font-medium">
                     Refinement List
                   </label>
-                  <RefinementList attribute="party" />
-                  <RefinementList attribute="role" />
+                  <div className="flex flex-col items-start">
+                    <RefinementList attribute="party" />
+                    <RefinementList attribute="role" />
+                  </div>
                 </div>
-                <div className="flex flex-col justify-start p-2">
+                <div className="flex flex-col items-center justify-center">
                   <label className="mb-1 font-medium">View Select</label>
                   <div className="flex items-center gap-x-2 text-center">
                     <p>List</p>
