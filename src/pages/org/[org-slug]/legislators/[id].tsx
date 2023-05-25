@@ -50,31 +50,29 @@ const LegislatorProfile: NextPage = () => {
   }
 
   return (
-    <>
+    <ProfileProvider legislatorId={legislatorId}>
       <Header />
-      <ProfileProvider legislatorId={legislatorId}>
-        <div className="bg-gray-50 px-2 pb-36 pt-14">
-          <div className="flex py-2">
-            <div className="flex w-full ">
-              <ProfileHeader />
-            </div>
-          </div>
-          <div className="grid gap-6 sm:mx-4 sm:grid-cols-3">
-            <div className="col-span-3 sm:col-span-2">
-              <div className="mb-6">
-                <ProfileDetailsTabs />
-              </div>
-              <div className="col-span-3 sm:col-span-2">
-                <ProfileNotes />
-              </div>
-            </div>
-            <div className="col-span-3 sm:col-span-1">
-              <ProfileInteractions />
-            </div>
+      <div className="bg-gray-50 px-2 pb-36 pt-14">
+        <div className="flex py-2">
+          <div className="flex w-full ">
+            <ProfileHeader />
           </div>
         </div>
-      </ProfileProvider>
-    </>
+        <div className="grid gap-6 sm:mx-4 sm:grid-cols-3">
+          <div className="col-span-3 sm:col-span-2">
+            <div className="mb-6">
+              <ProfileDetailsTabs />
+            </div>
+            <div className="col-span-3 sm:col-span-2">
+              <ProfileNotes />
+            </div>
+          </div>
+          <div className="col-span-3 sm:col-span-1">
+            <ProfileInteractions />
+          </div>
+        </div>
+      </div>
+    </ProfileProvider>
   );
 };
 
