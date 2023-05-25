@@ -17,7 +17,25 @@ export const Paginator = (props: UsePaginationProps) => {
   } = usePagination(props);
 
   return (
-    <ul className="flex items-center justify-between gap-x-2 rounded-md p-1 text-sm">
+    <ul className="flex items-center justify-between gap-x-1 rounded-md p-1 text-sm">
+      {!isFirstPage && !pages.includes(0) && (
+        <li className="flex h-6 w-6 items-center justify-center hover:underline">
+          <a
+            href="#"
+            onClick={(event) => {
+              event.preventDefault();
+              refine(0);
+            }}
+          >
+            1
+          </a>
+        </li>
+      )}
+      {!isFirstPage && !pages.includes(1) && (
+        <li className="flex h-4 w-4 items-center justify-center">
+          <p className="p-1 text-lg font-semibold">...</p>
+        </li>
+      )}
       {pages.map((page) => (
         <li key={page}>
           <a
@@ -28,17 +46,35 @@ export const Paginator = (props: UsePaginationProps) => {
             }}
           >
             {page === currentRefinement ? (
-              <div className="flex h-6 w-6 items-center justify-center rounded-md border bg-slate-100">
+              <div className="flex h-6 w-6 items-center justify-center rounded-md border bg-slate-100 hover:underline">
                 <strong>{page + 1}</strong>
               </div>
             ) : (
-              <div className="flex h-6 w-6 items-center justify-center">
+              <div className="flex h-6 w-6 items-center justify-center hover:underline">
                 {page + 1}
               </div>
             )}
           </a>
         </li>
       ))}
+      {!isLastPage && !pages.includes(nbPages - 2) && (
+        <li className="flex h-4 w-4 items-center justify-center">
+          <p className="p-1 text-lg font-semibold">...</p>
+        </li>
+      )}
+      {!isLastPage && !pages.includes(nbPages - 1) && (
+        <li className="flex h-6 w-6 items-center justify-center hover:underline">
+          <a
+            href="#"
+            onClick={(event) => {
+              event.preventDefault();
+              refine(nbPages - 1);
+            }}
+          >
+            {nbPages}
+          </a>
+        </li>
+      )}
     </ul>
   );
 };
