@@ -1,7 +1,8 @@
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
+import { Highlight } from "react-instantsearch-hooks-web";
 import React from "react";
 
-interface LegislatorListItemProps {
+interface LegislatorProps {
   firstName: string;
   lastName: string;
   district: string;
@@ -9,18 +10,16 @@ interface LegislatorListItemProps {
   party: string;
 }
 
-export const LegislatorListItem = ({
-  firstName,
-  lastName,
-  role,
-  district,
-  party,
-}: LegislatorListItemProps) => {
+interface LegislatorHit {
+  hit: LegislatorProps;
+}
+
+export const LegislatorListItem = ({ hit }: LegislatorHit) => {
   const redGradient =
     "bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-red-700 via-red-600 to-red-500";
   const blueGradient =
     "bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-blue-700 via-blue-600 to-blue-500";
-  const bgColor = party === "R" ? redGradient : blueGradient;
+  const bgColor = hit.party === "R" ? redGradient : blueGradient;
 
   return (
     <Card
@@ -28,15 +27,17 @@ export const LegislatorListItem = ({
     >
       <CardHeader className="flex justify-center p-4 text-left">
         <h3 className="scroll-m-20 text-xl font-semibold tracking-tight drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] md:text-2xl">
-          {lastName}, {firstName}
+          <Highlight attribute="lastName" hit={hit} />
+          {", "}
+          <Highlight attribute="firstName" hit={hit} />
         </h3>
       </CardHeader>
       <CardContent className="flex items-center gap-x-4 p-4">
         <h2 className="scroll-m-20 text-lg font-semibold tracking-tight drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] md:text-xl">
-          {district}
+          <Highlight attribute="district" hit={hit} />
         </h2>
         <h2 className="scroll-m-20 text-lg font-semibold tracking-tight drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] md:text-xl">
-          {role}
+          {hit.role}
         </h2>
       </CardContent>
     </Card>

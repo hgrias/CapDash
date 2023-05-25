@@ -59,21 +59,9 @@ export const LegislatorResults = ({
         href={`/org/${orgSlug}/legislators/${legislator.id as string}`}
       >
         {selectedView === "grid" ? (
-          <LegislatorCard
-            firstName={legislator.firstName as string}
-            lastName={legislator.lastName as string}
-            role={legislator.role as string}
-            district={legislator.district as string}
-            party={legislator.party as string}
-          />
+          <LegislatorCard hit={legislator} />
         ) : (
-          <LegislatorListItem
-            firstName={legislator.firstName as string}
-            lastName={legislator.lastName as string}
-            role={legislator.role as string}
-            district={legislator.district as string}
-            party={legislator.party as string}
-          />
+          <LegislatorListItem hit={legislator} />
         )}
       </Link>
     );
