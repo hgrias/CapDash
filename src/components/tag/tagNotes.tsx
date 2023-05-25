@@ -46,7 +46,7 @@ export const TagNotes = ({ tagId }: tagNotesType) => {
             searchClient={typesenseSearchAdapter.searchClient}
           >
             <Configure hitsPerPage={8} filters={[`tags: [${tagId}]`]} />
-            <div className="mb-2 flex items-center justify-between text-center">
+            <div className="mb-3 flex items-center justify-between text-center">
               <div className="flex items-center gap-x-3">
                 <SearchBox />
                 <NumResults />

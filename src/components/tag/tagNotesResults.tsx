@@ -1,7 +1,6 @@
 import { useOrganizationContext } from "../organizationContext";
 import { useHits } from "react-instantsearch-hooks-web";
 import { badgeVariants } from "~/components/ui/badge";
-import { ScrollArea } from "../ui/scroll-area";
 import { Separator } from "../ui/separator";
 import Link from "next/link";
 
@@ -60,7 +59,7 @@ export const TagNotesResults = () => {
   });
 
   return (
-    <ScrollArea className="">
+    <div>
       {resultsList.length ? (
         <div className="my-2 flex flex-col gap-y-3">{resultsList}</div>
       ) : (
@@ -68,6 +67,6 @@ export const TagNotesResults = () => {
           No notes have been created for this tag yet!
         </div>
       )}
-    </ScrollArea>
+    </div>
   );
 };
