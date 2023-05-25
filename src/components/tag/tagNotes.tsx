@@ -6,6 +6,7 @@ import { TagNotesResults } from "./tagNotesResults";
 import { Paginator } from "../ui/search/paginator";
 import { SearchBox } from "../ui/search/searchBox";
 import { useEffect, useState } from "react";
+import { NumResults } from "../ui/search/numResults";
 
 interface tagNotesType {
   tagId: string;
@@ -45,9 +46,10 @@ export const TagNotes = ({ tagId }: tagNotesType) => {
             searchClient={typesenseSearchAdapter.searchClient}
           >
             <Configure hitsPerPage={8} filters={[`tags: [${tagId}]`]} />
-            <div className="flex items-center justify-between">
-              <div className="w-64">
+            <div className="mb-2 flex items-center justify-between text-center">
+              <div className="flex items-center gap-x-3">
                 <SearchBox />
+                <NumResults />
               </div>
               <Paginator />
             </div>

@@ -22,7 +22,7 @@ export const TagTabs = ({ tagId }: tagTabsType) => {
         <TabsTrigger value="interactions">Interactions</TabsTrigger>
         <TabsTrigger value="legislators">Legislators</TabsTrigger>
       </TabsList>
-      <TabsContent value="notes" className="">
+      <TabsContent value="notes" className="min-h-screen">
         <Card>
           <CardHeader>
             <CardTitle>Notes</CardTitle>
@@ -33,7 +33,7 @@ export const TagTabs = ({ tagId }: tagTabsType) => {
           </CardContent>
         </Card>
       </TabsContent>
-      <TabsContent value="interactions">
+      <TabsContent value="interactions" className="min-h-screen">
         <Card>
           <CardHeader>
             <CardTitle>Interactions</CardTitle>
@@ -51,7 +51,7 @@ export const TagTabs = ({ tagId }: tagTabsType) => {
           </CardContent>
         </Card>
       </TabsContent>
-      <TabsContent value="legislators">
+      <TabsContent value="legislators" className="min-h-screen">
         <Card>
           <CardHeader>
             <CardTitle>Legislators</CardTitle>
