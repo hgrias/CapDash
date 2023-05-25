@@ -27,12 +27,12 @@ export const TagNotesResults = () => {
     return (
       <div
         key={hit.id}
-        className="flex flex-col gap-y-1 rounded-md border p-2 hover:bg-gray-50"
+        className="flex flex-col gap-y-1 rounded-md border p-3 hover:bg-gray-50"
       >
         <h1 className="text-justify">
           <Highlight attribute="content" hit={hit} />
         </h1>
-        <div className="flex items-center gap-x-4">
+        <div className="mt-1 flex items-center gap-x-4">
           <p className="text-sm font-medium text-gray-500">
             {humanReadableDate}
           </p>

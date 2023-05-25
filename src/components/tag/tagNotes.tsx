@@ -54,7 +54,7 @@ export const TagNotes = ({ tagId }: tagNotesType) => {
               <Paginator />
             </div>
             <TagNotesResults />
-            <div className="flex justify-center">
+            <div className="mt-3 flex justify-center">
               <Paginator />
             </div>
           </InstantSearch>
