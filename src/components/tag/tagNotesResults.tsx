@@ -1,9 +1,9 @@
+import { useOrganizationContext } from "../organizationContext";
 import { useHits } from "react-instantsearch-hooks-web";
 import { badgeVariants } from "~/components/ui/badge";
 import { ScrollArea } from "../ui/scroll-area";
-import Link from "next/link";
 import { Separator } from "../ui/separator";
-import { useOrganizationContext } from "../organizationContext";
+import Link from "next/link";
 
 type HitType = {
   id: string;
