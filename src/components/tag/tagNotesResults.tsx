@@ -1,5 +1,5 @@
 import { useOrganizationContext } from "../organizationContext";
-import { useHits } from "react-instantsearch-hooks-web";
+import { useHits, Highlight } from "react-instantsearch-hooks-web";
 import { badgeVariants } from "~/components/ui/badge";
 import { Separator } from "../ui/separator";
 import Link from "next/link";
@@ -29,14 +29,16 @@ export const TagNotesResults = () => {
         key={hit.id}
         className="flex flex-col gap-y-1 rounded-md border p-2 hover:bg-gray-50"
       >
-        <p>{hit.content}</p>
+        <h1 className="text-justify">
+          <Highlight attribute="content" hit={hit} />
+        </h1>
         <div className="flex items-center gap-x-4">
           <p className="text-sm font-medium text-gray-500">
             {humanReadableDate}
           </p>
           <Separator orientation="vertical" className="h-4" />
           <p className="text-sm font-medium text-gray-500">
-            Created by {hit.createdByName}
+            Created by <Highlight attribute="createdByName" hit={hit} />
           </p>
           {hit.legislatorId && (
             <div className="flex items-center gap-x-4">
@@ -49,7 +51,9 @@ export const TagNotesResults = () => {
                   variant: "outline",
                 })} bg-blue-50 hover:underline`}
               >
-                {hit.legislatorName}
+                <h1>
+                  <Highlight attribute="legislatorName" hit={hit} />
+                </h1>
               </Link>
             </div>
           )}
