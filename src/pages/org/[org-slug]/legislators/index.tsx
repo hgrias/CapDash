@@ -32,10 +32,11 @@ const LegislatorIndex: NextPage = () => {
       const searchAdapter = new TypesenseInstantsearchAdapter({
         server: typesenseServerConfig,
         additionalSearchParameters: {
-          query_by: "lastName, firstName",
-          query_by_weights: "4, 1",
+          query_by: "lastName, firstName, district",
+          query_by_weights: "4, 1, 1",
           sort_by: "lastName:asc, firstName:asc",
-          include_fields: "firstName,lastName,role,party,district,id",
+          include_fields: "firstName, lastName, role, party, district, id",
+          infix: "fallback",
         },
       });
       setTypesenseSearchAdapter(searchAdapter);

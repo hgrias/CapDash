@@ -20,11 +20,11 @@ const legislatorSchema: CollectionCreateSchema = {
     { name: "organizationId", type: "string" },
     { name: "firstName", type: "string", sort: true },
     { name: "lastName", type: "string", sort: true },
-    { name: "district", type: "string" },
+    { name: "district", type: "string", infix: true },
     { name: "party", type: "string", facet: true },
     { name: "role", type: "string", facet: true },
   ],
-  // default_sorting_field: "lastName",
+  token_separators: ["-"], // So we can query by districts more effectively
 };
 
 const noteSchema: CollectionCreateSchema = {
