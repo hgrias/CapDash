@@ -1,6 +1,6 @@
 import { useCallback, type ChangeEvent, useState, useRef } from "react";
 import { Search, X } from "lucide-react";
-import { Input } from "./input";
+import { Input } from "../input";
 import {
   useSearchBox,
   type UseSearchBoxProps,

@@ -4,17 +4,8 @@ import {
 } from "react-instantsearch-hooks-web";
 
 export const Paginator = (props: UsePaginationProps) => {
-  const {
-    pages,
-    currentRefinement,
-    nbHits,
-    nbPages,
-    isFirstPage,
-    isLastPage,
-    canRefine,
-    refine,
-    createURL,
-  } = usePagination(props);
+  const { pages, currentRefinement, nbPages, isFirstPage, isLastPage, refine } =
+    usePagination(props);
 
   return (
     <ul className="flex items-center justify-between gap-x-1 rounded-md p-1 text-sm">

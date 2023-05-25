@@ -3,9 +3,9 @@ import { InstantSearch, Configure } from "react-instantsearch-hooks-web";
 import { useOrganizationContext } from "../organizationContext";
 import { assembleTypesenseServerConfig } from "~/lib/utils";
 import { TagNotesResults } from "./tagNotesResults";
+import { Paginator } from "../ui/search/paginator";
+import { SearchBox } from "../ui/search/searchBox";
 import { useEffect, useState } from "react";
-import { Paginator } from "../ui/paginator";
-import { SearchBox } from "../ui/searchBox";
 
 interface tagNotesType {
   tagId: string;
