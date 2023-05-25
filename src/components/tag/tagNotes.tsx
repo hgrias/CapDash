@@ -4,7 +4,7 @@ import { assembleTypesenseServerConfig } from "~/lib/utils";
 import { useEffect, useState } from "react";
 import {
   InstantSearch,
-  SearchBox,
+  // SearchBox,
   Highlight,
   Pagination,
   Configure,
@@ -13,6 +13,7 @@ import {
 } from "react-instantsearch-hooks-web";
 import { TagNotesResults } from "./tagNotesResults";
 import { Paginator } from "../ui/paginator";
+import { SearchBox } from "../ui/searchBox";
 
 interface tagNotesType {
   tagId: string;
@@ -32,8 +33,8 @@ export const TagNotes = ({ tagId }: tagNotesType) => {
       const searchAdapter = new TypesenseInstantsearchAdapter({
         server: typesenseServerConfig,
         additionalSearchParameters: {
-          query_by: "content, createdAt",
-          query_by_weights: "4, 1",
+          query_by: "content, legislatorName, createdByName",
+          query_by_weights: "4, 2, 2",
           sort_by: "createdAt:asc",
           include_fields:
             "content, createdAt, legislatorId, legislatorName, createdById, createdByName, id",
@@ -53,7 +54,9 @@ export const TagNotes = ({ tagId }: tagNotesType) => {
           >
             <Configure hitsPerPage={8} filters={[`tags: [${tagId}]`]} />
             <div className="flex items-center justify-between">
-              <SearchBox />
+              <div className="w-64">
+                <SearchBox />
+              </div>
               <Paginator />
             </div>
             <TagNotesResults />
