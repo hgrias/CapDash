@@ -1,10 +1,10 @@
+import { useCallback, type ChangeEvent, useState, useRef } from "react";
+import { Search, X } from "lucide-react";
+import { Input } from "./input";
 import {
   useSearchBox,
   type UseSearchBoxProps,
 } from "react-instantsearch-hooks-web";
-import { Search, X } from "lucide-react";
-import { Input } from "./input";
-import { useCallback, type ChangeEvent, useState, useRef } from "react";
 
 export const SearchBox = (props: UseSearchBoxProps) => {
   const [inputValue, setInputValue] = useState<string>("");

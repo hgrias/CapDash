@@ -1,6 +1,5 @@
 import TypesenseInstantsearchAdapter from "typesense-instantsearch-adapter";
 import { useOrganizationContext } from "~/components/organizationContext";
-import { InstantSearch } from "react-instantsearch-hooks-web";
 import { assembleTypesenseServerConfig } from "~/lib/utils";
 import { TagTabs } from "~/components/tag/tagTabs";
 import { type Interaction } from "@prisma/client";

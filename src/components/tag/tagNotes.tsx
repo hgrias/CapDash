@@ -1,17 +1,9 @@
 import TypesenseInstantsearchAdapter from "typesense-instantsearch-adapter";
+import { InstantSearch, Configure } from "react-instantsearch-hooks-web";
 import { useOrganizationContext } from "../organizationContext";
 import { assembleTypesenseServerConfig } from "~/lib/utils";
-import { useEffect, useState } from "react";
-import {
-  InstantSearch,
-  // SearchBox,
-  Highlight,
-  Pagination,
-  Configure,
-  Hits,
-  HitsPerPage,
-} from "react-instantsearch-hooks-web";
 import { TagNotesResults } from "./tagNotesResults";
+import { useEffect, useState } from "react";
 import { Paginator } from "../ui/paginator";
 import { SearchBox } from "../ui/searchBox";
 
