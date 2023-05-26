@@ -32,10 +32,11 @@ const noteSchema: CollectionCreateSchema = {
   fields: [
     { name: "organizationId", type: "string" },
     { name: "content", type: "string", sort: true },
-    { name: "legislatorId", type: "string" },
+    { name: "legislatorId", type: "string", optional: true },
     {
       name: "legislatorName",
       type: "string",
+      optional: true,
       searchable: true,
     },
     { name: "tags", type: "string[]", searchable: true },
