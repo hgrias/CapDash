@@ -2,11 +2,11 @@ import TypesenseInstantsearchAdapter from "typesense-instantsearch-adapter";
 import { InstantSearch, Configure } from "react-instantsearch-hooks-web";
 import { useOrganizationContext } from "../organizationContext";
 import { assembleTypesenseServerConfig } from "~/lib/utils";
+import { NumResults } from "../ui/search/numResults";
 import { TagNotesResults } from "./tagNotesResults";
 import { Paginator } from "../ui/search/paginator";
 import { SearchBox } from "../ui/search/searchBox";
 import { useEffect, useState } from "react";
-import { NumResults } from "../ui/search/numResults";
 
 interface tagNotesType {
   tagId: string;
