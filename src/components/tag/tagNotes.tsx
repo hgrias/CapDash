@@ -28,7 +28,7 @@ export const TagNotes = ({ tagId }: tagNotesType) => {
         additionalSearchParameters: {
           query_by: "content, legislatorName, createdByName",
           query_by_weights: "4, 2, 2",
-          sort_by: "createdAt:asc",
+          sort_by: "createdAt:desc",
           include_fields:
             "content, createdAt, legislatorId, legislatorName, createdById, createdByName, id",
         },
