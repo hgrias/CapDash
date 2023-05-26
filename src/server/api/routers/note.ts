@@ -91,8 +91,33 @@ export const noteRouter = createTRPCRouter({
               connect: input.tagIds,
             },
           },
+          select: {
+            id: true,
+            createdAt: true,
+            createdBy: true,
+            content: true,
+            legislator: {
+              select: {
+                id: true,
+                role: true,
+                firstName: true,
+                lastName: true,
+              },
+            },
+            tags: {
+              select: {
+                id: true,
+              },
+            },
+            user: {
+              select: {
+                name: true,
+                organizationId: true,
+              },
+            },
+          },
         });
-        return newNote.id;
+        return newNote;
       } catch (error) {
         console.log(error);
       }
