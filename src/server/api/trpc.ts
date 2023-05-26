@@ -20,6 +20,8 @@ import { type Session } from "next-auth";
 import { getServerAuthSession } from "~/server/auth";
 import { prisma } from "~/server/db";
 
+import { mutationQueueMiddleware } from "prisma/middleware";
+
 type CreateContextOptions = {
   session: Session | null;
 };
@@ -35,6 +37,9 @@ type CreateContextOptions = {
  * @see https://create.t3.gg/en/usage/trpc#-servertrpccontextts
  */
 const createInnerTRPCContext = (opts: CreateContextOptions) => {
+  // Attach prisma middleware for Typesense document indexing
+  mutationQueueMiddleware(prisma);
+
   return {
     session: opts.session,
     prisma,
