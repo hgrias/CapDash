@@ -25,7 +25,22 @@ const mutations = [
   "deleteMany",
 ];
 
+// Type of object used to upsert Note document into Typesense
+type NoteUpsertObjectType = {
+  createdAt: string;
+  id: string;
+  tags: string[];
+  organizationId: string;
+  createdByName: string;
+  legislatorName: string;
+  createdById: string;
+  legislatorId: string;
+  content: string;
+};
+
 // Prisma middleware for updating/reindexing Typesense documents
+// TODO: Eventually do bulk indexing/removal from Typesense by using the mutation queue table
+//       and a task queue / async processing
 export const mutationQueueMiddleware = (prisma: PrismaClient) => {
   prisma.$use(async (params, next) => {
     // Manipulate params here
@@ -37,47 +52,70 @@ export const mutationQueueMiddleware = (prisma: PrismaClient) => {
       // Wait for the result of the mutation
       const result = await next(params);
 
-      // Add the updated record the queue
-      await prisma.updateQueue.create({
-        data: {
-          action: action,
-          model: model,
-          data: result,
-        },
-      });
-
       if (model === "Note") {
+        // Get a default object for typesense upsert
+        const upsertObject = {} as NoteUpsertObjectType;
         // Convert datetime to UNIX timestamp
-        const unixTimestamp = Math.floor(result.createdAt.getTime() / 1000);
-        result.createdAt = unixTimestamp.toString();
+        const dateObject = new Date(result.createdAt);
+        const unixTimestamp = Math.floor(dateObject.getTime() / 1000);
+        upsertObject.createdAt = unixTimestamp.toString();
         // Convert ID to string
-        result.id = result.id.toString();
+        upsertObject.id = result.id.toString();
         // Get all tag IDs into a list of strings and overwrite tags list
-        const tagIds = result.tags.map((tag: { id: string }) => {
+        const tagIds = result?.tags?.map((tag: { id: string }) => {
           return tag.id.toString();
         });
-        result.tags = tagIds;
+        upsertObject.tags = tagIds;
         // Add organization ID so we can use a scoped API key
-        result.organizationId = result.user.organizationId;
+        upsertObject.organizationId = result?.user?.organizationId;
         // Add legislator name and created by user name
-        result.createdByName = result.user.name;
-        result.legislatorName = result.legislator.role.concat(
+        upsertObject.createdByName = result.user.name;
+        upsertObject.legislatorName = result.legislator.role.concat(
           ". ",
           result.legislator.firstName,
           " ",
           result.legislator.lastName
         );
         // Remap created by ID
-        result.createdById = result.createdBy;
+        upsertObject.createdById = result.createdBy;
+        // Add legislator ID
+        upsertObject.legislatorId = result.legislator.id;
+        // Add content
+        upsertObject.content = result.content;
+
+        // Add the updated record the queue
+        await prisma.updateQueue.create({
+          data: {
+            action: action,
+            model: model,
+            data: upsertObject,
+          },
+        });
+
+        // Upsert / Index to Typesense
+        const upsertResult = await typesenseClient
+          .collections(model)
+          .documents()
+          .upsert(upsertObject);
+
+        console.log("Note document index: ", upsertResult);
+      } else if (model === "Legislator") {
+        // Add the updated record the queue
+        await prisma.updateQueue.create({
+          data: {
+            action: action,
+            model: model,
+            data: result,
+          },
+        });
+
+        // Upsert / Index to Typesense
+        const upsertResult = await typesenseClient
+          .collections(model)
+          .documents()
+          .upsert(result);
+        console.log("Legislator Document Index: ", upsertResult);
       }
-
-      // Upsert / Index to Typesense
-      const upsertResult = await typesenseClient
-        .collections(model)
-        .documents()
-        .upsert(result);
-
-      console.log("UPSERT RESULT: ", upsertResult);
 
       return result;
     }

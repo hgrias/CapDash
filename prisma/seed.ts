@@ -213,6 +213,7 @@ async function main() {
         },
         legislator: {
           select: {
+            id: true,
             firstName: true,
             lastName: true,
             role: true,
