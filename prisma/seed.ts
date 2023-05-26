@@ -12,6 +12,7 @@ const aCoupleOfHoursAgo = new Date(Date.now() - 2 * 60 * 60 * 1000);
 const prisma = new PrismaClient();
 
 // Middleware to upsert new data to typesense search collections/indexes
+// NOTE: We have this here because we are not using the tRPC router
 mutationQueueMiddleware(prisma);
 
 async function main() {
