@@ -33,17 +33,22 @@ const Home: NextPage = () => {
       </Head>
       <main>
         <Header />
-        <div className="flex flex-col pt-14">
-          <h1 className="flex w-full p-8 text-5xl font-bold text-black">
+        <div className="flex flex-col gap-y-6 px-8 pt-14">
+          <h1 className="mt-8 flex w-full text-5xl font-bold text-black">
             {organization.name}
           </h1>
           <div className="grid grid-cols-2 gap-x-6">
-            <div className="ml-8 rounded-md border p-2">
-              <h2 className="p-2 text-2xl font-medium">Recent Activity</h2>
+            <div className="h-52 rounded-md border p-2">
+              <h2 className="p-2 text-2xl font-medium">
+                Frequently Visited Pages
+              </h2>
             </div>
-            <div className="mr-8 rounded-md border p-2">
-              <h2 className="p-2 text-2xl font-medium">Statistics</h2>
+            <div className="h-52 rounded-md border p-2">
+              <h2 className="p-2 text-2xl font-medium">Users</h2>
             </div>
+          </div>
+          <div className="w-full rounded-md border p-4">
+            <h2 className="text-2xl font-medium">Activity</h2>
           </div>
         </div>
       </main>
