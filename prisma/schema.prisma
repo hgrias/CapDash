@@ -208,6 +208,13 @@ model UserFavoriteTag {
   @@unique([userId, tagId])
 }
 
+model PageVisit {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  pageUrl   String
+  timestamp DateTime @default(now())
+}
+
 model UpdateQueue {
   id        Int      @id @default(autoincrement())
   action    String

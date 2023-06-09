@@ -3,6 +3,7 @@ import ProfileDetailsTabs from "~/components/legislator/profileDetailsTabs";
 import ProfileHeader from "~/components/legislator/profileHeader";
 import { ProfileProvider } from "~/components/profileContext";
 import ProfileNotes from "~/components/note/profileNotes";
+import withPageViews from "~/components/withPageViews";
 import { useSession } from "next-auth/react";
 import { Header } from "~/components/header";
 import { useRouter } from "next/router";
@@ -76,4 +77,4 @@ const LegislatorProfile: NextPage = () => {
   );
 };
 
-export default LegislatorProfile;
+export default withPageViews(LegislatorProfile);

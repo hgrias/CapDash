@@ -2,6 +2,7 @@ import { legislativeSessionRouter } from "./routers/legislativeSession";
 import { organizationRouter } from "./routers/organization";
 import { interactionRouter } from "./routers/interaction";
 import { legislatorRouter } from "./routers/legislator";
+import { pageVisitRouter } from "./routers/pageVisit";
 import { createTRPCRouter } from "~/server/api/trpc";
 import { stafferRouter } from "./routers/staffer";
 import { searchRouter } from "./routers/search";
@@ -22,6 +23,7 @@ export const appRouter = createTRPCRouter({
   organization: organizationRouter,
   search: searchRouter,
   tag: tagRouter,
+  pageVisit: pageVisitRouter,
 });
 
 // export type definition of API

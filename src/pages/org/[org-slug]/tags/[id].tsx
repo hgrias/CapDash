@@ -1,6 +1,7 @@
 import TypesenseInstantsearchAdapter from "typesense-instantsearch-adapter";
 import { useOrganizationContext } from "~/components/organizationContext";
 import { assembleTypesenseServerConfig } from "~/lib/utils";
+import withPageViews from "~/components/withPageViews";
 import { TagTabs } from "~/components/tag/tagTabs";
 import { type Interaction } from "@prisma/client";
 import type { RouterOutputs } from "~/utils/api";
@@ -122,4 +123,4 @@ const TagPage: NextPage = () => {
   );
 };
 
-export default TagPage;
+export default withPageViews(TagPage);
