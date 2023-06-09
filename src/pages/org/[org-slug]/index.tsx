@@ -4,6 +4,8 @@ import { Header } from "~/components/header";
 import { type NextPage } from "next";
 import Error from "next/error";
 import Head from "next/head";
+import { RecentlyVisitedPages } from "~/components/recentlyVisitedPages";
+import { Separator } from "~/components/ui/separator";
 
 const Home: NextPage = () => {
   const { organization } = useOrganizationContext();
@@ -38,12 +40,13 @@ const Home: NextPage = () => {
             {organization.name}
           </h1>
           <div className="grid grid-cols-2 gap-x-6">
-            <div className="h-52 rounded-md border p-2">
+            <div className="rounded-md border p-2">
               <h2 className="p-2 text-2xl font-medium">
-                Frequently Visited Pages
+                Recently Visited Pages
               </h2>
+              <RecentlyVisitedPages />
             </div>
-            <div className="h-52 rounded-md border p-2">
+            <div className="rounded-md border p-2">
               <h2 className="p-2 text-2xl font-medium">Users</h2>
             </div>
           </div>
