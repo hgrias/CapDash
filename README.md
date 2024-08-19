@@ -42,4 +42,4 @@ CapDash includes a range of features that enhance the user experience and operat
 
 ## Next Steps
 
-Since starting this project, I've gained considerable experience with the evolving Next.js ecosystem, including the introduction of the App Router. Additionally, I've refined my skills in UI/UX design, database architecture, and system engineering. My next step is to re-architect CapDash using the latest tools and best practices, continuing to grow as a developer and making this platform as impactful as possible for non-profits.
+Since starting this project, I've gained considerable experience with the evolving Next.js ecosystem, including the introduction of the App Router and React Server Components. Additionally, I've refined my skills in UI/UX design, database architecture, and system engineering. My next step is to re-architect CapDash using the latest tools and best practices, continuing to grow as a developer and making this platform as impactful as possible for non-profits.
