@@ -67,7 +67,7 @@ const CreateNoteForm = () => {
           legislatorId: legislator!.id,
           method: interactionMethod,
           sessionId: selectedSession!.id,
-          noteId: newNoteId,
+          noteId: newNoteId?.id,
           tags: tagIds,
         });
       } else {
