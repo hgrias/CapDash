@@ -1,6 +1,6 @@
 # CapDash - Legislative Interaction and Relationship Dashboard
 
-![](https://vimeo.com/1000541895)
+[![CapDash Demo](https://vumbnail.com/1000541895.jpg)](https://vimeo.com/1000541895 "CapDash Demo")
 
 CapDash (Capitol Dashboard) is a full-stack web application designed to streamline the tracking of interactions and relationships within the legislative community. It aims to empower non-profit organizations by offering a cost-effective alternative to the high-end platforms typically used by lobbyists.
 
